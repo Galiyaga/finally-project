@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #000000;
+  background-color: white;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.active {
+  font-weight: bold;
+}
+
+button:hover {
+  transform: scale(1.02);
+}
