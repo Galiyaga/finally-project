@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Router, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import Homepage from "./components/Home/Homepage";
 import Autorizationpage from "./components/Autorization/Autorizationpage"

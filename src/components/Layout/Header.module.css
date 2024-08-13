@@ -1,0 +1,85 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    align-items: center;
+    text-align: center;
+}
+
+.nav__bar
+
+.nav__bar_item {
+    padding: 4px;
+    margin: 0 25px 0 25px
+}
+
+.nav__button{
+    
+}
+
+.button__login{
+    border-radius: 5px;
+    padding: 4px 10px;
+    background-color: #7CE3E1;
+    cursor: pointer;
+}
+
+.button__registration{
+    color: rgba(0, 0, 0, 0.4);
+    background-color: white;
+    margin-right: 40px;
+    cursor: default;
+}
+.button__registration:hover {
+    transform: none;
+}
+
+button:hover {
+    transform: scale(1.02);
+}
+
+.profile{
+    display: flex;
+    justify-content: space-between;
+}
+
+.limit{
+    box-sizing: border-box;
+    width: 175px;
+    height: 63px;
+    border-radius: 5px;
+    background-color: rgba(217, 217, 217, 0.3);
+    align-content: center;
+    margin-right: 130px;
+}
+
+.limit p{
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.avatar{
+    display: flex;
+    align-items: center;
+}
+
+.name{
+    font-size: 14px;
+}
+
+.button__exit{
+    font-size: 10px;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.limit__use{
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.limit__company{
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(138, 197, 64, 1);
+}
