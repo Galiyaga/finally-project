@@ -11,23 +11,31 @@ function CardCarousel() {
   return (
     <Carousel activeKey={index} onSelect={handleSelect}>
       <Carousel.Item interval={2000}>
-        <img src="src\assets\speed.svg" alt="Первая карточка" />
+        <img src="src\assets\speed.svg" alt="Скорость" />
         <Carousel.Caption>
-          <p>Высокая и оперативная скорость обработки заявки</p>
+          <h3>Высокая и оперативная скорость обработки заявки</h3>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item interval={2000}>
-        <img src="..." alt="Second slide" />
+        <img src="src\assets\search.svg" alt="Поиск" />
         <Carousel.Caption>
-          <h3>Заголовок второго слайда</h3>
-          <p>Описание второго слайда...</p>
+          <h3>
+            Огромная комплексная база данных, обеспечивающая объективный ответ
+            на запрос
+          </h3>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item interval={2000}>
-        <img src="..." alt="Third slide" />
+        <img src="src\assets\protection.svg" alt="Защита" />
         <Carousel.Caption>
-          <h3>Заголовок третьего слайда</h3>
-          <p>Описание третьего слайда...</p>
+          <h3>
+            Защита конфеденциальных сведений, не подлежащих разглашению по
+            федеральному законодательству
+          </h3>
+          <p>
+            Защита конфеденциальных сведений, не подлежащих разглашению по
+            федеральному законодательству
+          </p>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>

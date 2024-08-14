@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import styles from './Homepage.module.css'
 import { Link } from "react-router-dom";
-import Button from "../Button";
+import { Button } from "../Button";
 import CardCarousel from "./Carousel";
 
 export default function Homepage() {
@@ -19,7 +19,7 @@ export default function Homepage() {
               электронную почту.
             </p>
             <Link to="/autorization">
-              <Button children={"Запросить данные"} isActive={true} />
+              <Button children={"Запросить данные"} autorization={false} />
             </Link>
             <h2 className={styles.titte__why}>почему именно мы</h2>
           </div>
@@ -27,7 +27,7 @@ export default function Homepage() {
             <img src="src\assets\aboutImg.svg" alt="Иллюстрация публикаций" />
           </div>
         </div>
-        <CardCarousel />
+        {/* <CardCarousel /> */}
       </>
     );
 }
