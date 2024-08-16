@@ -3,8 +3,10 @@ import { NavLink, Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import ProfileWithLogin from "./ProfileWithLogin";
 import ProfileNotLogin from "./ProfileNotLogin";
+import { useAuth } from "../AutorizationContext";
 
-export default function Header({ autorizatin }) {
+export default function Header() {
+  const {isAuthenticated} = useAuth()
   return (
     <>
       <header className={styles.header}>
@@ -22,8 +24,8 @@ export default function Header({ autorizatin }) {
             FAQ
           </Link>
         </nav>
-        {autorizatin && <ProfileWithLogin />}
-        {!autorizatin && <ProfileNotLogin />}
+        {isAuthenticated && <ProfileWithLogin />}
+        {!isAuthenticated && <ProfileNotLogin />}
       </header>
     </>
   );

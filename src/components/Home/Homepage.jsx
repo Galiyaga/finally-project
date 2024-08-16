@@ -3,9 +3,48 @@ import styles from './Homepage.module.css'
 import { Link } from "react-router-dom";
 import { Button } from "../Button";
 import CardCarousel from "./Carousel";
+import { useAuth } from "../AutorizationContext";
+import TariffCard from "./TariffCard";
+
+
+const cards = [
+  {
+    title: 'Beginner',
+    description: 'Для небольшого исследования',
+    color: '#FFB64F',
+    image: '../../assets/bulb.svg',
+    tag: 'Текущий тариф',
+    price: '799 ₽',
+    oldPrice: '1 200 ₽',
+    period: 'или 150 ₽/мес. при рассрочке на 24 мес.',
+    featuresList: ['Безлимитная история запросов', 'Безопасная сделка', 'Поддержка 24/7']
+},
+  {
+    title: 'Pro',
+    description: 'Для HR и фрилансеров',
+    color: '#7CE3E1',
+    image: '../../assets/cockshot.svg',
+    tag: 'Текущий тариф',
+    price: '1 299 ₽',
+    oldPrice: '2 600 ₽',
+    period: 'или 279 ₽/мес. при рассрочке на 24 мес.',
+    featuresList: ['Все пункты тарифа Beginner', 'Экспорт истории', 'Рекомендации по приоритетам']
+  },
+  {
+    title: 'Business',
+    description: 'Для корпоративных клиентов',
+    color: '#000000',
+    image: '../../assets/laptop.svg',
+    tag: 'Текущий тариф',
+    price: '2 379 ₽',
+    oldPrice: '3 700 ₽',
+    period: '',
+    featuresList: ['Все пункты тарифа Pro', 'Безлимитное количество запросов', 'Приоритетная поддержка']
+  }
+]
 
 export default function Homepage() {
-    // const [login, dispatch] = useReducer(reducer, false);
+  const {isAuthenticated} = useAuth()
     return (
       <>
         <div className={styles.container}>
@@ -19,7 +58,7 @@ export default function Homepage() {
               электронную почту.
             </p>
             <Link to="/autorization">
-              <Button children={"Запросить данные"} autorization={false} />
+              <Button children={"Запросить данные"} autorization={isAuthenticated} />
             </Link>
             <h2 className={styles.titte__why}>почему именно мы</h2>
           </div>
@@ -27,7 +66,26 @@ export default function Homepage() {
             <img src="src\assets\aboutImg.svg" alt="Иллюстрация публикаций" />
           </div>
         </div>
-        {/* <CardCarousel /> */}
-      </>
+        <CardCarousel />
+        <div className={styles.img__tick}>
+          <img src="src\assets\groupWithTick.svg" alt="Рсунок человека в облаках" />
+          <h2 className={`${styles.titte__why} ${styles.titte__tariff}` }>наши тарифы</h2>
+        </div>
+        <div className="">
+          {cards.map(card=> {<TariffCard 
+            key={card.title}
+            title={card.title}
+            description={card.description}
+            color={card.color}
+            image={card.image}
+            tag={card.tag}
+            price={card.price}
+            oldPrice={card.oldPrice}
+            period={card.period}
+            featuresList={card.featuresList}
+          />})}
+        </div>
+        
+      </> 
     );
 }

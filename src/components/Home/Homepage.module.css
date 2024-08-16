@@ -1,5 +1,3 @@
-@import url(https://myfonts.ru/myfonts?fonts=ferry);
-
 .container{
     display: flex;
     justify-content: space-around;
@@ -40,13 +38,17 @@
     margin-top: 20px;
     max-width: 530px;
 }
+.button__request{
+    margin-top: 70px;
+    background-color: black;
+}
 
-button {
+.img__tick{
     margin-top: 70px;
 }
 
-.carousel{
-    display: flex;
-    flex-direction: column;
-    font-size: 18px;
+.titte__tariff{
+    margin-top: 70px;
 }
+
+

@@ -1,8 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
+import { useAuth } from '../AutorizationContext'
 
 export default function ProfileWithLogin() {
+  const {logout} = useAuth()
+
+  function handleLogout() {
+    localStorage.removeItem('accessToken')
+    logout()
+  }
     return (
       <>
         <div className={styles.profile}>
@@ -17,9 +23,7 @@ export default function ProfileWithLogin() {
           <div className={styles.avatar}>
             <div className={styles.name}>
               <p>Имя Ф.</p>
-              <Link to="#">
-                <button className={styles.button__exit}>Выйти</button>
-              </Link>
+                <button onClick={handleLogout}className={styles.button__exit}>Выйти</button>
             </div>
             <img
               src="src\assets\avatar.svg.svg"

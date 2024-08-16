@@ -1,44 +1,36 @@
 import React, { useState } from "react";
-import Carousel from "react-bootstrap/Carousel";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import styles from './Homepage.module.css'
 
 function CardCarousel() {
-  const [index, setIndex] = useState(0);
-
-  const handleSelect = (selectedIndex, e) => {
-    setIndex(selectedIndex);
-  };
-
+  var settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1
+  };    
+  
   return (
-    <Carousel activeKey={index} onSelect={handleSelect}>
-      <Carousel.Item interval={2000}>
+    <Slider {...settings}>
+      <div className="slide__card">
         <img src="src\assets\speed.svg" alt="Скорость" />
-        <Carousel.Caption>
-          <h3>Высокая и оперативная скорость обработки заявки</h3>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item interval={2000}>
-        <img src="src\assets\search.svg" alt="Поиск" />
-        <Carousel.Caption>
-          <h3>
-            Огромная комплексная база данных, обеспечивающая объективный ответ
-            на запрос
-          </h3>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item interval={2000}>
+        <h3>Высокая и оперативная скорость обработки заявки</h3>
+      </div>
+      <div className="slide__card">
+       <img src="src\assets\search.svg" alt="Поиск" />
+        <h3>Огромная комплексная база
+           данных, обеспечивающая объективный
+          ответ на запрос</h3>
+      </div>
+      <div className="slide__card">
         <img src="src\assets\protection.svg" alt="Защита" />
-        <Carousel.Caption>
-          <h3>
-            Защита конфеденциальных сведений, не подлежащих разглашению по
-            федеральному законодательству
-          </h3>
-          <p>
-            Защита конфеденциальных сведений, не подлежащих разглашению по
-            федеральному законодательству
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
-    </Carousel>
+        <h3>Защита конфеденциальных сведений, не подлежащих разглашению по
+        федеральному законодательству</h3>
+      </div>
+    </Slider>
   );
 }
 

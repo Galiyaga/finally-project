@@ -1,7 +1,11 @@
 import React, { useReducer } from "react";
 import styles from './Autorizationpage.module.css'
 import { ButtonBig } from "../Button";
+import { useNavigate   } from 'react-router-dom';
 import axios from "axios";
+import { useAuth } from "../AutorizationContext";
+
+
 const initialState = {
   login: "",
   password: "",
@@ -20,6 +24,8 @@ function formReducer(state, action) {
 
 export default function Autorizationpage() {
     const [formState, dispatch] = useReducer(formReducer, initialState)
+    const navigate = useNavigate();
+    const {isAuthenticated, login} = useAuth()
 
     function checkValidation() {
         return (
@@ -29,9 +35,14 @@ export default function Autorizationpage() {
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
+
+        console.log('formState: ', formState)
+
         try {
-            const response = await axios.post('/api/v1/account/login', formState)
-            console.log(response.data)
+            const response = await axios.post('https://gateway.scan-interfax.ru/api/v1/account/login', formState)
+            localStorage.setItem('accessToken', response.data.accessToken)
+            login()
+            navigate("/");
         } catch {
             console.error(error)
         }

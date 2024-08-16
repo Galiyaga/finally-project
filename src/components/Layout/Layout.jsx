@@ -5,7 +5,7 @@ import Header from "./Header";
 export default function Layout() {
   return (
     <>
-      <Header autorizatin={false} />
+      <Header autorizatin={false} />    
       <main>
         <Outlet />
       </main>

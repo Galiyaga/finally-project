@@ -10,6 +10,7 @@ const StyledButton = styled.button`
   font-weight: 500;
   text-align: center;
 `;
+
 const StyledButtonBig = styled.button`
   width: 380px;
   height: 60px;
