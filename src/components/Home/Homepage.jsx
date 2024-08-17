@@ -45,6 +45,8 @@ const cards = [
 
 export default function Homepage() {
   const {isAuthenticated} = useAuth()
+  console.log("isAuthenticated", isAuthenticated);
+
     return (
       <>
         <div className={styles.container}>
@@ -58,7 +60,14 @@ export default function Homepage() {
               электронную почту.
             </p>
             <Link to="/autorization">
-              <Button children={"Запросить данные"} autorization={isAuthenticated} />
+              <Button
+                className={
+                  isAuthenticated
+                    ? styles.button__request
+                    : `${styles.button__request} ${styles.inert}`
+                }
+                children={"Запросить данные"}
+              />
             </Link>
             <h2 className={styles.titte__why}>почему именно мы</h2>
           </div>
@@ -68,24 +77,30 @@ export default function Homepage() {
         </div>
         <CardCarousel />
         <div className={styles.img__tick}>
-          <img src="src\assets\groupWithTick.svg" alt="Рсунок человека в облаках" />
-          <h2 className={`${styles.titte__why} ${styles.titte__tariff}` }>наши тарифы</h2>
+          <img
+            src="src\assets\groupWithTick.svg"
+            alt="Рсунок человека в облаках"
+          />
+          <h2 className={`${styles.titte__why} ${styles.titte__tariff}`}>
+            наши тарифы
+          </h2>
         </div>
         <div className="">
-          {cards.map(card=> {<TariffCard 
-            key={card.title}
-            title={card.title}
-            description={card.description}
-            color={card.color}
-            image={card.image}
-            tag={card.tag}
-            price={card.price}
-            oldPrice={card.oldPrice}
-            period={card.period}
-            featuresList={card.featuresList}
-          />})}
+          {cards.map((card) => (
+            <TariffCard
+              key={card.title}
+              title={card.title}
+              description={card.description}
+              color={card.color}
+              image={card.image}
+              tag={card.tag}
+              price={card.price}
+              oldPrice={card.oldPrice}
+              period={card.period}
+              featuresList={card.featuresList}
+            />
+          ))}
         </div>
-        
-      </> 
+      </>
     );
 }

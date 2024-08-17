@@ -38,9 +38,19 @@
     margin-top: 20px;
     max-width: 530px;
 }
+
 .button__request{
     margin-top: 70px;
-    background-color: black;
+    background-color: #5970FF;
+    width: 335px;
+}
+
+.inert {
+    background-color: rgba(89, 112, 255, 0.5)
+}
+
+.inert:hover{
+    transform: scale(1);
 }
 
 .img__tick{

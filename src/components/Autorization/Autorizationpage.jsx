@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
 import styles from './Autorizationpage.module.css'
-import { ButtonBig } from "../Button";
+import { Button } from "../Button";
 import { useNavigate   } from 'react-router-dom';
 import axios from "axios";
 import { useAuth } from "../AutorizationContext";
@@ -44,7 +44,7 @@ export default function Autorizationpage() {
             login()
             navigate("/");
         } catch {
-            console.error(error)
+            console.error("Ошибка")
         }
     }
 
@@ -86,9 +86,16 @@ export default function Autorizationpage() {
                 }
               />
             </div>
-            <ButtonBig type="submit" isActive={checkValidation()}>
+            <Button
+              className={
+                checkValidation()
+                  ? styles.button__login
+                  : `${styles.button__login} ${styles.inert}`
+              }
+              type="submit"
+            >
               Войти
-            </ButtonBig>
+            </Button>
             <a href="#" className={styles.restore__link}>
               Восстановить пароль
             </a>

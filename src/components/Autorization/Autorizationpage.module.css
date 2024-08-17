@@ -19,9 +19,6 @@
     text-underline-offset: 8px;
 }
 
-.form {
-}
-
 .input__group{
     display: flex;
     flex-direction: column;
@@ -40,15 +37,28 @@
 	transition: .3s ease;
 }
 
+.input__group input:focus {
+    background: #FFFFFF;
+    border: 1px solid #5970FF;
+    border-radius: 5px;
+}
+
+.button__login{
+    background-color: #5970FF;
+    width: 380px;
+}
+
+.inert {
+    background-color: rgba(89, 112, 255, 0.5);
+}
+
+.inert:hover{
+    transform: scale(1);
+}
+
 label {
     color: rgba(148, 148, 148, 1);
     margin-bottom: 15px;
-}
-
-.input__group input:focus {
-	background: #FFFFFF;
-	border: 1px solid #5970FF;
-	border-radius: 5px;
 }
 
 .restore__link{
