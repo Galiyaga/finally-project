@@ -3,10 +3,10 @@ import { NavLink, Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import ProfileWithLogin from "./ProfileWithLogin";
 import ProfileNotLogin from "./ProfileNotLogin";
-import { useAuth } from "../AutorizationContext";
+import { useAuth } from "../context/AutorizationContext";
 
 export default function Header() {
-  const {isAuthenticated} = useAuth()
+  const { isAuthenticated } = useAuth();
   return (
     <>
       <header className={styles.header}>

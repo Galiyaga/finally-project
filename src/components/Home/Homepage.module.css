@@ -60,5 +60,9 @@
 .titte__tariff{
     margin-top: 70px;
 }
+.card__group{
+    display: flex;
+    justify-content: space-between;
+}
 
 

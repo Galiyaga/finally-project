@@ -1,74 +1,100 @@
-.card {
-    padding: 30px;
-    margin-top: 70px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
-    width: 415px;
-    height: 540px;
-  }
+*{
+  font-size: 18px;
+}
 
-  .title{
-    height: 132px;
-  }
-  
-  .title__name {
-    font-size: 30px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .description {
-    font-size: 18px;
-    color: #000000;
-    margin-bottom: 15px;
-  }
-  
-  .priceContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .price {
-    font-size: 32px;
-    font-weight: bold;
-  }
-  
-  .crossedPrice {
-    text-decoration: line-through;
-    font-size: 20px;
-    color: #999;
-  }
-  
-  .period {
-    font-size: 14px;
-    color: #777;
-  }
-  
-  .featuresList {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    margin-bottom: 15px;
-  }
-  
-  .featuresList li {
-    padding: 5px 0;
-  }
-  
-  .button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #0056b3;
-  }
-  
+.card {
+  margin-top: 70px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+  width: 415px;
+  height: 540px;
+}
+
+.header {
+  height: 132px;
+  display: flex;
+  justify-content: space-around;
+  border-radius: 10px 10px 0 0;
+}
+
+.title {
+  margin: 30px 0 0 30px;
+}
+
+.title__name {
+  font-size: 30px;
+  font-weight: bold;
+  color: #333;
+}
+
+.description {
+  color: #000000;
+  margin-top: 15px;
+}
+
+.header img {
+  margin: 20px 15px 0 0;
+}
+
+.tariff__parametrs {
+  padding-left: 30px;
+}
+
+.tag {
+  background-color: rgba(59, 165, 224, 1);
+  border-radius: 10px;
+  margin-left: 250px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 1);
+  padding: 3px 13px;
+  margin-top: 12px;
+  display: inline-block;
+}
+
+.price__container{
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 30px;
+  font-weight: 500;
+  margin-right: 20px;
+}
+
+.crossed__price {
+  text-decoration: line-through;
+  font-size: 25px;
+  font-weight: 500;
+  color: #999;
+}
+
+.options{
+  margin-top: 65px;
+}
+
+.options h3{
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.features__list {
+  list-style-type: none;
+  padding-top: 10px;
+}
+
+.features__list::before {
+  content: "✔"; 
+  color: rgb(105, 223, 105);
+  margin-right: 5px;
+}
+
+.featuresList li {
+  padding: 5px 0;
+}
+
+.button__tariff{
+  margin-top: 70px;
+  background-color: #5970FF;
+  width: 355px;
+}
+

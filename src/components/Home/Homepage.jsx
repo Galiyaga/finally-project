@@ -3,45 +3,57 @@ import styles from './Homepage.module.css'
 import { Link } from "react-router-dom";
 import { Button } from "../Button";
 import CardCarousel from "./Carousel";
-import { useAuth } from "../AutorizationContext";
+import { useAuth } from "../context/AutorizationContext";
 import TariffCard from "./TariffCard";
 
 
 const cards = [
   {
-    title: 'Beginner',
-    description: 'Для небольшого исследования',
-    color: '#FFB64F',
-    image: '../../assets/bulb.svg',
-    tag: 'Текущий тариф',
-    price: '799 ₽',
-    oldPrice: '1 200 ₽',
-    period: 'или 150 ₽/мес. при рассрочке на 24 мес.',
-    featuresList: ['Безлимитная история запросов', 'Безопасная сделка', 'Поддержка 24/7']
-},
-  {
-    title: 'Pro',
-    description: 'Для HR и фрилансеров',
-    color: '#7CE3E1',
-    image: '../../assets/cockshot.svg',
-    tag: 'Текущий тариф',
-    price: '1 299 ₽',
-    oldPrice: '2 600 ₽',
-    period: 'или 279 ₽/мес. при рассрочке на 24 мес.',
-    featuresList: ['Все пункты тарифа Beginner', 'Экспорт истории', 'Рекомендации по приоритетам']
+    title: "Beginner",
+    description: "Для небольшого исследования",
+    color: "#FFB64F",
+    image: <img src="src\assets\bulb.svg" />,
+    tag: "Текущий тариф",
+    price: "799 ₽",
+    oldPrice: "1 200 ₽",
+    period: "или 150 ₽/мес. при рассрочке на 24 мес.",
+    featuresList: [
+      "Безлимитная история запросов",
+      "Безопасная сделка",
+      "Поддержка 24/7",
+    ],
   },
   {
-    title: 'Business',
-    description: 'Для корпоративных клиентов',
-    color: '#000000',
-    image: '../../assets/laptop.svg',
-    tag: 'Текущий тариф',
-    price: '2 379 ₽',
-    oldPrice: '3 700 ₽',
-    period: '',
-    featuresList: ['Все пункты тарифа Pro', 'Безлимитное количество запросов', 'Приоритетная поддержка']
-  }
-]
+    title: "Pro",
+    description: "Для HR и фрилансеров",
+    color: "#7CE3E1",
+    image: <img src="src\assets\cockshot.svg" style={{ margin: "0" }} />,
+    tag: "Текущий тариф",
+    price: "1 299 ₽",
+    oldPrice: "2 600 ₽",
+    period: "или 279 ₽/мес. при рассрочке на 24 мес.",
+    featuresList: [
+      "Все пункты тарифа Beginner",
+      "Экспорт истории",
+      "Рекомендации по приоритетам",
+    ],
+  },
+  {
+    title: "Business",
+    description: "Для корпоративных клиентов",
+    color: "#000000",
+    image: <img src="src\assets\laptop.svg" />,
+    tag: "Текущий тариф",
+    price: "2 379 ₽",
+    oldPrice: "3 700 ₽",
+    period: "или 412 ₽/мес. при рассрочке на 24 мес.",
+    featuresList: [
+      "Все пункты тарифа Pro",
+      "Безлимитное количество запросов",
+      "Приоритетная поддержка",
+    ],
+  },
+];
 
 export default function Homepage() {
   const {isAuthenticated} = useAuth()
@@ -85,7 +97,7 @@ export default function Homepage() {
             наши тарифы
           </h2>
         </div>
-        <div className="">
+        <div className={styles.card__group}>
           {cards.map((card) => (
             <TariffCard
               key={card.title}
