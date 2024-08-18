@@ -3,8 +3,8 @@ import styles from './Homepage.module.css'
 import { Link } from "react-router-dom";
 import { Button } from "../Button";
 import CardCarousel from "./Carousel";
-import { useAuth } from "../context/AutorizationContext";
 import TariffCard from "./TariffCard";
+import { useSelector } from "react-redux";
 
 
 const cards = [
@@ -56,8 +56,8 @@ const cards = [
 ];
 
 export default function Homepage() {
-  const {isAuthenticated} = useAuth()
-  console.log("isAuthenticated", isAuthenticated);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  console.log("isAuthenticated:", isAuthenticated);
 
     return (
       <>

@@ -1,56 +1,43 @@
-import React, { useReducer } from "react";
+import React, { useEffect } from "react";
 import styles from "./Autorizationpage.module.css";
 import { Button } from "../Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "../context/AutorizationContext";
-import { useLimitInfo } from "../context/LimitInfoContext";
-
-const initialState = {
-  login: "",
-  password: "",
-};
-
-function formReducer(state, action) {
-  switch (action.type) {
-    case "UPDATE_FIELD":
-      return { ...state, [action.field]: action.value };
-    default:
-      return state;
-  }
-}
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setFormValues,
+  setAccessToken,
+  loginSuccess, 
+} from "../context/authSlice";
 
 export default function Autorizationpage() {
-  const [formState, dispatch] = useReducer(formReducer, initialState);
   const navigate = useNavigate();
-  const { isAuthenticated, login } = useAuth();
-  const {limitInfo, setLimitInfo} = useLimitInfo()
+  const dispatch = useDispatch();
+  const { login, password, accessToken } = useSelector((state) => state.auth);
 
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    dispatch(setFormValues({ [name]: value || "" }));
+  };
 
   function checkValidation() {
-    return formState.login.trim() !== "" && formState.password.trim() !== "";
+    return login && login.trim() !== "" && password && password.trim() !== "";
   }
 
+  console.log("login:", login, "password:", password);
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("formState: ", formState);
-
     try {
       const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/account/login",
-        formState
+        { login, password }
       );
       localStorage.setItem("accessToken", response.data.accessToken);
-      login();
+      dispatch(loginSuccess());
+      dispatch(setAccessToken(response.data.accessToken));
+      console.log("accessToken:", accessToken);
       navigate("/");
-      const accessToken = localStorage.getItem("accessToken");
-
-      const responseInfo = await axios.get(
-        "https://gateway.scan-interfax.ru/api/v1/account/info",
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
-      setLimitInfo(responseInfo.data.eventFiltersInfo);
     } catch {
       console.error("Ошибка");
     }
@@ -68,30 +55,20 @@ export default function Autorizationpage() {
             <label>Логин или номер телефона:</label>
             <input
               type="text"
-              value={formState.login}
+              name="login"
+              value={login}
+              onChange={handleChange}
               required
-              onChange={(e) =>
-                dispatch({
-                  type: "UPDATE_FIELD",
-                  field: "login",
-                  value: e.target.value,
-                })
-              }
             />
           </div>
           <div className={styles.input__group}>
             <label>Пароль:</label>
             <input
               type="password"
-              value={formState.password}
+              name="password"
+              value={password}
+              onChange={handleChange}
               required
-              onChange={(e) =>
-                dispatch({
-                  type: "UPDATE_FIELD",
-                  field: "password",
-                  value: e.target.value,
-                })
-              }
             />
           </div>
           <Button

@@ -1,11 +1,23 @@
 import React from "react";
 import styles from "./Header.module.css";
-import { useAuth } from "../context/AutorizationContext";
-import { useLimitInfo } from "../context/LimitInfoContext";
+import { useSelector, useDispatch} from "react-redux";
+import { logout, setUsedCompanyCount, setCompanyLimit} from "../context/authSlice";
 
 export default function ProfileWithLogin() {
-  const { logout } = useAuth();
-  const {limitInfo} = useLimitInfo()
+  const {usedCompanyCount, companyLimit, accessToken} = useSelector((state) => state.auth)
+
+  async function fetchAccInfo() {
+    try {
+      const response = await axios.get("https://gateway.scan-interfax.ru/api/v1/account/info",
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+      setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount)
+      setCompanyLimit(response.data.eventFiltersInfo.companyLimit)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
 
   function handleLogout() {
     localStorage.removeItem("accessToken");
@@ -18,12 +30,12 @@ export default function ProfileWithLogin() {
           <p>
             Использовано компаний{" "}
             <span className={styles.limit__use}>
-              {limitInfo.usedCompanyCount}
+              {usedCompanyCount}
             </span>{" "}
             <br />
             Лимит компаний{" "}
             <span className={styles.limit__company}>
-              {limitInfo.companyLimit}
+              {companyLimit}
             </span>
           </p>
         </div>
