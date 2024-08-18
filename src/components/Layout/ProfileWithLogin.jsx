@@ -29,7 +29,7 @@ export default function ProfileWithLogin() {
         </div>
         <div className={styles.avatar}>
           <div className={styles.name}>
-            <p>Имя Ф.</p>
+            <p>Галия Ю.</p>
             <button onClick={handleLogout} className={styles.button__exit}>
               Выйти
             </button>
