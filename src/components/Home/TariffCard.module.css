@@ -51,6 +51,12 @@
   display: inline-block;
 }
 
+.tag__non {
+  display: block;
+  width: 415px;
+  height: 32px;
+}
+
 .price__container{
   margin-bottom: 10px;
 }
@@ -96,5 +102,11 @@
   margin-top: 70px;
   background-color: #5970FF;
   width: 355px;
+  font-weight: 400;
+  font-size: 20px;
 }
 
+.selected{
+  background-color: #D2D2D2;
+  color: #000000;
+}

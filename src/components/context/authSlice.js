@@ -1,47 +1,73 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchAuth, fetchLimit } from "./actionCreators";
+
+
+const initialState = {
+  isAuthenticated: false,
+  login: '',
+  password: '',
+  usedCompanyCount: 0,
+  companyLimit: 0,
+  accessToken: null,
+  isLoading: false,
+  error: ''
+};
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    isAuthenticated: false,
-    login: "",
-    password: "",
-    accessToken: "",
-    usedCompanyCount: 0,
-    companyLimit: 0,
-  },
+  initialState,
   reducers: {
-    loginSuccess: (state) => {
-      state.isAuthenticated = true;
-    },
     logout: (state) => {
       state.isAuthenticated = false;
+      state.accessToken = null
+      localStorage.removeItem('accessToken')
+      state.login = '';
+      state.password = '';
     },
-    setFormValues: (state, action) => {
-      Object.entries(action.payload).forEach(([key, value]) => {
-        if (key === "login" || key === "password") {
-          state[key] = value;
-        }
-      });
-    },
-    setAccessToken: (state, action) => {
-      state.accessToken = action.payload.accessToken;
-    },
-    setUsedCompanyCount: (state, action) => {
-      state.usedCompanyCount = action.payload.usedCompanyCount
-    },
-    setCompanyLimit: (state, action) => {
-      state.companyLimit = action.payload.companyLimit;
+    setCredentials: (state, action) => {
+      state.login = action.payload.login;
+      state.password = action.payload.password;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAuth.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAuth.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = '';
+        state.accessToken = action.payload.accessToken;
+        localStorage.setItem('accessToken', action.payload.accessToken);
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchAuth.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || 'Ошибка авторизации';
+      })
+      .addCase(fetchLimit.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchLimit.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.usedCompanyCount = action.payload.usedCompanyCount;
+        state.companyLimit = action.payload.companyLimit;
+      })
+      .addCase(fetchLimit.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || 'Ошибка авторизации';
+      })
+      .addCase('auth/restoreAuth', (state, action) => {
+        state.isAuthenticated = true;
+        state.accessToken = action.payload.accessToken;
+      });
+  }
 });
 
+
 export const {
-  loginSuccess,
+  clearCredentials,
   logout,
-  setFormValues,
-  setAccessToken,
-  setUsedCompanyCount,
-  setCompanyLimit,
+  setCredentials,
 } = authSlice.actions;
 export default authSlice.reducer;

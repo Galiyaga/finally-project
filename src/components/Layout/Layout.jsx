@@ -5,11 +5,18 @@ import Header from "./Header";
 export default function Layout() {
   return (
     <>
-      <Header autorizatin={false} />    
+      <Header />    
       <main>
         <Outlet />
       </main>
-      <footer>2024</footer>
+      <footer>
+        <div className="logo">
+          <img src="" alt="" />
+        </div>
+        <div className="adress">
+          
+        </div>
+      </footer>
     </>
   );
 }

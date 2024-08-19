@@ -22,7 +22,7 @@ function TariffCard({
         </div>
         <div className={styles.header__img}>{image}</div>
       </div>
-      <span className={styles.tag}>{tag}</span>
+      {tag ?(<span className={styles.tag}>{tag}</span>) : (<span className={styles.tag__non}></span>)}
       <div className={styles.tariff__parametrs}>
         <div className={styles.price__container}>
           <span className={styles.price}>{price}</span>
@@ -39,7 +39,8 @@ function TariffCard({
             ))}
           </ul>
         </div>
-        <Button className={styles.button__tariff}>Подробнее</Button>
+        {title === 'Beginner' ? (<Button className={`${styles.button__tariff} ${styles.selected}`}>Перейти в личный кабинет</Button>) : 
+        (<Button className={styles.button__tariff}>Подробнее</Button>)}
       </div>
     </div>
   );

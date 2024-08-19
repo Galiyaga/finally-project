@@ -1,50 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Autorizationpage.module.css";
+import styles2 from "../Loading.module.css";
 import { Button } from "../Button";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setFormValues,
-  setAccessToken,
-  loginSuccess, 
-} from "../context/authSlice";
+import { setCredentials} from "../context/authSlice"
+import { fetchAuth} from "../context/actionCreators"
 
 export default function Autorizationpage() {
+  const { login, password, isLoading } = useSelector((state) => state.auth);
+  const [localLogin, setLocalLogin] = useState('');
+  const [localPassword, setLocalPassword] = useState('');
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { login, password, accessToken } = useSelector((state) => state.auth);
-
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    dispatch(setFormValues({ [name]: value || "" }));
-  };
+  const dispatch = useDispatch()
 
   function checkValidation() {
-    return login && login.trim() !== "" && password && password.trim() !== "";
+    return login.trim() !== "" && password.trim() !== "";
+  }
+  
+  async function handleSubmit(e) {
+    e.preventDefault();
+    dispatch(setCredentials({ login: localLogin, password: localPassword }))
+    const resultAction = await dispatch(fetchAuth())
+
+    if(fetchAuth.fulfilled.match(resultAction)) {
+      navigate('/')
+    }
   }
 
-  console.log("login:", login, "password:", password);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        "https://gateway.scan-interfax.ru/api/v1/account/login",
-        { login, password }
-      );
-      localStorage.setItem("accessToken", response.data.accessToken);
-      dispatch(loginSuccess());
-      dispatch(setAccessToken(response.data.accessToken));
-      console.log("accessToken:", accessToken);
-      navigate("/");
-    } catch {
-      console.error("Ошибка");
-    }
-  };
 
   return (
     <>
+      {isLoading && <div className={styles2.loading}>Loading&#8230;</div>}
       <div className={styles.form__container}>
         <div className={styles.form__tab}>
           <h3 className={styles.tab__active}>Войти</h3>
@@ -56,8 +43,8 @@ export default function Autorizationpage() {
             <input
               type="text"
               name="login"
-              value={login}
-              onChange={handleChange}
+              value={localLogin}
+              onChange={(e) => setLocalLogin(e.target.value)}
               required
             />
           </div>
@@ -66,8 +53,8 @@ export default function Autorizationpage() {
             <input
               type="password"
               name="password"
-              value={password}
-              onChange={handleChange}
+              value={localPassword}
+              onChange={(e) => setLocalPassword(e.target.value)}
               required
             />
           </div>
@@ -97,3 +84,4 @@ export default function Autorizationpage() {
     </>
   );
 }
+

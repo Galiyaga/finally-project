@@ -28,7 +28,6 @@ const cards = [
     description: "Для HR и фрилансеров",
     color: "#7CE3E1",
     image: <img src="src\assets\cockshot.svg" style={{ margin: "0" }} />,
-    tag: "Текущий тариф",
     price: "1 299 ₽",
     oldPrice: "2 600 ₽",
     period: "или 279 ₽/мес. при рассрочке на 24 мес.",
@@ -43,7 +42,6 @@ const cards = [
     description: "Для корпоративных клиентов",
     color: "#000000",
     image: <img src="src\assets\laptop.svg" />,
-    tag: "Текущий тариф",
     price: "2 379 ₽",
     oldPrice: "3 700 ₽",
     period: "или 412 ₽/мес. при рассрочке на 24 мес.",
@@ -57,7 +55,7 @@ const cards = [
 
 export default function Homepage() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  console.log("isAuthenticated:", isAuthenticated);
+  console.log("isAuthenticatedHome:", isAuthenticated);
 
     return (
       <>
@@ -91,7 +89,7 @@ export default function Homepage() {
         <div className={styles.img__tick}>
           <img
             src="src\assets\groupWithTick.svg"
-            alt="Рсунок человека в облаках"
+            alt="Рисунок человека в облаках"
           />
           <h2 className={`${styles.titte__why} ${styles.titte__tariff}`}>
             наши тарифы

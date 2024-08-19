@@ -1,32 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Header.module.css";
+import styles2 from "../Loading.module.css";
 import { useSelector, useDispatch} from "react-redux";
-import { logout, setUsedCompanyCount, setCompanyLimit} from "../context/authSlice";
+import { logout } from "../context/authSlice";
+import { fetchLimit} from "../context/actionCreators"
+
 
 export default function ProfileWithLogin() {
-  const {usedCompanyCount, companyLimit, accessToken} = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+  const {usedCompanyCount, companyLimit, isLoading} = useSelector((state) => state.auth)
 
-  async function fetchAccInfo() {
-    try {
-      const response = await axios.get("https://gateway.scan-interfax.ru/api/v1/account/info",
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
-      setUsedCompanyCount(response.data.eventFiltersInfo.usedCompanyCount)
-      setCompanyLimit(response.data.eventFiltersInfo.companyLimit)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
+  useEffect(() => {
+    dispatch(fetchLimit());
+  }, []);
 
   function handleLogout() {
-    localStorage.removeItem("accessToken");
-    logout();
+    dispatch(logout());
   }
   return (
     <>
       <div className={styles.profile}>
         <div className={styles.limit}>
+          {isLoading ? (<div style={{position: 'relative'}} className={styles2.loading}>Loading&#8230;</div>) : (
           <p>
             Использовано компаний{" "}
             <span className={styles.limit__use}>
@@ -38,6 +33,7 @@ export default function ProfileWithLogin() {
               {companyLimit}
             </span>
           </p>
+          )}
         </div>
         <div className={styles.avatar}>
           <div className={styles.name}>
