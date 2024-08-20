@@ -10,7 +10,7 @@ export default function Header() {
   return (
     <>
       <header className={styles.header}>
-        <div className="logo">
+        <div className="header__logo">
           <img src="src\assets\logoSCAN.svg" alt="Логотип" />
         </div>
         <nav className={styles.nav__bar}>

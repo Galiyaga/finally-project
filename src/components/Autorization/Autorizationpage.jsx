@@ -15,7 +15,7 @@ export default function Autorizationpage() {
   const dispatch = useDispatch()
 
   function checkValidation() {
-    return login.trim() !== "" && password.trim() !== "";
+    return localLogin.trim() !== "" && localPassword.trim() !== "";
   }
   
   async function handleSubmit(e) {
@@ -28,10 +28,15 @@ export default function Autorizationpage() {
     }
   }
 
-
   return (
     <>
-      {isLoading && <div className={styles2.loading}>Loading&#8230;</div>}
+    {isLoading && <div className={styles2.loading}>Loading&#8230;</div>}
+    <div className={styles.autorization__container}>
+      <div className={styles.aut}>
+        <h1 className={styles.aut__title}>Для оформления подписки на <br></br> тариф, необходимо авторизоваться.</h1>
+        <img className={styles.aut__img} src="src\assets\autKey.svg" alt="Двое несут ключ" />
+      </div>
+        <img className={styles.form__lock} src="src\assets\autLock.svg" alt="Замок" />
       <div className={styles.form__container}>
         <div className={styles.form__tab}>
           <h3 className={styles.tab__active}>Войти</h3>
@@ -81,6 +86,7 @@ export default function Autorizationpage() {
           </div>
         </form>
       </div>
+    </div>
     </>
   );
 }

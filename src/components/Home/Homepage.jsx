@@ -69,7 +69,7 @@ export default function Homepage() {
               Комплексный анализ публикаций, получение данных в формате PDF на
               электронную почту.
             </p>
-            <Link to="/autorization">
+            <Link to="/searh">
               <Button
                 className={
                   isAuthenticated
