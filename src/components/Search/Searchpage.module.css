@@ -1,34 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Ferry&display=swap');
+
+.searh__title{
+	font-family: 'Ferry', arial;
+  font-size: 40px;
+  font-weight: 900;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 70px;
+}
+
+.search__about{
+	font-size: 20px;
+	display: block;
+  	margin-top: 25px;
+}
+
 .search__form {
   padding: 30px 40px 0;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
-  display: flex;
   width: 872px;
   height: 543px;
   border-radius: 10px;
+  margin-top: 47px;
 }
 
-.form__input{
-    display: flex;
-    flex-direction: column;
+.form__main {
+  display: flex;
+  justify-content: space-between;
 }
 
-.form__input label{
-    color: #000000;
-
+.item__input label
+{
+  color: #000000;
+  font-size: 18px;
 }
 
-.form__input input,
-.form__input select{
-    font-size: 14px;
-	padding: 13px 0 13px 22px;
-	color: #000000;
-	border: 1px solid #C7C7C7;
-	border-radius: 5px;
-	transition: .3s ease;
-    width: 240px;
-    margin: 20px 0 30px;
+.item__input input,
+.item__input select,
+.item__input option {
+  font-size: 14px;
+  padding: 13px 0 13px 22px;
+  color: #000000;
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  width: 240px;
+  margin: 20px 0 30px;
+  display: flex;
+  flex-direction: column;
 }
 
+.form__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item__input input {
+  font-size: 14px;
+  padding: 13px 0 13px 22px;
+  color: #000000;
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  width: 240px;
+  margin: 20px 0 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input__date {
+  display: flex;
+  gap: 20px;
+}
+
+.input__date input{
+	width: 176px;
+}
 
 .search__form .error {
   color: red;
@@ -36,17 +84,146 @@
   margin-top: 5px;
 }
 
-.search__form button {
-  padding: 10px 20px;
-  background-color: #7e97ff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-  font-size: 1em;
+.form__checkbox {
+  display: flex;
+  flex-direction: column;
 }
 
-.search__form button:hover {
-  background-color: #667de1;
+.checkbox__item {
+  display: flex;
+  flex-direction: column;
 }
+
+.form_button {
+  padding: 16px 117px;
+  background-color: #5970ff;
+  border-radius: 5px;
+  width: 305px;
+  font-size: 22px;
+}
+
+.required {
+  color: #949494;
+  margin-left: 490px;
+}
+
+.cr_wrapper *,
+.cr_wrapper *::before,
+.cr_wrapper *::after {
+	box-sizing: content-box !important;
+}
+
+.cr_wrapper input {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+}
+
+.cr_wrapper span {
+	font-size: 18px;
+}
+
+.cr_wrapper {
+	display: table;
+	position: relative;
+	padding-left: 35px;
+	cursor: pointer;
+	margin-bottom: 15px;
+}
+
+.cr_wrapper input[type="checkbox"] ~ .cr_input {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	height: 14px;
+	width: 14px;
+	background: #FFFFFF;
+	transition: 250ms;
+	border: 1px solid #969696;
+	border-radius: 2px;
+	transform: translate(0, -50%);
+}
+
+.cr_wrapper input[type="radio"] ~ .cr_input {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	height: 14px;
+	width: 14px;
+	background: #FFFFFF;
+	transition: 250ms;
+	border: 1px solid #969696;
+	border-radius: 20px;
+	transform: translate(0, -50%);
+}
+
+.cr_wrapper input[type="checkbox"] ~ .cr_input::after {
+	content: "";
+	position: absolute;
+	display: none;
+	left: 2px;
+	top: 2px;
+	width: 10px;
+	height: 10px;
+	transition: 250ms;
+	background-color: #66FF16;
+	clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.cr_wrapper input[type="radio"] ~ .cr_input::after {
+	content: "";
+	position: absolute;
+	display: none;
+	left: 4px;
+	top: 4px;
+	width: 12px;
+	height: 12px;
+	border-radius: 20px;
+	background: #FFFFFF;
+	transition: 250ms;
+}
+
+.cr_wrapper input:checked ~ .cr_input::after {
+	display: block;
+}
+
+.cr_wrapper:hover input[type="checkbox"]:not([disabled]) ~ .cr_input,
+.cr_wrapper input[type="checkbox"]:focus ~ .cr_input {
+	background: #F0F0F0;
+	border-color: #000000;
+}
+
+.cr_wrapper:hover input[type="radio"]:not([disabled]) ~ .cr_input{
+	background: #F0F0F0;
+	border-color: #000000;
+}
+
+.cr_wrapper input[type="checkbox"]:checked ~ .cr_input {
+	background: #FFFFFF;
+	border-color: #000000;
+}
+
+.cr_wrapper input[type="checkbox"]:checked ~ span{
+	color: #000000;
+  	font-size: 18px;
+}
+.cr_wrapper input[type="checkbox"]:disabled ~ .cr_input{
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.cr_wrapper input[type="checkbox"]:disabled ~ span {
+	color: #CCCCCC;
+	cursor: not-allowed;
+}
+
+.cr_wrapper input[type="checkbox"]:disabled ~ .cr_input::after {
+	background: #66FF16;
+}
+
+.cr_wrapper:hover input[type="checkbox"]:not([disabled]):checked ~ .cr_input,
+.cr_wrapper input[type="checkbox"]:checked:focus ~ .cr_input {
+	background: #FFFFFF;
+	border-color: #000000;
+}
+
