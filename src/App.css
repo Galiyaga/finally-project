@@ -73,3 +73,18 @@
 .copyright{
   font-size: 12px;
 }
+
+.p-calendar .p-inputtext {
+  font-size: 14px;
+  padding: 13px 0 13px 22px;
+  color: #000000;
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  width: 176px;
+  margin: 20px 0 30px;
+}
+
+.p-calendar.error .p-inputtext {
+  border: 1px solid red;
+}
