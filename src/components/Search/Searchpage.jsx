@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import styles from "./Searchpage.module.css";
 import { Button } from "../Button";
 import {Calendar } from "primereact/calendar";
-import {  addLocale } from  "primereact/api";
+import { addLocale } from  "primereact/api";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { selectAccessToken } from "../context/authSlice"
 
 addLocale('es', {
   today: 'Сегодня',
@@ -67,6 +70,16 @@ export default function Searchpage() {
   const [dateRange, setDateRange] = useState({ start: new Date(), end: new Date() });
   const [error, setError] = useState({start: '', end: ''})
 
+  const [maxFullness, setMaxFullness] = useState(true);
+  const [inBusinessNews, setInBusinessNews] = useState(false);
+  const [onlyMainRole, setOnlyMainRole] = useState(true);
+  const [onlyWithRiskFactors, setOnlyWithRiskFactors] = useState(false);
+  const [excludeTechNews, setExcludeTechNews] = useState(true);
+  const [excludeAnnouncements, setExcludeAnnouncements] = useState(true);
+  const [excludeDigests, setExcludeDigests] = useState(true);
+
+  const token = useSelector(selectAccessToken)
+
   const handleInnChange = (e) => {
     setInn(e.target.value);
       const { result, error } = validateInn(e.target.value);
@@ -87,27 +100,27 @@ export default function Searchpage() {
     const now = resetTime(new Date())
     const startDate = resetTime(start)
     const endDate = resetTime(end)
-    let newError = { ...error }; // Скопируем предыдущие ошибки
+    let newError = { ...error }; 
 
-  if (startDate > now) {
-    newError.start = "Первая дата не должна быть в будущем";
-  } else if (!error.start.includes("Первая дата не должна быть больше второй.")) {
-    newError.start = ""; // Очистим ошибку, если она не была заменена другой
-  }
+    if (startDate > now) {
+      newError.start = "Первая дата не должна быть в будущем";
+    } else if (!error.start.includes("Первая дата не должна быть больше второй.")) {
+      newError.start = ""; 
+    }
 
-  if (endDate > now) {
-    newError.end = "Вторая дата не должна быть в будущем";
-  } else {
-    newError.end = "";
-  }
+    if (endDate > now) {
+      newError.end = "Вторая дата не должна быть в будущем";
+    } else {
+      newError.end = "";
+    }
 
-  if (startDate > endDate) {
-    newError.start = "Первая дата не должна быть больше второй.";
-    newError.end = ""; // Очищаем ошибку для `end`, так как она некорректна
-  }
+    if (startDate > endDate) {
+      newError.start = "Первая дата не должна быть больше второй.";
+      newError.end = "";
+    }
 
-  setError(newError); // Устанавливаем новые ошибки
-  return !newError.start && !newError.end; // Если нет ошибок, возвращаем true
+    setError(newError); 
+    return !newError.start && !newError.end; 
 };
 
 
@@ -118,10 +131,87 @@ export default function Searchpage() {
     }
   }
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async(e) => {
     e.preventDefault();
-    console.log({ inn, tonality, documentsCount, dateRange });
-  };
+    
+    const formatDate = (date) => {
+      return new Date(date).toISOString()
+    }
+
+    const formattedTonality = tonality.toLowerCase() === 'негативная' ? 'negative' :
+                              tonality.toLowerCase() === 'позитивная' ? 'positive' :
+                              tonality.toLowerCase() === 'любая' ? 'any' : 'neutral';
+    const requestData = {
+      "issueDateInterval": {
+        "startDate": formatDate(dateRange.start),
+        "endDate": formatDate(dateRange.end)
+      },
+      "searchContext": {
+        "targetSearchEntitiesContext": {
+          "targetSearchEntities": [
+            {
+              "type": "company",
+              "sparkId": null,
+              "entityId": null,
+              "inn": inn,
+              "maxFullness": maxFullness,
+              "inBusinessNews": inBusinessNews
+            }
+          ],
+          "onlyMainRole": onlyMainRole,
+          "tonality": formattedTonality,
+          "onlyWithRiskFactors": onlyWithRiskFactors,
+          "riskFactors": {
+            "and": [],
+            "or": [],
+            "not": []
+          },
+          "themes": {
+            "and": [],
+            "or": [],
+            "not": []
+          }
+        },
+        "themesFilter": {
+          "and": [],
+          "or": [],
+          "not": []
+        }
+      },
+      "searchArea": {
+        "includedSources": [],
+        "excludedSources": [],
+        "includedSourceGroups": [],
+        "excludedSourceGroups": []
+      },
+      "attributeFilters": {
+        "excludeTechNews": excludeTechNews,
+        "excludeAnnouncements": excludeAnnouncements,
+        "excludeDigests": excludeDigests
+      },
+      "similarMode": "duplicates",
+      "limit": parseInt(documentsCount, 10),
+      "sortType": "issueDate",
+      "sortDirectionType": "desc",
+      "intervalType": "month",
+      "histogramTypes": [
+        "totalDocuments",
+        "riskFactors"
+      ]
+    }
+    
+    try {
+      const response = await axios.post('https://gateway.scan-interfax.ru/api/v1/objectsearch/histograms', requestData,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      console.log("Response Data:", response);
+    } catch (error) {
+      console.error("There was an error with the request:", error);
+    }
+  }
+
   return (
     <>
       <div className={styles.search__container}>
@@ -181,37 +271,37 @@ export default function Searchpage() {
             <div className={styles.form__checkbox}>
               <div className={styles.checkbox__item}>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input}/>
+                  <input type="checkbox" className={styles.item__input} checked={maxFullness} onChange={(e) => setMaxFullness(e.target.checked)}/>
                   <div className={styles.cr_input}></div>
                   <span> Признак максимальной полноты</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input}/>
+                  <input type="checkbox" className={styles.item__input} checked={inBusinessNews} onChange={(e) => setInBusinessNews(e.target.checked)}/>
                   <div className={styles.cr_input}></div>
                   <span>Упоминания в бизнес-контексте</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input}/>
+                  <input type="checkbox" className={styles.item__input} checked={onlyMainRole} onChange={(e) => setOnlyMainRole(e.target.checked)}/>
                   <div className={styles.cr_input}></div>
                   <span>Главная роль в публикации</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input}/>
+                  <input type="checkbox" className={styles.item__input} checked={onlyWithRiskFactors} onChange={(e) => setOnlyWithRiskFactors(e.target.checked)}/>
                   <div className={styles.cr_input}></div>
                   <span>Публикации только с риск-факторами</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input}/>
+                  <input type="checkbox" className={styles.item__input} checked={excludeTechNews} onChange={(e) => setExcludeTechNews(e.target.checked)}/>
                   <div className={styles.cr_input}></div>
                   <span>Включать технические новости рынков</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input}/>
+                  <input type="checkbox" className={styles.item__input} checked={excludeAnnouncements} onChange={(e) => setExcludeAnnouncements(e.target.checked)}/>
                   <div className={styles.cr_input}></div>
                   <span>Включать анонсы и календари</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input}/>
+                  <input type="checkbox" className={styles.item__input} checked={excludeDigests} onChange={(e) => setExcludeDigests(e.target.checked)}/>
                   <div className={styles.cr_input}></div>
                   <span>Включать сводки новостей</span>
                 </label>
@@ -263,5 +353,4 @@ export default function Searchpage() {
         </form>
       </div>
     </>
-  );
-}
+  );}

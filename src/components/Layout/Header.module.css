@@ -45,6 +45,7 @@ button:hover {
 }
 
 .limit{
+    position: relative;
     box-sizing: border-box;
     width: 175px;
     height: 63px;

@@ -16,7 +16,7 @@ function TariffCard({
   return (
     <div className={styles.card}>
       <div className={styles.header} style={{ backgroundColor: color }}>
-        <div className={styles.title}>
+        <div className={title === 'Business' ? styles.title__white : styles.title}>
           <h1 className={styles.title__name}>{title}</h1>
           <p className={styles.description}>{description}</p>
         </div>

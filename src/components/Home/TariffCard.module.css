@@ -15,16 +15,20 @@
 
 .title {
   margin: 30px 0 0 30px;
+  color: #000000;
+}
+
+.title__white{
+  margin: 30px 0 0 30px;
+  color: white;
 }
 
 .title__name {
   font-size: 30px;
   font-weight: bold;
-  color: #333;
 }
 
 .description {
-  color: #000000;
   margin-top: 15px;
   font-size: 18px;
 }

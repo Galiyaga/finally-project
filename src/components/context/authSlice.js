@@ -64,6 +64,7 @@ const authSlice = createSlice({
   }
 });
 
+export const selectAccessToken = ((state) => state.auth.accessToken)
 
 export const {
   clearCredentials,

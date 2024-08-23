@@ -89,8 +89,10 @@
 }
 
 .required {
-  color: #949494;
-  margin-left: 490px;
+	color: #949494;
+	margin-left: 490px;
+	margin-top: -15px;
+	font-size: 14px;
 }
 
 .cr_wrapper *,

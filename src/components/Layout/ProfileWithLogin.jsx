@@ -4,24 +4,27 @@ import styles2 from "../Loading.module.css";
 import { useSelector, useDispatch} from "react-redux";
 import { logout } from "../context/authSlice";
 import { fetchLimit} from "../context/actionCreators"
+import { useNavigate } from "react-router-dom";
 
 
 export default function ProfileWithLogin() {
   const dispatch = useDispatch()
   const {usedCompanyCount, companyLimit, isLoading} = useSelector((state) => state.auth)
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(fetchLimit());
   }, []);
 
   function handleLogout() {
-    dispatch(logout());
+    dispatch(logout())
+    navigate('/');
   }
   return (
     <>
       <div className={styles.profile}>
         <div className={styles.limit}>
-          {isLoading ? (<div style={{position: 'relative'}} className={styles2.loading}>Loading&#8230;</div>) : (
+          {isLoading ? (<div className={styles2.loading}>Loading&#8230;</div>) : (
           <p>
             Использовано компаний{" "}
             <span className={styles.limit__use}>

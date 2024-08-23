@@ -1,5 +1,5 @@
 .loading {
-    position: fixed;
+    position: absolute;
     z-index: 999;
     height: 2em;
     width: 2em;
@@ -14,7 +14,7 @@
   .loading:before {
     content: '';
     display: block;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
