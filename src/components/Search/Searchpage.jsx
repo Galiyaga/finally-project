@@ -80,6 +80,9 @@ export default function Searchpage() {
 
   const token = useSelector(selectAccessToken)
 
+  const [data, setData] = useState(null)
+  const [isFormSubmit, setIsFormSubmit] = useState(false)
+
   const handleInnChange = (e) => {
     setInn(e.target.value);
       const { result, error } = validateInn(e.target.value);
@@ -199,21 +202,102 @@ export default function Searchpage() {
         "riskFactors"
       ]
     }
-    
+
+    const simulatedData = [
+      {
+        data: [
+          { date: "2020-11-01T03:00:00+03:00", value: 8 },
+          { date: "2020-06-01T03:00:00+03:00", value: 6 },
+        ],
+        histogramType: "totalDocuments",
+      },
+      {
+        data: [
+          { date: "2020-11-01T03:00:00+03:00", value: 0 },
+          { date: "2020-06-01T03:00:00+03:00", value: 1 },
+        ],
+        histogramType: "riskFactors",
+      },
+    ];
+
+    const formattedData = formatMockData(simulatedData)
+
     try {
       const response = await axios.post('https://gateway.scan-interfax.ru/api/v1/objectsearch/histograms', requestData,{
         headers: {
           Authorization: `Bearer ${token}`
         }
       })
-      console.log("Response Data:", response);
+
+      if (!response.data.length) {
+        console.log('Вернулся пустой массив, используем моковые данные')
+        setData(formattedData)
+        setIsFormSubmit(true)
+      }
     } catch (error) {
-      console.error("There was an error with the request:", error);
+      console.log('Ошибка запроса: ', error)
+      setData(formattedData)
+      setIsFormSubmit(true)
     }
   }
 
+  function formatMockData(simulatedData) {
+    const formattedData = {};
+  
+    simulatedData.forEach((item) => {
+      item.data.forEach((entry) => {
+        const date = entry.date;
+        const value = entry.value;
+        
+        if (!formattedData[date]) {
+          formattedData[date] = { 
+            date: new Date(date).toLocaleDateString("ru-RU"), 
+            total: 0, 
+            risk: 0 };
+        }
+  
+        if (item.histogramType === "totalDocuments") {
+          formattedData[date].total = value;
+        } else if (item.histogramType === "riskFactors") {
+          formattedData[date].risk = value;
+        }
+      });
+    });
+  
+    return Object.values(formattedData);
+  }
+
+  const renderTable = () => { 
+    if(!data) return null
+
+    console.log('data', data)
+
+    return (
+      <table className={styles.summaryTable}>
+        <thead>
+          <tr>
+            <th>Период</th>
+            {data.map((column) => <th key={column.date}>{column.date}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Всего</td>
+            {data.map((column) => <th key={column.total}>{column.total}</th>)}
+          </tr>
+          <tr>
+            <td>Риски</td>
+            {data.map((column) => <th key={column.risk}>{column.risk}</th>)}
+          </tr>
+        </tbody>
+      </table>
+    );
+  };
+
+
   return (
     <>
+    {!isFormSubmit ? (
       <div className={styles.search__container}>
         <h1 className={styles.searh__title}>
           Найдите необходимые <br></br> данные в пару кликов.
@@ -325,6 +409,7 @@ export default function Searchpage() {
                       required
                       locale="es"
                       variant="filled"
+                      dateFormat="dd/mm/yy"
                     />
                       {error.start && <div className={styles.error__text}>{error.start}</div>}
                   </div>
@@ -339,6 +424,7 @@ export default function Searchpage() {
                       showButtonBar
                       locale="es"
                       variant="filled"
+                      dateFormat="dd/mm/yy"
                     />
                     {error.end && <div className={styles.error__text}>{error.end}</div>}
                  </div>
@@ -352,5 +438,7 @@ export default function Searchpage() {
           </div>
         </form>
       </div>
+      ) : (renderTable()
+      )}
     </>
   );}

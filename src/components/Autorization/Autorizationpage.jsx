@@ -8,7 +8,7 @@ import { setCredentials} from "../context/authSlice"
 import { fetchAuth} from "../context/actionCreators"
 
 export default function Autorizationpage() {
-  const { login, password, isLoading } = useSelector((state) => state.auth);
+  const { isLoading } = useSelector((state) => state.auth);
   const [localLogin, setLocalLogin] = useState('');
   const [localPassword, setLocalPassword] = useState('');
   const navigate = useNavigate();

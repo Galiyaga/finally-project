@@ -19,9 +19,8 @@ export const fetchAuth = createAsyncThunk(
             console.error("Unexpected error:", e);
             return rejectWithValue("Не удалось загрузить данные");
           }
-    }
-  )
-
+        }
+      )
 
 export const fetchLimit = createAsyncThunk(
   'limit/fetchAll',
