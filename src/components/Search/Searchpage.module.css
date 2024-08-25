@@ -215,3 +215,56 @@
 	border-color: #000000;
 }
 
+/* Страница результата */
+
+.table__summary {
+  width: 100%;
+  border-collapse: collapse;
+	border: 2px solid #029491;
+	border-radius: 10px;
+}
+
+.table__summary th, .table__summary td {
+  padding: 8px;
+  text-align: center;
+  font-weight: 500;
+	position: relative;
+}
+
+.table__summary td::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%; 
+  bottom: 10%; 
+  width: 2px; 
+  background-color: #dcdcdc; 
+}
+
+.date{
+  border-top-left-radius: 10px;
+}
+
+.risk {
+  border-bottom-left-radius: 10px;
+}
+
+td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+td:last-child {
+  border-bottom-right-radius: 10px;
+}
+
+.table__title{
+	padding: 27px 18px;
+	background-color: #029491;
+	color: white;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+

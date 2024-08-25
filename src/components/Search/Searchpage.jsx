@@ -218,6 +218,34 @@ export default function Searchpage() {
         ],
         histogramType: "riskFactors",
       },
+      {
+        data: [
+          { date: "2021-10-29T03:00:00+03:00", value: 5 },
+          { date: "2021-08-21T03:00:00+03:00", value: 3 },
+        ],
+        histogramType: "totalDocuments",
+      },
+      {
+        data: [
+          { date: "2021-10-29T03:00:00+03:00", value: 5 },
+          { date: "2021-08-21T03:00:00+03:00", value: 3 },
+        ],
+        histogramType: "riskFactors",
+      },
+      {
+        data: [
+          { date: "2023-05-10T03:00:00+03:00", value: 7 },
+          { date: "2023-12-14T03:00:00+03:00", value: 0 },
+        ],
+        histogramType: "totalDocuments",
+      },
+      {
+        data: [
+          { date: "2023-05-10T03:00:00+03:00", value: 7 },
+          { date: "2023-12-14T03:00:00+03:00", value: 0 },
+        ],
+        histogramType: "riskFactors",
+      },
     ];
 
     const formattedData = formatMockData(simulatedData)
@@ -273,21 +301,27 @@ export default function Searchpage() {
     console.log('data', data)
 
     return (
-      <table className={styles.summaryTable}>
+      <table className={styles.table__summary}>
         <thead>
           <tr>
-            <th>Период</th>
-            {data.map((column) => <th key={column.date}>{column.date}</th>)}
+            <th className={`${styles.table__title} ${styles.date}`}>Период</th>
+            {data.map((column) => (
+              <td key={column.date}>{column.date}</td>
+            ))}
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Всего</td>
-            {data.map((column) => <th key={column.total}>{column.total}</th>)}
+            <th className={`${styles.table__title} ${styles.total}`}>Всего</th>
+            {data.map((column) => (
+              <td key={column.total}>{column.total}</td>
+            ))}
           </tr>
           <tr>
-            <td>Риски</td>
-            {data.map((column) => <th key={column.risk}>{column.risk}</th>)}
+            <th className={`${styles.table__title} ${styles.risk}`}>Риски</th>
+            {data.map((column) => (
+              <td key={column.risk}>{column.risk}</td>
+            ))}
           </tr>
         </tbody>
       </table>
