@@ -264,11 +264,9 @@ export default function Searchpage() {
           Authorization: `Bearer ${token}`
         }
       })
-      console.log(requestData)
       if (!response.data.length) {
-        console.log('Вернулся пустой массив, используем моковые данные')
+        console.log('Вернулся пустой массив, используем моковые данные в сводке')
         setData(formattedData)
-        console.log("Formatted Data before dispatch: ", formattedData);
         dispatch(
           setStoreData({
             data: formattedData,
@@ -280,7 +278,6 @@ export default function Searchpage() {
     } catch (error) {
       console.log('Ошибка запроса: ', error)
       setData(formattedData)
-      console.log("Formatted Data before dispatch: ", formattedData);
       dispatch(
         setStoreData({ data: formattedData, previousRequest: requestData })
       );
