@@ -77,14 +77,6 @@
     width: 380px;
 }
 
-.inert {
-    background-color: rgba(89, 112, 255, 0.5);
-}
-
-.inert:hover{
-    transform: scale(1);
-}
-
 label {
     color: rgba(148, 148, 148, 1);
     margin-bottom: 15px;

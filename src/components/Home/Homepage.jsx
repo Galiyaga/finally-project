@@ -69,13 +69,10 @@ export default function Homepage() {
               Комплексный анализ публикаций, получение данных в формате PDF на
               электронную почту.
             </p>
-            <Link to="/searh">
+            <Link to="/search">
               <Button
-                className={
-                  isAuthenticated
-                    ? styles.button__request
-                    : `${styles.button__request} ${styles.inert}`
-                }
+                className={styles.button__request}
+                disabled={!isAuthenticated}
                 children={"Запросить данные"}
               />
             </Link>

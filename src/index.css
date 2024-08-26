@@ -70,14 +70,3 @@ a {
   font-weight: bold;
 }
 
-button:hover {
-  transform: scale(1.02);
-}
-
-.button__request{
-    margin-top: 70px;
-}
-
-.button__request_inert {
-    opacity: "0.5"
-}

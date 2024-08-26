@@ -8,14 +8,14 @@ const StyledButton = styled.button`
   font-size: 22px;
   font-weight: 500;
   text-align: center;
-`;
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  `;
 
 
-const Button = ({children, className}) => {
+const Button = ({children, className, disabled}) => {
     return (
-      <StyledButton
-        className={className}
-      >
+      <StyledButton className={className} disabled={disabled}>
         {children}
       </StyledButton>
     );

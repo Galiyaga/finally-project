@@ -315,7 +315,7 @@ export default function Searchpage() {
   return (
     <>
       <div className={styles.search__container}>
-        <h1 className={styles.searh__title}>
+        <h1 className={styles.search__title}>
           Найдите необходимые <br></br> данные в пару кликов.
         </h1>
         <p className={styles.search__about}>
@@ -328,13 +328,16 @@ export default function Searchpage() {
               <div className={styles.form__input_item}>
                 <label>
                   ИНН компании*:
-                  <input className= {innError ? styles.input__error : styles.item__input}
+                  <input
+                    className={
+                      innError ? styles.input__error : styles.item__input
+                    }
                     type="text"
                     value={inn}
                     onChange={handleInnChange}
                     placeholder="10 цифр"
                     required
-                    />
+                  />
                   {innError && <div className={styles.error}>{innError}</div>}
                 </label>
               </div>
@@ -342,7 +345,8 @@ export default function Searchpage() {
               <div className={styles.form__input_item}>
                 <label>
                   Тональность:
-                  <select className={styles.item__input}
+                  <select
+                    className={styles.item__input}
                     value={tonality}
                     onChange={(e) => setTonality(e.target.value)}
                   >
@@ -356,7 +360,8 @@ export default function Searchpage() {
               <div className={styles.form__input_item}>
                 <label>
                   Количество документов в выдаче*:
-                  <input className={styles.item__input}
+                  <input
+                    className={styles.item__input}
                     type="number"
                     value={documentsCount}
                     onChange={(e) => setDocumentsCount(e.target.value)}
@@ -371,37 +376,72 @@ export default function Searchpage() {
             <div className={styles.form__checkbox}>
               <div className={styles.checkbox__item}>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input} checked={maxFullness} onChange={(e) => setMaxFullness(e.target.checked)}/>
+                  <input
+                    type="checkbox"
+                    className={styles.item__input}
+                    checked={maxFullness}
+                    onChange={(e) => setMaxFullness(e.target.checked)}
+                  />
                   <div className={styles.cr_input}></div>
                   <span> Признак максимальной полноты</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input} checked={inBusinessNews} onChange={(e) => setInBusinessNews(e.target.checked)}/>
+                  <input
+                    type="checkbox"
+                    className={styles.item__input}
+                    checked={inBusinessNews}
+                    onChange={(e) => setInBusinessNews(e.target.checked)}
+                  />
                   <div className={styles.cr_input}></div>
                   <span>Упоминания в бизнес-контексте</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input} checked={onlyMainRole} onChange={(e) => setOnlyMainRole(e.target.checked)}/>
+                  <input
+                    type="checkbox"
+                    className={styles.item__input}
+                    checked={onlyMainRole}
+                    onChange={(e) => setOnlyMainRole(e.target.checked)}
+                  />
                   <div className={styles.cr_input}></div>
                   <span>Главная роль в публикации</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input} checked={onlyWithRiskFactors} onChange={(e) => setOnlyWithRiskFactors(e.target.checked)}/>
+                  <input
+                    type="checkbox"
+                    className={styles.item__input}
+                    checked={onlyWithRiskFactors}
+                    onChange={(e) => setOnlyWithRiskFactors(e.target.checked)}
+                  />
                   <div className={styles.cr_input}></div>
                   <span>Публикации только с риск-факторами</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input} checked={excludeTechNews} onChange={(e) => setExcludeTechNews(e.target.checked)}/>
+                  <input
+                    type="checkbox"
+                    className={styles.item__input}
+                    checked={excludeTechNews}
+                    onChange={(e) => setExcludeTechNews(e.target.checked)}
+                  />
                   <div className={styles.cr_input}></div>
                   <span>Включать технические новости рынков</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input} checked={excludeAnnouncements} onChange={(e) => setExcludeAnnouncements(e.target.checked)}/>
+                  <input
+                    type="checkbox"
+                    className={styles.item__input}
+                    checked={excludeAnnouncements}
+                    onChange={(e) => setExcludeAnnouncements(e.target.checked)}
+                  />
                   <div className={styles.cr_input}></div>
                   <span>Включать анонсы и календари</span>
                 </label>
                 <label className={styles.cr_wrapper}>
-                  <input type="checkbox" className={styles.item__input} checked={excludeDigests} onChange={(e) => setExcludeDigests(e.target.checked)}/>
+                  <input
+                    type="checkbox"
+                    className={styles.item__input}
+                    checked={excludeDigests}
+                    onChange={(e) => setExcludeDigests(e.target.checked)}
+                  />
                   <div className={styles.cr_input}></div>
                   <span>Включать сводки новостей</span>
                 </label>
@@ -417,7 +457,7 @@ export default function Searchpage() {
                     <Calendar
                       value={dateRange.start}
                       onChange={(e) =>
-                        handleChangeDate('start', new Date(e.target.value))
+                        handleChangeDate("start", new Date(e.target.value))
                       }
                       readOnlyInput
                       hideOnRangeSelection
@@ -427,27 +467,39 @@ export default function Searchpage() {
                       variant="filled"
                       dateFormat="dd/mm/yy"
                     />
-                      {error.start && <div className={styles.error__text}>{error.start}</div>}
+                    {error.start && (
+                      <div className={styles.error__text}>{error.start}</div>
+                    )}
                   </div>
                   <div className={styles.calendar__wrapper}>
                     <Calendar
                       value={dateRange.end}
                       onChange={(e) =>
-                        handleChangeDate('end', new Date(e.target.value))
+                        handleChangeDate("end", new Date(e.target.value))
                       }
                       readOnlyInput
                       hideOnRangeSelection
                       showButtonBar
+                      required
                       locale="es"
                       variant="filled"
                       dateFormat="dd/mm/yy"
                     />
-                    {error.end && <div className={styles.error__text}>{error.end}</div>}
-                 </div>
+                    {error.end && (
+                      <div className={styles.error__text}>{error.end}</div>
+                    )}
+                  </div>
                 </div>
               </label>
             </div>
-            <Button className={styles.form_button}>Поиск</Button>
+            <Button
+              className={styles.form_button}
+              disabled={
+                !dateRange.start || !dateRange.end || !documentsCount || !inn
+              }
+            >
+              Поиск
+            </Button>
           </div>
           <div className={styles.required}>
             <p>* Обязательные к заполнению поля</p>

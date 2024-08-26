@@ -35,10 +35,6 @@
     transform: none;
 }
 
-button:hover {
-    transform: scale(1.02);
-}
-
 .profile{
     display: flex;
     justify-content: space-between;

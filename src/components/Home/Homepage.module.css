@@ -45,14 +45,6 @@
     width: 335px;
 }
 
-.inert {
-    background-color: rgba(89, 112, 255, 0.5)
-}
-
-.inert:hover{
-    transform: scale(1);
-}
-
 .img__tick{
     margin-top: 70px;
 }

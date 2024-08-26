@@ -30,63 +30,71 @@ export default function Autorizationpage() {
 
   return (
     <>
-    {isLoading && <div className={styles2.loading}>Loading&#8230;</div>}
-    <div className={styles.autorization__container}>
-      <div className={styles.aut}>
-        <h1 className={styles.aut__title}>Для оформления подписки на <br></br> тариф, необходимо авторизоваться.</h1>
-        <img className={styles.aut__img} src="src\assets\autKey.svg" alt="Двое несут ключ" />
-      </div>
-        <img className={styles.form__lock} src="src\assets\autLock.svg" alt="Замок" />
-      <div className={styles.form__container}>
-        <div className={styles.form__tab}>
-          <h3 className={styles.tab__active}>Войти</h3>
-          <h3>Зарегистрироваться</h3>
+      {isLoading && <div className={styles2.loading}>Loading&#8230;</div>}
+      <div className={styles.autorization__container}>
+        <div className={styles.aut}>
+          <h1 className={styles.aut__title}>
+            Для оформления подписки на <br></br> тариф, необходимо
+            авторизоваться.
+          </h1>
+          <img
+            className={styles.aut__img}
+            src="src\assets\autKey.svg"
+            alt="Двое несут ключ"
+          />
         </div>
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.input__group}>
-            <label>Логин или номер телефона:</label>
-            <input
-              type="text"
-              name="login"
-              value={localLogin}
-              onChange={(e) => setLocalLogin(e.target.value)}
-              required
-            />
+        <img
+          className={styles.form__lock}
+          src="src\assets\autLock.svg"
+          alt="Замок"
+        />
+        <div className={styles.form__container}>
+          <div className={styles.form__tab}>
+            <h3 className={styles.tab__active}>Войти</h3>
+            <h3>Зарегистрироваться</h3>
           </div>
-          <div className={styles.input__group}>
-            <label>Пароль:</label>
-            <input
-              type="password"
-              name="password"
-              value={localPassword}
-              onChange={(e) => setLocalPassword(e.target.value)}
-              required
-            />
-          </div>
-          <Button
-            className={
-              checkValidation()
-                ? styles.button__login
-                : `${styles.button__login} ${styles.inert}`
-            }
-            type="submit"
-          >
-            Войти
-          </Button>
-          <a href="#" className={styles.restore__link}>
-            Восстановить пароль
-          </a>
-          <div className={styles.login__methods}>
-            <label>Войти через:</label>
-            <div className={styles.methods__group}>
-              <img src="src\assets\google.svg" alt="Google" />
-              <img src="src\assets\facebook.svg" alt="Facebook" />
-              <img src="src\assets\yandex.svg" alt="yandex" />
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.input__group}>
+              <label>Логин или номер телефона:</label>
+              <input
+                type="text"
+                name="login"
+                value={localLogin}
+                onChange={(e) => setLocalLogin(e.target.value)}
+                required
+              />
             </div>
-          </div>
-        </form>
+            <div className={styles.input__group}>
+              <label>Пароль:</label>
+              <input
+                type="password"
+                name="password"
+                value={localPassword}
+                onChange={(e) => setLocalPassword(e.target.value)}
+                required
+              />
+            </div>
+            <Button
+              className={styles.button__login}
+              disabled={!checkValidation()}
+              type="submit"
+            >
+              Войти
+            </Button>
+            <a href="#" className={styles.restore__link}>
+              Восстановить пароль
+            </a>
+            <div className={styles.login__methods}>
+              <label>Войти через:</label>
+              <div className={styles.methods__group}>
+                <img src="src\assets\google.svg" alt="Google" />
+                <img src="src\assets\facebook.svg" alt="Facebook" />
+                <img src="src\assets\yandex.svg" alt="yandex" />
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
     </>
   );
 }
