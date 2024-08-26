@@ -34,12 +34,12 @@
   height: 40px;
 }
 
-.slick-prev::before{
+.slick-prev:before{
   content: url('./assets/leftArrow.svg');
   margin-right: 5px;
 }
 
-.slick-next::before{
+.slick-next:before{
   content: url('./assets/rightArrow.svg');
 }
 
@@ -159,6 +159,66 @@
 .p-datepicker table td > span.p-highlight {
   color: #0e7490;
   background: #ecfeff;
+}
+
+/* Слайдер сводки */
+
+.table__container{
+  display: flex;
+  max-width: 1260px;
+  height: 158px;
+  margin: 0 auto;
+  text-align: center;
+  font-weight: 500px;
+}
+
+.table__header{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-width: 133px;
+  background-color: #029491;
+  border-radius: 10px 0 0 10px;
+  color: white;
+  font-size: 20px;
+}
+
+.table__slider{
+  max-width: 1127px;
+  border: 2px solid #029491;
+  border-radius: 0 10px 10px 0;
+}
+
+.table__slider .slick-slider{
+  margin: 0;
+  
+}
+
+.table__column{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.table__slider .slick-prev {
+  left: -185px;
+  top: 15px;
+}
+
+.table__slider .slick-next {
+  right: 200px;
+  top: 15px;
+}
+
+.table__slider .slick-prev:before {
+  color:rgba(120, 109, 109, 0.15);
+  content: url('./assets/leftArrow.svg');
+}
+
+.table__slider .slick-next:before{
+  color:rgba(120, 109, 109, 0.15);
+  content: url('./assets/rightArrow.svg');
+
 }
 
 

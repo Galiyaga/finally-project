@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import styles from "./Searchpage.module.css";
+import axios from "axios";
 import { Button } from "../Button";
 import {Calendar } from "primereact/calendar";
 import { addLocale } from  "primereact/api";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import { selectAccessToken } from "../context/authSlice"
+import { useSelector, useDispatch } from "react-redux";
+import { setStoreData, clearStoreData } from "../context/dataSlice";
 
 addLocale('es', {
   today: 'Сегодня',
@@ -79,9 +82,10 @@ export default function Searchpage() {
   const [excludeDigests, setExcludeDigests] = useState(true);
 
   const token = useSelector(selectAccessToken)
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
 
   const [data, setData] = useState(null)
-  const [isFormSubmit, setIsFormSubmit] = useState(false)
 
   const handleInnChange = (e) => {
     setInn(e.target.value);
@@ -248,6 +252,10 @@ export default function Searchpage() {
       },
     ];
 
+    const handleClearData = () => {
+      dispatch(clearStoreData());
+    };
+
     const formattedData = formatMockData(simulatedData)
 
     try {
@@ -256,18 +264,30 @@ export default function Searchpage() {
           Authorization: `Bearer ${token}`
         }
       })
-
+      console.log(requestData)
       if (!response.data.length) {
         console.log('Вернулся пустой массив, используем моковые данные')
         setData(formattedData)
-        setIsFormSubmit(true)
+        console.log("Formatted Data before dispatch: ", formattedData);
+        dispatch(
+          setStoreData({
+            data: formattedData,
+            previousRequest: requestData ,
+          })
+        );
+        navigate('/rezult')
       }
     } catch (error) {
       console.log('Ошибка запроса: ', error)
       setData(formattedData)
-      setIsFormSubmit(true)
+      console.log("Formatted Data before dispatch: ", formattedData);
+      dispatch(
+        setStoreData({ data: formattedData, previousRequest: requestData })
+      );
+      navigate('/rezult')
     }
   }
+
 
   function formatMockData(simulatedData) {
     const formattedData = {};
@@ -295,43 +315,8 @@ export default function Searchpage() {
     return Object.values(formattedData);
   }
 
-  const renderTable = () => { 
-    if(!data) return null
-
-    console.log('data', data)
-
-    return (
-      <table className={styles.table__summary}>
-        <thead>
-          <tr>
-            <th className={`${styles.table__title} ${styles.date}`}>Период</th>
-            {data.map((column) => (
-              <td key={column.date}>{column.date}</td>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th className={`${styles.table__title} ${styles.total}`}>Всего</th>
-            {data.map((column) => (
-              <td key={column.total}>{column.total}</td>
-            ))}
-          </tr>
-          <tr>
-            <th className={`${styles.table__title} ${styles.risk}`}>Риски</th>
-            {data.map((column) => (
-              <td key={column.risk}>{column.risk}</td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
-    );
-  };
-
-
   return (
     <>
-    {!isFormSubmit ? (
       <div className={styles.search__container}>
         <h1 className={styles.searh__title}>
           Найдите необходимые <br></br> данные в пару кликов.
@@ -472,7 +457,5 @@ export default function Searchpage() {
           </div>
         </form>
       </div>
-      ) : (renderTable()
-      )}
     </>
   );}
