@@ -5,9 +5,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useSelector } from "react-redux";
 import { selectAccessToken } from "../context/authSlice";
+import XmlParserComponent from './XmlParserComponent';
 import axios from "axios";
 
 export default function Rezult() {
+  // Настройки для компонента Slider
   var settings = {
     dots: false,
     infinite: true,
@@ -20,6 +22,7 @@ export default function Rezult() {
   const token = useSelector(selectAccessToken);
   const [documentsData, setDocumentsData] = useState()
 
+  // Моковые данные, так как сервер работает не корректно
   const simulatedIdData = {
     items: [
       {
@@ -43,6 +46,7 @@ export default function Rezult() {
     ],
   };
 
+  // Для отправки асинхронных запросов
   useEffect(() => {
     if (previousRequest) {
       fetchData();
@@ -61,9 +65,7 @@ export default function Rezult() {
         }
       );
 
-      console.log('response', response)
-
-      if (!response.data.items.length) {
+      if (!response.data.items.length) { // Из-за ошибки с сервером возвращаются пустые данные
         console.log(
           "Вернулся пустой массив, используем моковые данные в результатах"
         );
@@ -72,7 +74,7 @@ export default function Rezult() {
         await fetchDocuments(ids);
       }
       
-    } catch (error) {
+    } catch (error) { // Иногда возвращается ошибка без причины, поэтому логику повторяем, как при успешном ответе
       console.error("Ошибка запроса:", error);
       const ids = simulatedIdData.items.map((item) => item.encodedId);
 
@@ -91,13 +93,24 @@ export default function Rezult() {
           },
         }
       );
-      console.log("Document response:", documentResponse);
-      setDocumentsData(documentResponse);
+      // Один из немногих ответов, который вовзращается корректно
+      setDocumentsData(documentResponse.data[0].ok);
     } catch (error) {
       console.error("Ошибка получения документов:", error);
     }
   }
 
+  const formattedData = (date) => new Date(date).toLocaleDateString("ru-RU")
+
+  const hasAttributes = (attributes) =>  attributes.isTechNews || attributes.isAnnouncement || attributes.isDigest
+
+  const getAttributeLabel = (attributes) => {
+    if(attributes.isTechNews) return "Технические новости"
+    if(attributes.isAnnouncement) return "Анонсы и события"
+    if(attributes.isDigest) return "Сводки новостей"
+    else return null
+  }
+  
   return (
     <>
       <div className="table__container">
@@ -118,9 +131,35 @@ export default function Rezult() {
           </Slider>
         </div>
       </div>
-      <div className="">
-        <pre>{JSON.stringify(documentsData)}</pre>
+      {documentsData && (
+      <div className={styles.documents__wrapper}>
+        <div className={styles.documents__card}>
+          <div className={styles.card__about}>
+            <div className={styles.about__date}>
+              {formattedData(documentsData.issueDate)}
+            </div>
+            <div className={styles.about__author}>
+              <a href={documentsData.url}>{documentsData.source.name}</a> 
+            </div>
+          </div>
+          <div className={styles.card__header}>
+            <h2 className={styles.header__title}>
+            {documentsData.title.text}
+            </h2>
+            {hasAttributes(documentsData.attributes) ?
+            (<span className={styles.header__tag}>{getAttributeLabel(documentsData.attributes)}</span>) 
+            :
+            (<span className={styles.header__tag_non}></span>)}
+          </div>
+          <div className={styles.card__main}>
+            <XmlParserComponent xmlData={documentsData.content.markup} />
+          </div>
+        </div>
+        <button className={styles.card__button}>Читать в источнике</button>
+        <span className={styles.card__wordcount}>{documentsData.attributes.wordCount} слов</span>
       </div>
+      )}
     </>
   );
+
 }

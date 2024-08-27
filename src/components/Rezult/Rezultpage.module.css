@@ -1,0 +1,65 @@
+.documents__wrapper{
+    width: 641px;
+    height: 694px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+    margin: 0 auto;
+}
+
+.documents__card{
+    padding: 19px 30px;
+}
+
+.card__about {
+    display: flex;
+    font-size: 16px;
+    gap: 15px;
+}
+
+.about__date{
+    color: #949494;
+}
+
+.about__author a{
+    color: #949494;
+    text-decoration: solid;
+}
+
+.card__header h2{
+    margin-top: 24px;
+}
+
+.header__title{
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.header__tag{
+    background-color: #FFB64F;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #000000;
+    padding: 4px 11px;
+    margin-top: 18px;
+    display: inline-block;
+}
+
+.header__tag_non{
+    display: block;
+    width: 157px;
+    height: 22px;
+}
+
+.main__img{
+    width: 581px;
+    height: 158px;
+    margin-top: 14px;
+}
+
+.img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    border-radius: 10px;
+}
+

@@ -66,7 +66,8 @@ function validateInn(inn) {
 }
 
 export default function Searchpage() {
-  const [inn, setInn] = useState("");
+  // TODO: удалить дефолтное значение
+  const [inn, setInn] = useState("7710137066");
   const [innError, setInnError] = useState("");
   const [tonality, setTonality] = useState("Любая");
   const [documentsCount, setDocumentsCount] = useState("");

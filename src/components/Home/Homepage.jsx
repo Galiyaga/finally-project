@@ -55,8 +55,6 @@ const cards = [
 
 export default function Homepage() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  console.log("isAuthenticatedHome:", isAuthenticated);
-
     return (
       <>
         <div className={styles.container}>
