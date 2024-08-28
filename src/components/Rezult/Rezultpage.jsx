@@ -18,6 +18,7 @@ export default function Rezult() {
     slidesToScroll: 1,
   };
   const data = useSelector((state) => state.data.data);
+  console.log('data: ', data)
   const previousRequest = useSelector((state) => state.data.previousRequest);
   const token = useSelector(selectAccessToken);
   const [documentsData, setDocumentsData] = useState()

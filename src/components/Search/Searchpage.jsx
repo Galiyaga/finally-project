@@ -78,7 +78,7 @@ export default function Searchpage() {
   const [inBusinessNews, setInBusinessNews] = useState(false);
   const [onlyMainRole, setOnlyMainRole] = useState(true);
   const [onlyWithRiskFactors, setOnlyWithRiskFactors] = useState(false);
-  const [excludeTechNews, setExcludeTechNews] = useState(true);
+  const [excludeTechNews, setExcludeTechNews] = useState(null);
   const [excludeAnnouncements, setExcludeAnnouncements] = useState(true);
   const [excludeDigests, setExcludeDigests] = useState(true);
 
@@ -142,16 +142,21 @@ export default function Searchpage() {
   const handleFormSubmit = async(e) => {
     e.preventDefault();
     
-    const formatDate = (date) => {
-      return new Date(date).toISOString()
+    const formatDate = (date, start) => {
+      return new Date(start ? date.setHours(0, 0, 0) : date.setHours(23, 59, 59));
     }
+
+
+
+
+
 
     const formattedTonality = tonality.toLowerCase() === 'негативная' ? 'negative' :
                               tonality.toLowerCase() === 'позитивная' ? 'positive' :
                               tonality.toLowerCase() === 'любая' ? 'any' : 'neutral';
     const requestData = {
       "issueDateInterval": {
-        "startDate": formatDate(dateRange.start),
+        "startDate": formatDate(dateRange.start, true),
         "endDate": formatDate(dateRange.end)
       },
       "searchContext": {
@@ -162,8 +167,8 @@ export default function Searchpage() {
               "sparkId": null,
               "entityId": null,
               "inn": inn,
-              "maxFullness": maxFullness,
-              "inBusinessNews": inBusinessNews
+              "maxFullness": null,
+              "inBusinessNews": null
             }
           ],
           "onlyMainRole": onlyMainRole,
@@ -193,13 +198,13 @@ export default function Searchpage() {
         "excludedSourceGroups": []
       },
       "attributeFilters": {
-        "excludeTechNews": excludeTechNews,
-        "excludeAnnouncements": excludeAnnouncements,
-        "excludeDigests": excludeDigests
+        "excludeTechNews": null,
+        "excludeAnnouncements": null,
+        "excludeDigests": null
       },
       "similarMode": "duplicates",
       "limit": parseInt(documentsCount, 10),
-      "sortType": "issueDate",
+      "sortType": "sourceInfluence",
       "sortDirectionType": "desc",
       "intervalType": "month",
       "histogramTypes": [
@@ -257,7 +262,7 @@ export default function Searchpage() {
       dispatch(clearStoreData());
     };
 
-    const formattedData = formatMockData(simulatedData)
+    // const formattedData = formatMockData(simulatedData)
 
     try {
       const response = await axios.post('https://gateway.scan-interfax.ru/api/v1/objectsearch/histograms', requestData,{
@@ -265,24 +270,38 @@ export default function Searchpage() {
           Authorization: `Bearer ${token}`
         }
       })
-      if (!response.data.length) {
-        console.log('Вернулся пустой массив, используем моковые данные в сводке')
+
+      console.log('one: ', formatMockData(response.data.data))
+      console.log('two: ', formatMockData(simulatedData))
+
+      if (response.data.data.length) {  
+        const formattedData = formatMockData(response.data.data)
         setData(formattedData)
+
+        console.log('formattedData: ', formattedData)
+
         dispatch(
           setStoreData({
             data: formattedData,
             previousRequest: requestData ,
           })
         );
-        navigate('/rezult')
+        
+      } else {
+        console.log('Вернулся пустой массив, используем моковые данные в сводке')
+        const mockData = formatMockData(simulatedData)
+        setData(mockData)
+
+        dispatch(
+          setStoreData({
+            data: mockData,
+            previousRequest: requestData ,
+          })
+        );
       }
+      navigate('/rezult')
     } catch (error) {
       console.log('Ошибка запроса: ', error)
-      setData(formattedData)
-      dispatch(
-        setStoreData({ data: formattedData, previousRequest: requestData })
-      );
-      navigate('/rezult')
     }
   }
 
