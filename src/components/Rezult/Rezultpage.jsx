@@ -1,27 +1,52 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Rezultpage.module.css";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { Carousel } from "primereact/carousel";
 import { useSelector } from "react-redux";
 import { selectAccessToken } from "../context/authSlice";
 import XmlParserComponent from './XmlParserComponent';
 import axios from "axios";
 
 export default function Rezult() {
-  // Настройки для компонента Slider
-  var settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 8,
-    slidesToScroll: 1,
-  };
+
   const data = useSelector((state) => state.data.data);
   console.log('data: ', data)
   const previousRequest = useSelector((state) => state.data.previousRequest);
   const token = useSelector(selectAccessToken);
   const [documentsData, setDocumentsData] = useState()
+
+  // Настройки для карусели
+    const responsiveOptions = [
+      {
+        breakpoint: "1400px",
+        numVisible: 2,
+        numScroll: 1,
+      },
+      {
+        breakpoint: "1199px",
+        numVisible: 3,
+        numScroll: 1,
+      },
+      {
+        breakpoint: "767px",
+        numVisible: 2,
+        numScroll: 1,
+      },
+      {
+        breakpoint: "575px",
+        numVisible: 1,
+        numScroll: 1,
+      },
+    ];
+
+    const productTemplate = (column) => {
+      return (
+        <div className="table__column">
+          <div className="table__cell">{column.date}</div>
+          <div className="table__cell">{column.total}</div>
+          <div className="table__cell">{column.risk}</div>
+        </div>
+      );
+    };
 
   // Моковые данные, так как сервер работает не корректно
   const simulatedIdData = {
@@ -121,44 +146,47 @@ export default function Rezult() {
           <div className="table__title risk">Риски</div>
         </div>
         <div className="table__slider">
-          <Slider {...settings}>
-            {data.map((column, index) => (
-              <div key={index} className="table__column">
-                <div className="table__cell">{column.date}</div>
-                <div className="table__cell">{column.total}</div>
-                <div className="table__cell">{column.risk}</div>
-              </div>
-            ))}
-          </Slider>
+          <Carousel
+            value={data}
+            numVisible={1}
+            numScroll={1}
+            responsiveOptions={responsiveOptions}
+            itemTemplate={productTemplate}
+          />
         </div>
       </div>
       {documentsData && (
-      <div className={styles.documents__wrapper}>
-        <div className={styles.documents__card}>
-          <div className={styles.card__about}>
-            <div className={styles.about__date}>
-              {formattedData(documentsData.issueDate)}
+        <div className={styles.documents__wrapper}>
+          <div className={styles.documents__card}>
+            <div className={styles.card__about}>
+              <div className={styles.about__date}>
+                {formattedData(documentsData.issueDate)}
+              </div>
+              <div className={styles.about__author}>
+                <a href={documentsData.url}>{documentsData.source.name}</a>
+              </div>
             </div>
-            <div className={styles.about__author}>
-              <a href={documentsData.url}>{documentsData.source.name}</a> 
+            <div className={styles.card__header}>
+              <h2 className={styles.header__title}>
+                {documentsData.title.text}
+              </h2>
+              {hasAttributes(documentsData.attributes) ? (
+                <span className={styles.header__tag}>
+                  {getAttributeLabel(documentsData.attributes)}
+                </span>
+              ) : (
+                <span className={styles.header__tag_non}></span>
+              )}
+            </div>
+            <div className={styles.card__main}>
+              <XmlParserComponent xmlData={documentsData.content.markup} />
             </div>
           </div>
-          <div className={styles.card__header}>
-            <h2 className={styles.header__title}>
-            {documentsData.title.text}
-            </h2>
-            {hasAttributes(documentsData.attributes) ?
-            (<span className={styles.header__tag}>{getAttributeLabel(documentsData.attributes)}</span>) 
-            :
-            (<span className={styles.header__tag_non}></span>)}
-          </div>
-          <div className={styles.card__main}>
-            <XmlParserComponent xmlData={documentsData.content.markup} />
-          </div>
+          <button className={styles.card__button}>Читать в источнике</button>
+          <span className={styles.card__wordcount}>
+            {documentsData.attributes.wordCount} слов
+          </span>
         </div>
-        <button className={styles.card__button}>Читать в источнике</button>
-        <span className={styles.card__wordcount}>{documentsData.attributes.wordCount} слов</span>
-      </div>
       )}
     </>
   );

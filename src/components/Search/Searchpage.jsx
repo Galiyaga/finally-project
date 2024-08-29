@@ -1,20 +1,47 @@
 import React, { useState } from "react";
 import styles from "./Searchpage.module.css";
 import axios from "axios";
-import { Button } from "../Button";
-import {Calendar } from "primereact/calendar";
-import { addLocale } from  "primereact/api";
+import { toast } from "react-toastify";
+import { Calendar } from "primereact/calendar";
+import { addLocale } from "primereact/api";
 import { useNavigate } from "react-router-dom";
 
-import { selectAccessToken } from "../context/authSlice"
+import { Button } from "../Button";
+import { selectAccessToken } from "../context/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setStoreData, clearStoreData } from "../context/dataSlice";
 
-addLocale('es', {
-  today: 'Сегодня',
-  clear: 'Очистить',
-  monthNames: ['Январь ', 'Февраль ', 'Март ', 'Апрель ', 'Май ', 'Июнь ', 'Июль ', 'Август ', 'Сентябрь ', 'Октябрь ', 'Ноябрь ', 'Декабрь '],
-  monthNamesShort: ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Нояб', 'Дек'],
+addLocale("es", {
+  today: "Сегодня",
+  clear: "Очистить",
+  monthNames: [
+    "Январь ",
+    "Февраль ",
+    "Март ",
+    "Апрель ",
+    "Май ",
+    "Июнь ",
+    "Июль ",
+    "Август ",
+    "Сентябрь ",
+    "Октябрь ",
+    "Ноябрь ",
+    "Декабрь ",
+  ],
+  monthNamesShort: [
+    "Янв",
+    "Фев",
+    "Март",
+    "Апр",
+    "Май",
+    "Июнь",
+    "Июль",
+    "Авг",
+    "Сент",
+    "Окт",
+    "Нояб",
+    "Дек",
+  ],
 });
 
 function validateInn(inn) {
@@ -67,13 +94,14 @@ function validateInn(inn) {
 
 export default function Searchpage() {
   // TODO: удалить дефолтное значение
+  // Состояния полей и чекбоксов
   const [inn, setInn] = useState("7710137066");
-  const [innError, setInnError] = useState("");
+  const [dateRange, setDateRange] = useState({
+    start: new Date(),
+    end: new Date(),
+  });
   const [tonality, setTonality] = useState("Любая");
   const [documentsCount, setDocumentsCount] = useState("");
-  const [dateRange, setDateRange] = useState({ start: new Date(), end: new Date() });
-  const [error, setError] = useState({start: '', end: ''})
-
   const [maxFullness, setMaxFullness] = useState(true);
   const [inBusinessNews, setInBusinessNews] = useState(false);
   const [onlyMainRole, setOnlyMainRole] = useState(true);
@@ -81,39 +109,46 @@ export default function Searchpage() {
   const [excludeTechNews, setExcludeTechNews] = useState(null);
   const [excludeAnnouncements, setExcludeAnnouncements] = useState(true);
   const [excludeDigests, setExcludeDigests] = useState(true);
-
-  const token = useSelector(selectAccessToken)
-  const navigate = useNavigate()
+  const [innError, setInnError] = useState("");
+  const [errorDate, setErrorDate] = useState({ start: "", end: "" });
+  
+  const token = useSelector(selectAccessToken);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [data, setData] = useState(null)
+  // Состояние для хранения ответа на запрос
+  const [data, setData] = useState(null);
 
+  // TODO ломается верстка при невалидных данных
   const handleInnChange = (e) => {
     setInn(e.target.value);
-      const { result, error } = validateInn(e.target.value);
-      if (!result) {
-        setInnError(error.message);
-      } else {
-        setInnError("");
-      }
+    const { result, error } = validateInn(e.target.value);
+    if (!result) {
+      setInnError(error.message);
+    } else {
+      setInnError("");
+    }
   };
 
-  const resetTime = (date) =>{
-    const newDate = new Date(date)
-    newDate.setHours(0,0,0,0)
-    return newDate
-  }
+  // Валидация даты
+  const resetTime = (date) => {
+    const newDate = new Date(date);
+    newDate.setHours(0, 0, 0, 0);
+    return newDate;
+  };
 
   const checkDates = (start, end) => {
-    const now = resetTime(new Date())
-    const startDate = resetTime(start)
-    const endDate = resetTime(end)
-    let newError = { ...error }; 
+    const now = resetTime(new Date());
+    const startDate = resetTime(start);
+    const endDate = resetTime(end);
+    let newError = { ...errorDate };
 
     if (startDate > now) {
       newError.start = "Первая дата не должна быть в будущем";
-    } else if (!error.start.includes("Первая дата не должна быть больше второй.")) {
-      newError.start = ""; 
+    } else if (
+      !errorDate.start.includes("Первая дата не должна быть больше второй.")
+    ) {
+      newError.start = "";
     }
 
     if (endDate > now) {
@@ -125,202 +160,171 @@ export default function Searchpage() {
     if (startDate > endDate) {
       newError.start = "Первая дата не должна быть больше второй.";
       newError.end = "";
+    } else {
+      newError.start = "";
+      newError.end = "";
     }
 
-    setError(newError); 
-    return !newError.start && !newError.end; 
-};
+    setErrorDate(newError);
+    return !newError.start && !newError.end;
+  };
 
-
+  // Сохранение даты в состояние
   const handleChangeDate = (type, value) => {
-    const updateDate = {...dateRange, [type]: value}
-    if(checkDates(updateDate.start, updateDate.end)) {
-      setDateRange(updateDate)
+    const updateDate = { ...dateRange, [type]: value };
+    if (checkDates(updateDate.start, updateDate.end)) {
+      setDateRange(updateDate);
     }
-  }
+  };
 
-  const handleFormSubmit = async(e) => {
+  // Функция отправки формы
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
-    const formatDate = (date, start) => {
-      return new Date(start ? date.setHours(0, 0, 0) : date.setHours(23, 59, 59));
-    }
 
+    // Форматируем дату, полученную с инпутов
+    const formatDateTime = (date, start) => {
+      const year = date.getFullYear();
+      const month = `0${date.getMonth() + 1}`.slice(-2);
+      const day = `0${date.getDate()}`.slice(-2);
 
+      return start
+        ? `${year}-${month}-${day}T00:00:00+03:00`
+        : `${year}-${month}-${day}T23:59:59+03:00`;
+    };
 
+    // Интерпретируем данные с инпута тональности 
+    const formattedTonality =
+      tonality.toLowerCase() === "негативная"
+        ? "negative"
+        : tonality.toLowerCase() === "позитивная"
+        ? "positive"
+        : tonality.toLowerCase() === "любая"
+        ? "any"
+        : "neutral";
 
-
-
-    const formattedTonality = tonality.toLowerCase() === 'негативная' ? 'negative' :
-                              tonality.toLowerCase() === 'позитивная' ? 'positive' :
-                              tonality.toLowerCase() === 'любая' ? 'any' : 'neutral';
+    // Данные запроса
     const requestData = {
-      "issueDateInterval": {
-        "startDate": formatDate(dateRange.start, true),
-        "endDate": formatDate(dateRange.end)
+      issueDateInterval: {
+        startDate: formatDateTime(dateRange.start, true),
+        endDate: formatDateTime(dateRange.end),
       },
-      "searchContext": {
-        "targetSearchEntitiesContext": {
-          "targetSearchEntities": [
+      searchContext: {
+        targetSearchEntitiesContext: {
+          targetSearchEntities: [
             {
-              "type": "company",
-              "sparkId": null,
-              "entityId": null,
-              "inn": inn,
-              "maxFullness": null,
-              "inBusinessNews": null
-            }
+              type: "company",
+              sparkId: null,
+              entityId: null,
+              inn: inn,
+              maxFullness: null,
+              inBusinessNews: null,
+            },
           ],
-          "onlyMainRole": onlyMainRole,
-          "tonality": formattedTonality,
-          "onlyWithRiskFactors": onlyWithRiskFactors,
-          "riskFactors": {
-            "and": [],
-            "or": [],
-            "not": []
-          },
-          "themes": {
-            "and": [],
-            "or": [],
-            "not": []
-          }
+          onlyMainRole: onlyMainRole,
+          tonality: formattedTonality,
+          onlyWithRiskFactors: onlyWithRiskFactors,
         },
-        "themesFilter": {
-          "and": [],
-          "or": [],
-          "not": []
-        }
       },
-      "searchArea": {
-        "includedSources": [],
-        "excludedSources": [],
-        "includedSourceGroups": [],
-        "excludedSourceGroups": []
+      searchArea: {
+        includedSources: [],
+        excludedSources: [],
+        includedSourceGroups: [],
+        excludedSourceGroups: [],
       },
-      "attributeFilters": {
-        "excludeTechNews": null,
-        "excludeAnnouncements": null,
-        "excludeDigests": null
+      attributeFilters: {
+        excludeTechNews: null,
+        excludeAnnouncements: null,
+        excludeDigests: null,
       },
-      "similarMode": "duplicates",
-      "limit": parseInt(documentsCount, 10),
-      "sortType": "sourceInfluence",
-      "sortDirectionType": "desc",
-      "intervalType": "month",
-      "histogramTypes": [
-        "totalDocuments",
-        "riskFactors"
-      ]
-    }
+      similarMode: "duplicates",
+      limit: parseInt(documentsCount, 10),
+      sortType: "sourceInfluence",
+      sortDirectionType: "desc",
+      intervalType: "month",
+      histogramTypes: ["totalDocuments", "riskFactors"],
+    };
 
-    const simulatedData = [
-      {
-        data: [
-          { date: "2020-11-01T03:00:00+03:00", value: 8 },
-          { date: "2020-06-01T03:00:00+03:00", value: 6 },
-        ],
-        histogramType: "totalDocuments",
-      },
-      {
-        data: [
-          { date: "2020-11-01T03:00:00+03:00", value: 0 },
-          { date: "2020-06-01T03:00:00+03:00", value: 1 },
-        ],
-        histogramType: "riskFactors",
-      },
-      {
-        data: [
-          { date: "2021-10-29T03:00:00+03:00", value: 5 },
-          { date: "2021-08-21T03:00:00+03:00", value: 3 },
-        ],
-        histogramType: "totalDocuments",
-      },
-      {
-        data: [
-          { date: "2021-10-29T03:00:00+03:00", value: 5 },
-          { date: "2021-08-21T03:00:00+03:00", value: 3 },
-        ],
-        histogramType: "riskFactors",
-      },
-      {
-        data: [
-          { date: "2023-05-10T03:00:00+03:00", value: 7 },
-          { date: "2023-12-14T03:00:00+03:00", value: 0 },
-        ],
-        histogramType: "totalDocuments",
-      },
-      {
-        data: [
-          { date: "2023-05-10T03:00:00+03:00", value: 7 },
-          { date: "2023-12-14T03:00:00+03:00", value: 0 },
-        ],
-        histogramType: "riskFactors",
-      },
-    ];
-
+    //TODO: Привязать к выходу или переходу назад
     const handleClearData = () => {
       dispatch(clearStoreData());
     };
 
-    // const formattedData = formatMockData(simulatedData)
-
     try {
-      const response = await axios.post('https://gateway.scan-interfax.ru/api/v1/objectsearch/histograms', requestData,{
-        headers: {
-          Authorization: `Bearer ${token}`
+      const response = await axios.post(
+        "https://gateway.scan-interfax.ru/api/v1/objectsearch/histograms",
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      })
+      );
 
-      console.log('one: ', formatMockData(response.data.data))
-      console.log('two: ', formatMockData(simulatedData))
-
-      if (response.data.data.length) {  
-        const formattedData = formatMockData(response.data.data)
-        setData(formattedData)
-
-        console.log('formattedData: ', formattedData)
-
+      if (response.data.data.length) {
+        const formattedData = formatData(response.data.data);
+        setData(formattedData);
+        
+        // Сохраняем в store ответ запроса и сам запрос для повторной отправки
         dispatch(
           setStoreData({
             data: formattedData,
-            previousRequest: requestData ,
+            previousRequest: requestData,
           })
         );
-        
       } else {
-        console.log('Вернулся пустой массив, используем моковые данные в сводке')
-        const mockData = formatMockData(simulatedData)
-        setData(mockData)
-
-        dispatch(
-          setStoreData({
-            data: mockData,
-            previousRequest: requestData ,
-          })
+        console.log(
+          "Вернулся пустой массив"
+        );
+        toast.warn(
+          <div>
+            Данные не найдены
+            <Link
+              to="/search"
+              style={{
+                marginLeft: "10px",
+                textDecoration: "underline",
+                color: "blue",
+              }}
+            >
+              Вернуться к поиску
+            </Link>
+          </div>
         );
       }
-      navigate('/rezult')
+
+      navigate("/rezult");
     } catch (error) {
-      console.log('Ошибка запроса: ', error)
+      console.log("Ошибка запроса: ", error);
+      toast.warn("Ошибка запроса", toastSettings);
     }
-  }
+  };
 
+  const toastSettings = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+  };
 
-  function formatMockData(simulatedData) {
+  // Форматируем ответ запроса для корректного вывода
+  function formatData(simulatedData) {
     const formattedData = {};
-  
+
     simulatedData.forEach((item) => {
       item.data.forEach((entry) => {
         const date = entry.date;
         const value = entry.value;
-        
+
         if (!formattedData[date]) {
-          formattedData[date] = { 
-            date: new Date(date).toLocaleDateString("ru-RU"), 
-            total: 0, 
-            risk: 0 };
+          formattedData[date] = {
+            date: new Date(date).toLocaleDateString("ru-RU"),
+            total: 0,
+            risk: 0,
+          };
         }
-  
+
         if (item.histogramType === "totalDocuments") {
           formattedData[date].total = value;
         } else if (item.histogramType === "riskFactors") {
@@ -328,7 +332,7 @@ export default function Searchpage() {
         }
       });
     });
-  
+
     return Object.values(formattedData);
   }
 
@@ -487,8 +491,10 @@ export default function Searchpage() {
                       variant="filled"
                       dateFormat="dd/mm/yy"
                     />
-                    {error.start && (
-                      <div className={styles.error__text}>{error.start}</div>
+                    {errorDate.start && (
+                      <div className={styles.error__text}>
+                        {errorDate.start}
+                      </div>
                     )}
                   </div>
                   <div className={styles.calendar__wrapper}>
@@ -505,8 +511,8 @@ export default function Searchpage() {
                       variant="filled"
                       dateFormat="dd/mm/yy"
                     />
-                    {error.end && (
-                      <div className={styles.error__text}>{error.end}</div>
+                    {errorDate.end && (
+                      <div className={styles.error__text}>{errorDate.end}</div>
                     )}
                   </div>
                 </div>
@@ -527,4 +533,5 @@ export default function Searchpage() {
         </form>
       </div>
     </>
-  );}
+  );
+}
