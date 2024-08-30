@@ -184,7 +184,7 @@
 }
 
 .table__slider{
-  max-width: 1127px;
+  width: 100%;
   border: 2px solid #029491;
   border-radius: 0 10px 10px 0;
 }
@@ -197,7 +197,19 @@
 .table__column{
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
+  height: 150px;
+  position: relative;
+}
+
+.table__cell-container:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: block;
+  height: 150px;
+  border-right: 1px solid gray;
 }
 
 .table__slider .slick-prev {

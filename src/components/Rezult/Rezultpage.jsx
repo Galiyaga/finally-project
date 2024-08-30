@@ -41,36 +41,15 @@ export default function Rezult() {
     const productTemplate = (column) => {
       return (
         <div className="table__column">
-          <div className="table__cell">{column.date}</div>
-          <div className="table__cell">{column.total}</div>
-          <div className="table__cell">{column.risk}</div>
+          <div className="table__cell-container">
+            <div className="table__cell">{column.date}</div>
+            <div className="table__cell">{column.total}</div>
+            <div className="table__cell">{column.risk}</div>
+          </div>
         </div>
       );
     };
 
-  // Моковые данные, так как сервер работает не корректно
-  const simulatedIdData = {
-    items: [
-      {
-        encodedId:
-          "1:0JPQqdGM0JNWCdCzf2Jt0LHQotGV0ZUh0ZbRlBXCt0Je0JHQruKAnDcUXkZQ0YvQscKnehLRnNC1KtGK0Ll9BWLigLo/HXXCrhw=",
-        influence: 700.0,
-        similarCount: 3,
-      },
-      {
-        encodedId:
-          "1:fmYoHEjQrRbQhz3RiUtm4oCh0JLRmtCLIyU10IzigqzRgGjQmCoR0JFg0YRhwrVzN9CxDUM50KcpdTbRiNCLwpjRkuKAphXRkVxh0JU50K5uWdC50L7RjX0C0KwQRsKp",
-        influence: 607.0,
-        similarCount: 8,
-      },
-    ],
-    mappings: [
-      {
-        inn: "7710137066",
-        entityIds: [534868],
-      },
-    ],
-  };
 
   // Для отправки асинхронных запросов
   useEffect(() => {
@@ -91,26 +70,18 @@ export default function Rezult() {
         }
       );
 
-      if (!response.data.items.length) { // Из-за ошибки с сервером возвращаются пустые данные
-        console.log(
-          "Вернулся пустой массив, используем моковые данные в результатах"
-        );
-        const ids = simulatedIdData.items.map((item) => item.encodedId);
-
+      if (response.data.items.length) {
+        const ids = response.data.items.map((item) => item.encodedId);
         await fetchDocuments(ids);
       }
-      
-    } catch (error) { // Иногда возвращается ошибка без причины, поэтому логику повторяем, как при успешном ответе
+    } catch (error) {
       console.error("Ошибка запроса:", error);
-      const ids = simulatedIdData.items.map((item) => item.encodedId);
-
-      await fetchDocuments(ids);
     }
   }
 
   async function fetchDocuments(ids) {
     try {
-      const documentResponse = await axios.post(
+      const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/documents",
         { ids },
         {
@@ -119,8 +90,8 @@ export default function Rezult() {
           },
         }
       );
-      // Один из немногих ответов, который вовзращается корректно
-      setDocumentsData(documentResponse.data[0].ok);
+      const posts = response.data.map(el => el.ok)
+      setDocumentsData(posts);
     } catch (error) {
       console.error("Ошибка получения документов:", error);
     }
@@ -148,46 +119,48 @@ export default function Rezult() {
         <div className="table__slider">
           <Carousel
             value={data}
-            numVisible={1}
+            numVisible={8}
             numScroll={1}
             responsiveOptions={responsiveOptions}
             itemTemplate={productTemplate}
           />
         </div>
       </div>
-      {documentsData && (
-        <div className={styles.documents__wrapper}>
-          <div className={styles.documents__card}>
-            <div className={styles.card__about}>
-              <div className={styles.about__date}>
-                {formattedData(documentsData.issueDate)}
+      <div className={styles.posts}>
+        {documentsData?.map((post) => (
+            <div className={styles.documents__wrapper} key={post.source.name}>
+              <div className={styles.documents__card}>
+                <div className={styles.card__about}>
+                  <div className={styles.about__date}>
+                    {formattedData(post.issueDate)}
+                  </div>
+                  <div className={styles.about__author}>
+                    <a href={post.url}>{post.source.name}</a>
+                  </div>
+                </div>
+                <div className={styles.card__header}>
+                  <h2 className={styles.header__title}>
+                    {post.title.text}
+                  </h2>
+                  {hasAttributes(post.attributes) ? (
+                      <span className={styles.header__tag}>
+                    {getAttributeLabel(post.attributes)}
+                  </span>
+                  ) : (
+                      <span className={styles.header__tag_non}></span>
+                  )}
+                </div>
+                <div className={styles.card__main}>
+                  <XmlParserComponent xmlData={post.content.markup} />
+                </div>
               </div>
-              <div className={styles.about__author}>
-                <a href={documentsData.url}>{documentsData.source.name}</a>
-              </div>
+              <button className={styles.card__button}>Читать в источнике</button>
+              <span className={styles.card__wordcount}>
+              {post.attributes.wordCount} слов
+            </span>
             </div>
-            <div className={styles.card__header}>
-              <h2 className={styles.header__title}>
-                {documentsData.title.text}
-              </h2>
-              {hasAttributes(documentsData.attributes) ? (
-                <span className={styles.header__tag}>
-                  {getAttributeLabel(documentsData.attributes)}
-                </span>
-              ) : (
-                <span className={styles.header__tag_non}></span>
-              )}
-            </div>
-            <div className={styles.card__main}>
-              <XmlParserComponent xmlData={documentsData.content.markup} />
-            </div>
-          </div>
-          <button className={styles.card__button}>Читать в источнике</button>
-          <span className={styles.card__wordcount}>
-            {documentsData.attributes.wordCount} слов
-          </span>
-        </div>
-      )}
+        ))}
+      </div>
     </>
   );
 
