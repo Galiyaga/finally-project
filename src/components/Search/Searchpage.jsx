@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Searchpage.module.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Calendar } from "primereact/calendar";
 import { addLocale } from "primereact/api";
@@ -103,21 +104,18 @@ export default function Searchpage() {
   const [tonality, setTonality] = useState("Любая");
   const [documentsCount, setDocumentsCount] = useState("");
   const [maxFullness, setMaxFullness] = useState(true);
-  const [inBusinessNews, setInBusinessNews] = useState(false);
+  const [inBusinessNews, setInBusinessNews] = useState(true);
   const [onlyMainRole, setOnlyMainRole] = useState(true);
   const [onlyWithRiskFactors, setOnlyWithRiskFactors] = useState(false);
-  const [excludeTechNews, setExcludeTechNews] = useState(null);
+  const [excludeTechNews, setExcludeTechNews] = useState(false);
   const [excludeAnnouncements, setExcludeAnnouncements] = useState(true);
-  const [excludeDigests, setExcludeDigests] = useState(true);
+  const [excludeDigests, setExcludeDigests] = useState(false);
   const [innError, setInnError] = useState("");
   const [errorDate, setErrorDate] = useState({ start: "", end: "" });
   
   const token = useSelector(selectAccessToken);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // Состояние для хранения ответа на запрос
-  const [data, setData] = useState(null);
 
   // TODO ломается верстка при невалидных данных
   const handleInnChange = (e) => {
@@ -216,8 +214,8 @@ export default function Searchpage() {
               sparkId: null,
               entityId: null,
               inn: inn,
-              maxFullness: null,
-              inBusinessNews: null,
+              maxFullness: maxFullness,
+              inBusinessNews: inBusinessNews,
             },
           ],
           onlyMainRole: onlyMainRole,
@@ -232,9 +230,9 @@ export default function Searchpage() {
         excludedSourceGroups: [],
       },
       attributeFilters: {
-        excludeTechNews: null,
-        excludeAnnouncements: null,
-        excludeDigests: null,
+        excludeTechNews: excludeTechNews,
+        excludeAnnouncements: excludeAnnouncements,
+        excludeDigests: excludeDigests,
       },
       similarMode: "duplicates",
       limit: parseInt(documentsCount, 10),
@@ -244,12 +242,10 @@ export default function Searchpage() {
       histogramTypes: ["totalDocuments", "riskFactors"],
     };
 
-    //TODO: Привязать к выходу или переходу назад
-    const handleClearData = () => {
-      dispatch(clearStoreData());
-    };
 
     try {
+      dispatch(clearStoreData());
+      
       const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/objectsearch/histograms",
         requestData,
@@ -262,8 +258,7 @@ export default function Searchpage() {
 
       if (response.data.data.length) {
         const formattedData = formatData(response.data.data);
-        setData(formattedData);
-        
+
         // Сохраняем в store ответ запроса и сам запрос для повторной отправки
         dispatch(
           setStoreData({
@@ -309,10 +304,10 @@ export default function Searchpage() {
   };
 
   // Форматируем ответ запроса для корректного вывода
-  function formatData(simulatedData) {
+  function formatData(responseData) {
     const formattedData = {};
 
-    simulatedData.forEach((item) => {
+    responseData.forEach((item) => {
       item.data.forEach((entry) => {
         const date = entry.date;
         const value = entry.value;

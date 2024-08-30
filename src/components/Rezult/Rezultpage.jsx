@@ -9,10 +9,9 @@ import axios from "axios";
 export default function Rezult() {
 
   const data = useSelector((state) => state.data.data);
-  console.log('data: ', data)
   const previousRequest = useSelector((state) => state.data.previousRequest);
   const token = useSelector(selectAccessToken);
-  const [documentsData, setDocumentsData] = useState()
+  const [documentsData, setDocumentsData] = useState(null)
 
   // Настройки для карусели
     const responsiveOptions = [
@@ -127,38 +126,36 @@ export default function Rezult() {
         </div>
       </div>
       <div className={styles.posts}>
-        {documentsData?.map((post) => (
-            <div className={styles.documents__wrapper} key={post.source.name}>
-              <div className={styles.documents__card}>
-                <div className={styles.card__about}>
-                  <div className={styles.about__date}>
-                    {formattedData(post.issueDate)}
-                  </div>
-                  <div className={styles.about__author}>
-                    <a href={post.url}>{post.source.name}</a>
-                  </div>
+        {documentsData?.map((post, index) => (
+          <div className={styles.documents__wrapper} key={index}>
+            <div className={styles.documents__card}>
+              <div className={styles.card__about}>
+                <div className={styles.about__date}>
+                  {formattedData(post.issueDate)}
                 </div>
-                <div className={styles.card__header}>
-                  <h2 className={styles.header__title}>
-                    {post.title.text}
-                  </h2>
-                  {hasAttributes(post.attributes) ? (
-                      <span className={styles.header__tag}>
-                    {getAttributeLabel(post.attributes)}
-                  </span>
-                  ) : (
-                      <span className={styles.header__tag_non}></span>
-                  )}
-                </div>
-                <div className={styles.card__main}>
-                  <XmlParserComponent xmlData={post.content.markup} />
+                <div className={styles.about__author}>
+                  <a href={post.url}>{post.source.name}</a>
                 </div>
               </div>
-              <button className={styles.card__button}>Читать в источнике</button>
-              <span className={styles.card__wordcount}>
+              <div className={styles.card__header}>
+                <h2 className={styles.header__title}>{post.title.text}</h2>
+                {hasAttributes(post.attributes) ? (
+                  <span className={styles.header__tag}>
+                    {getAttributeLabel(post.attributes)}
+                  </span>
+                ) : (
+                  <span className={styles.header__tag_non}></span>
+                )}
+              </div>
+              <div className={styles.card__main}>
+                <XmlParserComponent xmlData={post.content.markup} />
+              </div>
+            </div>
+            <button className={styles.card__button}>Читать в источнике</button>
+            <span className={styles.card__wordcount}>
               {post.attributes.wordCount} слов
             </span>
-            </div>
+          </div>
         ))}
       </div>
     </>
