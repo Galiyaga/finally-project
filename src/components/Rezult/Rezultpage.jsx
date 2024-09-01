@@ -14,6 +14,7 @@ export default function Rezult() {
   const previousRequest = useSelector((state) => state.data.previousRequest);
   const token = useSelector(selectAccessToken);
   const [documentsData, setDocumentsData] = useState([])
+  const [documentIds, setDocumentIds] = useState([])
   const [dataLoading, setDataLoading] = useState(false)
 
   // Настройки для карусели
@@ -55,12 +56,20 @@ export default function Rezult() {
 
   // Для отправки асинхронных запросов
   useEffect(() => {
-    if (previousRequest) {
+    if (documentsData.length > 0) {
+      localStorage.setItem('documentsData', JSON.stringify(documentsData));
+    }
+  }, [documentsData]);
+
+  useEffect(() => {
+    const savedDocuments = localStorage.getItem('documentsData');
+    if (savedDocuments) {
+      setDocumentsData(JSON.parse(savedDocuments));
+    } else if (previousRequest) {
       fetchData();
     }
-  }, [previousRequest?.limit, token]);
+  }, [previousRequest, token]);
 
-  // let dataLoading = false
 
   function getIds() {
     const start = documentsData?.length || 0
@@ -89,6 +98,7 @@ export default function Rezult() {
       if (response.data.items.length) {
         const documentIds = response.data.items.map((item) => item.encodedId);
         localStorage.setItem('documentIds', JSON.stringify(documentIds))
+        setDocumentIds(documentIds)
         await fetchDocuments();
       }
     } catch (error) {
@@ -111,8 +121,9 @@ export default function Rezult() {
       );
       setDataLoading(false)
 
-      const documents = [...documentsData, ...response.data.map(el => el.ok)]
-      setDocumentsData(documents);
+      const newDocuments = response.data.map(el => el.ok);
+      const updatedDocuments = [...(documentsData || []), ...newDocuments];
+      setDocumentsData(updatedDocuments);
     } catch (error) {
       console.error("Ошибка получения документов:", error);
     }
@@ -213,8 +224,15 @@ export default function Rezult() {
             <div className={styles2.loading}>Loading&#8230;</div>
           </div>
         )}
-
-        {!dataLoading && <Button onClick={fetchDocuments}>Показать еще</Button>}
+  
+  {!dataLoading && documentIds.length > documentsData.length && (
+  <Button
+    className={styles.posts__button}
+    onClick={fetchDocuments}
+  >
+    Показать еще
+  </Button>
+)}
       </div>
     </>
   );

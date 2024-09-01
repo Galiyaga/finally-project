@@ -117,3 +117,12 @@
     width: 100%;
     padding: 25px 0;
 }
+
+.posts__button{
+    background-color: #5970FF;
+    width: 305px;
+}
+
+.button__hidden{
+    display: none;
+}
