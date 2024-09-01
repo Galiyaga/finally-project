@@ -1,0 +1,39 @@
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local("Roboto"),
+             url("Inter-Regular.woff2") format("woff2"),
+             url("Inter-Regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: local("Roboto"),
+             url("Inter-Medium.woff2") format("woff2"),
+             url("Inter-Medium.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local("Roboto"),
+             url("Inter-Bold.woff2") format("woff2"),
+             url("Inter-Bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Ferry Black";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local("Roboto"),
+             url("Ferry-Black.woff2") format("woff2"),
+             url("Ferry-Black.woff") format("woff");
+}

@@ -343,191 +343,198 @@ export default function Searchpage() {
           Задайте параметры поиска. <br></br>Чем больше заполните, тем точнее
           поиск
         </p>
-        <form onSubmit={handleFormSubmit} className={styles.search__form}>
-          <div className={styles.form__main}>
-            <div className={styles.form__input}>
-              <div className={styles.form__input_item}>
-                <label>
-                  ИНН компании*:
-                  <input
-                    className={
-                      innError ? styles.input__error : styles.item__input
-                    }
-                    type="text"
-                    value={inn}
-                    onChange={handleInnChange}
-                    placeholder="10 цифр"
-                    required
-                  />
-                  {innError && <div className={styles.error}>{innError}</div>}
-                </label>
-              </div>
-
-              <div className={styles.form__input_item}>
-                <label>
-                  Тональность:
-                  <select
-                    className={styles.item__input}
-                    value={tonality}
-                    onChange={(e) => setTonality(e.target.value)}
-                  >
-                    <option value="Позитивная">Позитивная</option>
-                    <option value="Негативная">Негативная</option>
-                    <option value="Любая">Любая</option>
-                  </select>
-                </label>
-              </div>
-
-              <div className={styles.form__input_item}>
-                <label>
-                  Количество документов в выдаче*:
-                  <input
-                    className={styles.item__input}
-                    type="number"
-                    value={documentsCount}
-                    onChange={(e) => setDocumentsCount(e.target.value)}
-                    min="1"
-                    max="1000"
-                    placeholder="От 1 до 1000"
-                    required
-                  />
-                </label>
-              </div>
-            </div>
-            <div className={styles.form__checkbox}>
-              <div className={styles.checkbox__item}>
-                <label className={styles.cr_wrapper}>
-                  <input
-                    type="checkbox"
-                    className={styles.item__input}
-                    checked={maxFullness}
-                    onChange={(e) => setMaxFullness(e.target.checked)}
-                  />
-                  <div className={styles.cr_input}></div>
-                  <span> Признак максимальной полноты</span>
-                </label>
-                <label className={styles.cr_wrapper}>
-                  <input
-                    type="checkbox"
-                    className={styles.item__input}
-                    checked={inBusinessNews}
-                    onChange={(e) => setInBusinessNews(e.target.checked)}
-                  />
-                  <div className={styles.cr_input}></div>
-                  <span>Упоминания в бизнес-контексте</span>
-                </label>
-                <label className={styles.cr_wrapper}>
-                  <input
-                    type="checkbox"
-                    className={styles.item__input}
-                    checked={onlyMainRole}
-                    onChange={(e) => setOnlyMainRole(e.target.checked)}
-                  />
-                  <div className={styles.cr_input}></div>
-                  <span>Главная роль в публикации</span>
-                </label>
-                <label className={styles.cr_wrapper}>
-                  <input
-                    type="checkbox"
-                    className={styles.item__input}
-                    checked={onlyWithRiskFactors}
-                    onChange={(e) => setOnlyWithRiskFactors(e.target.checked)}
-                  />
-                  <div className={styles.cr_input}></div>
-                  <span>Публикации только с риск-факторами</span>
-                </label>
-                <label className={styles.cr_wrapper}>
-                  <input
-                    type="checkbox"
-                    className={styles.item__input}
-                    checked={excludeTechNews}
-                    onChange={(e) => setExcludeTechNews(e.target.checked)}
-                  />
-                  <div className={styles.cr_input}></div>
-                  <span>Включать технические новости рынков</span>
-                </label>
-                <label className={styles.cr_wrapper}>
-                  <input
-                    type="checkbox"
-                    className={styles.item__input}
-                    checked={excludeAnnouncements}
-                    onChange={(e) => setExcludeAnnouncements(e.target.checked)}
-                  />
-                  <div className={styles.cr_input}></div>
-                  <span>Включать анонсы и календари</span>
-                </label>
-                <label className={styles.cr_wrapper}>
-                  <input
-                    type="checkbox"
-                    className={styles.item__input}
-                    checked={excludeDigests}
-                    onChange={(e) => setExcludeDigests(e.target.checked)}
-                  />
-                  <div className={styles.cr_input}></div>
-                  <span>Включать сводки новостей</span>
-                </label>
-              </div>
-            </div>
+        <div className={styles.search__main}>
+          <div className={styles.main__imgs}>
+            <img className={styles.imgs__document} src="src\assets\Document.svg" alt="Файл"></img>
+            <img className={styles.imgs__folders} src="src\assets\Folders.svg" alt="Папки"></img>
+            <img className={styles.imgs__rocket} src="src\assets\rocket.svg" alt="Ракета"></img>
           </div>
-          <div className={styles.form__footer}>
-            <div className={styles.form__input_item}>
-              <label>
-                Диапазон поиска*:
-                <div className={styles.input__date}>
-                  <div className={styles.calendar__wrapper}>
-                    <Calendar
-                      value={dateRange.start}
-                      onChange={(e) =>
-                        handleChangeDate("start", new Date(e.target.value))
+          <form onSubmit={handleFormSubmit} className={styles.search__form}>
+            <div className={styles.form__main}>
+              <div className={styles.form__input}>
+                <div className={styles.form__input_item}>
+                  <label>
+                    ИНН компании*:
+                    <input
+                      className={
+                        innError ? styles.input__error : styles.item__input
                       }
-                      readOnlyInput
-                      hideOnRangeSelection
-                      showButtonBar
+                      type="text"
+                      value={inn}
+                      onChange={handleInnChange}
+                      placeholder="10 цифр"
                       required
-                      locale="es"
-                      variant="filled"
-                      dateFormat="dd/mm/yy"
                     />
-                    {errorDate.start && (
-                      <div className={styles.error__text}>
-                        {errorDate.start}
-                      </div>
-                    )}
-                  </div>
-                  <div className={styles.calendar__wrapper}>
-                    <Calendar
-                      value={dateRange.end}
-                      onChange={(e) =>
-                        handleChangeDate("end", new Date(e.target.value))
-                      }
-                      readOnlyInput
-                      hideOnRangeSelection
-                      showButtonBar
-                      required
-                      locale="es"
-                      variant="filled"
-                      dateFormat="dd/mm/yy"
-                    />
-                    {errorDate.end && (
-                      <div className={styles.error__text}>{errorDate.end}</div>
-                    )}
-                  </div>
+                    {innError && <div className={styles.error__text}>{innError}</div>}
+                  </label>
                 </div>
-              </label>
+
+                <div className={styles.form__input_item}>
+                  <label>
+                    Тональность:
+                    <select
+                      className={styles.item__input}
+                      value={tonality}
+                      onChange={(e) => setTonality(e.target.value)}
+                    >
+                      <option value="Позитивная">Позитивная</option>
+                      <option value="Негативная">Негативная</option>
+                      <option value="Любая">Любая</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div className={styles.form__input_item}>
+                  <label>
+                    Количество документов в выдаче*:
+                    <input
+                      className={styles.item__input}
+                      type="number"
+                      value={documentsCount}
+                      onChange={(e) => setDocumentsCount(e.target.value)}
+                      min="1"
+                      max="1000"
+                      placeholder="От 1 до 1000"
+                      required
+                    />
+                  </label>
+                </div>
+              </div>
+              <div className={styles.form__checkbox}>
+                <div className={styles.checkbox__item}>
+                  <label className={styles.cr_wrapper}>
+                    <input
+                      type="checkbox"
+                      className={styles.item__input}
+                      checked={maxFullness}
+                      onChange={(e) => setMaxFullness(e.target.checked)}
+                    />
+                    <div className={styles.cr_input}></div>
+                    <span> Признак максимальной полноты</span>
+                  </label>
+                  <label className={styles.cr_wrapper}>
+                    <input
+                      type="checkbox"
+                      className={styles.item__input}
+                      checked={inBusinessNews}
+                      onChange={(e) => setInBusinessNews(e.target.checked)}
+                    />
+                    <div className={styles.cr_input}></div>
+                    <span>Упоминания в бизнес-контексте</span>
+                  </label>
+                  <label className={styles.cr_wrapper}>
+                    <input
+                      type="checkbox"
+                      className={styles.item__input}
+                      checked={onlyMainRole}
+                      onChange={(e) => setOnlyMainRole(e.target.checked)}
+                    />
+                    <div className={styles.cr_input}></div>
+                    <span>Главная роль в публикации</span>
+                  </label>
+                  <label className={styles.cr_wrapper}>
+                    <input
+                      type="checkbox"
+                      className={styles.item__input}
+                      checked={onlyWithRiskFactors}
+                      onChange={(e) => setOnlyWithRiskFactors(e.target.checked)}
+                    />
+                    <div className={styles.cr_input}></div>
+                    <span>Публикации только с риск-факторами</span>
+                  </label>
+                  <label className={styles.cr_wrapper}>
+                    <input
+                      type="checkbox"
+                      className={styles.item__input}
+                      checked={excludeTechNews}
+                      onChange={(e) => setExcludeTechNews(e.target.checked)}
+                    />
+                    <div className={styles.cr_input}></div>
+                    <span>Включать технические новости рынков</span>
+                  </label>
+                  <label className={styles.cr_wrapper}>
+                    <input
+                      type="checkbox"
+                      className={styles.item__input}
+                      checked={excludeAnnouncements}
+                      onChange={(e) => setExcludeAnnouncements(e.target.checked)}
+                    />
+                    <div className={styles.cr_input}></div>
+                    <span>Включать анонсы и календари</span>
+                  </label>
+                  <label className={styles.cr_wrapper}>
+                    <input
+                      type="checkbox"
+                      className={styles.item__input}
+                      checked={excludeDigests}
+                      onChange={(e) => setExcludeDigests(e.target.checked)}
+                    />
+                    <div className={styles.cr_input}></div>
+                    <span>Включать сводки новостей</span>
+                  </label>
+                </div>
+              </div>
             </div>
-            <Button
-              className={styles.form_button}
-              disabled={
-                !dateRange.start || !dateRange.end || !documentsCount || !inn
-              }
-            >
-              Поиск
-            </Button>
-          </div>
-          <div className={styles.required}>
-            <p>* Обязательные к заполнению поля</p>
-          </div>
-        </form>
+            <div className={styles.form__footer}>
+              <div className={styles.form__input_item}>
+                <label>
+                  Диапазон поиска*:
+                  <div className={styles.input__date}>
+                    <div className={styles.calendar__wrapper}>
+                      <Calendar
+                        value={dateRange.start}
+                        onChange={(e) =>
+                          handleChangeDate("start", new Date(e.target.value))
+                        }
+                        readOnlyInput
+                        hideOnRangeSelection
+                        showButtonBar
+                        required
+                        locale="es"
+                        variant="filled"
+                        dateFormat="dd/mm/yy"
+                      />
+                      {errorDate.start && (
+                        <div className={styles.error__text}>
+                          {errorDate.start}
+                        </div>
+                      )}
+                    </div>
+                    <div className={styles.calendar__wrapper}>
+                      <Calendar
+                        value={dateRange.end}
+                        onChange={(e) =>
+                          handleChangeDate("end", new Date(e.target.value))
+                        }
+                        readOnlyInput
+                        hideOnRangeSelection
+                        showButtonBar
+                        required
+                        locale="es"
+                        variant="filled"
+                        dateFormat="dd/mm/yy"
+                      />
+                      {errorDate.end && (
+                        <div className={styles.error__text}>{errorDate.end}</div>
+                      )}
+                    </div>
+                  </div>
+                </label>
+              </div>
+              <Button
+                className={styles.form_button}
+                disabled={
+                  !dateRange.start || !dateRange.end || !documentsCount || !inn
+                }
+              >
+                Поиск
+              </Button>
+            </div>
+            <div className={styles.required}>
+              <p>* Обязательные к заполнению поля</p>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );
