@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { selectAccessToken } from "../context/authSlice";
 import XmlParserComponent from './XmlParserComponent';
 import axios from "axios";
+import { Button } from "../Button";
 
 export default function Rezult() {
 
@@ -84,18 +85,19 @@ export default function Rezult() {
 
       if (response.data.items.length) {
         documnetIds = response.data.items.map((item) => item.encodedId);
-        await fetchDocuments(getIds());
+        await fetchDocuments();
       }
     } catch (error) {
       console.error("Ошибка запроса:", error);
     }
   }
 
-  async function fetchDocuments(ids) {
+  async function fetchDocuments() {
+    console.log('documents123123123213: ')
     try {
       const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/documents",
-        { ids },
+        { ids: getIds() },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -176,6 +178,10 @@ export default function Rezult() {
         ))}
 
         { dataLoading && <p>Loading...</p> }
+
+        <Button 
+          onClick={fetchDocuments}
+        >Показать еще</Button>
       </div>
     </>
   );
