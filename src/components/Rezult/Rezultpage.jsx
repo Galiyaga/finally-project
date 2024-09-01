@@ -6,6 +6,7 @@ import { selectAccessToken } from "../context/authSlice";
 import XmlParserComponent from './XmlParserComponent';
 import axios from "axios";
 import { Button } from "../Button";
+import styles2 from "../Loading.module.css";
 
 export default function Rezult() {
 
@@ -13,7 +14,7 @@ export default function Rezult() {
   const previousRequest = useSelector((state) => state.data.previousRequest);
   const token = useSelector(selectAccessToken);
   const [documentsData, setDocumentsData] = useState([])
-  const [documentIds, setDocumentIds] = useState([])
+  const [dataLoading, setDataLoading] = useState(false)
 
   // Настройки для карусели
     const responsiveOptions = [
@@ -59,20 +60,21 @@ export default function Rezult() {
     }
   }, [previousRequest?.limit, token]);
 
-  const postsPerRespCount = 10
-  let dataLoading = false
+  // let dataLoading = false
 
   function getIds() {
-    const startIndex = documentsData.length; // Начало с текущего количества загруженных документов
-    const endIndex = startIndex + postsPerRespCount; // Следующие 10 документов
-    return documentIds.slice(startIndex, endIndex);
+    const start = documentsData?.length || 0
+    const postsPerRespCount = 10
+    const documentIds = JSON.parse(localStorage.getItem('documentIds'))
+
+    return documentIds.slice(start, start + postsPerRespCount)
   }
 
   async function fetchData() {
     if (dataLoading) return
 
     try {
-      dataLoading = true
+      setDataLoading(true)
       const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/objectsearch",
         previousRequest,
@@ -82,16 +84,12 @@ export default function Rezult() {
           },
         }
       );
-      dataLoading = false
+      setDataLoading(false)
 
       if (response.data.items.length) {
-        const ids = response.data.items.map((item) => item.encodedId); // Получаем идентификаторы
-        console.log("Полученные идентификаторы: ", ids);
-        
-        setDocumentIds(ids); // Обновляем состояние с идентификаторами
-  
-        // Загружаем первые 10 документов
-        await fetchDocuments(ids);
+        const documentIds = response.data.items.map((item) => item.encodedId);
+        localStorage.setItem('documentIds', JSON.stringify(documentIds))
+        await fetchDocuments();
       }
     } catch (error) {
       console.error("Ошибка запроса:", error);
@@ -100,23 +98,21 @@ export default function Rezult() {
 
   async function fetchDocuments() {
     try {
-      const idsToFetch = getIds(); // Получаем следующие 10 идентификаторов
-      if (idsToFetch.length === 0) return; // Если идентификаторов больше нет, не делаем запрос
-  
+      setDataLoading(true)
+
       const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/documents",
-        { ids: idsToFetch },
+        { ids: getIds() },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-  
-      const newDocuments = response.data.map(el => el.ok);
-      const updatedDocuments = [...documentsData, ...newDocuments];
-      console.log('documents: ', updatedDocuments);
-      setDocumentsData(updatedDocuments);
+      setDataLoading(false)
+
+      const documents = [...documentsData, ...response.data.map(el => el.ok)]
+      setDocumentsData(documents);
     } catch (error) {
       console.error("Ошибка получения документов:", error);
     }
@@ -132,65 +128,93 @@ export default function Rezult() {
     if(attributes.isDigest) return "Сводки новостей"
     else return null
   }
+
+  // Функция для склонения слов
+
+  function getWordDeclension(wordCount) {
+    const lastDigit = wordCount % 10;
+    const lastTwoDigits = wordCount % 100;
+  
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+      return 'слов';
+    }
+  
+    switch (lastDigit) {
+      case 1:
+        return 'слово';
+      case 2:
+      case 3:
+      case 4:
+        return 'слова';
+      default:
+        return 'слов';
+    }
+  }
   
   return (
     <>
-      <div className={styles.posts__container}>
-        <div className="table__container">
-          <div className="table__header">
-            <div className="table__title date">Период</div>
-            <div className="table__title total">Всего</div>
-            <div className="table__title risk">Риски</div>
-          </div>
-          <div className="table__slider">
-            <Carousel
-                value={data}
-                numVisible={8}
-                numScroll={1}
-                responsiveOptions={responsiveOptions}
-                itemTemplate={productTemplate}
-            />
-          </div>
+      <div className="table__container">
+        <div className="table__header">
+          <div className="table__title date">Период</div>
+          <div className="table__title total">Всего</div>
+          <div className="table__title risk">Риски</div>
         </div>
-        <div className={styles.posts}>
-          {documentsData?.map((post, index) => (
-              <div className={styles.documents__wrapper} key={index}>
-                <div className={styles.documents__card}>
-                  <div className={styles.card__about}>
-                    <div className={styles.about__date}>
-                      {formattedData(post.issueDate)}
-                    </div>
-                    <div className={styles.about__author}>
-                      <a href={post.url}>{post.source.name}</a>
-                    </div>
-                  </div>
-                  <div className={styles.card__header}>
-                    <h2 className={styles.header__title}>{post.title.text}</h2>
-                    {hasAttributes(post.attributes) ? (
-                        <span className={styles.header__tag}>
+        <div className="table__slider">
+          <Carousel
+            value={data}
+            numVisible={8}
+            numScroll={1}
+            responsiveOptions={responsiveOptions}
+            itemTemplate={productTemplate}
+            />
+        </div>
+      </div>
+      <div className={styles.posts}>
+        {documentsData?.map((post, index) => (
+          <div className={styles.documents__wrapper} key={index}>
+            <div className={styles.documents__card}>
+              <div className={styles.card__about}>
+                <div className={styles.about__date}>
+                  {formattedData(post.issueDate)}
+                </div>
+                <div className={styles.about__author}>
+                  <a href={post.url}>{post.source.name}</a>
+                </div>
+              </div>
+              <div className={styles.card__header}>
+                <h2 className={styles.header__title}>{post.title.text}</h2>
+                {hasAttributes(post.attributes) ? (
+                  <span className={styles.header__tag}>
                     {getAttributeLabel(post.attributes)}
                   </span>
-                    ) : (
-                        <span className={styles.header__tag_non}></span>
-                    )}
-                  </div>
-                  <div className={styles.card__main}>
-                    <XmlParserComponent xmlData={post.content.markup} />
-                  </div>
-                </div>
-                <button className={styles.card__button}>Читать в источнике</button>
-                <span className={styles.card__wordcount}>
-              {post.attributes.wordCount} слов
-            </span>
+                ) : (
+                  <span className={styles.header__tag_non}></span>
+                )}
               </div>
-          ))}
+              <div className={styles.card__main}>
+                <XmlParserComponent xmlData={post.content.markup} />
+              </div>
+            </div>
+            <div className={styles.card__footer}>
+              <a  href={post.url}>
+                <button className={styles.footer__button}>Читать в источнике</button>
+              </a>
+              <span className={styles.footer__wordcount}>
+                {post.attributes.wordCount} {getWordDeclension(post.attributes.wordCount)}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
 
-          { dataLoading && <p>Loading...</p> }
+      <div className={styles.posts__controls}>
+        {dataLoading && (
+          <div className={styles.loading__container}>
+            <div className={styles2.loading}>Loading&#8230;</div>
+          </div>
+        )}
 
-          <Button
-              onClick={fetchDocuments}
-          >Показать еще</Button>
-        </div>
+        {!dataLoading && <Button onClick={fetchDocuments}>Показать еще</Button>}
       </div>
     </>
   );
