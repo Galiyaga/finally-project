@@ -68,7 +68,14 @@
     flex-wrap: wrap;
     gap: 20px;
     place-items: center;
-    max-height: 400px;
-    overflow: scroll;
+    /* max-height: 400px;
+    overflow: scroll; */
+}
+
+.main__content {
+    width: 581px;
+    height: 228px;
+    opacity: 0.5px;
+    overflow: hidden;
 }
 

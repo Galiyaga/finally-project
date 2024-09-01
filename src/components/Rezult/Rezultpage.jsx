@@ -13,6 +13,7 @@ export default function Rezult() {
   const previousRequest = useSelector((state) => state.data.previousRequest);
   const token = useSelector(selectAccessToken);
   const [documentsData, setDocumentsData] = useState([])
+  const [documentIds, setDocumentIds] = useState([])
 
   // Настройки для карусели
     const responsiveOptions = [
@@ -61,10 +62,10 @@ export default function Rezult() {
   const postsPerRespCount = 10
   let dataLoading = false
 
-  let documnetIds
-
   function getIds() {
-    return documnetIds.slice(documentsData?.length || 0, postsPerRespCount)
+    const startIndex = documentsData.length; // Начало с текущего количества загруженных документов
+    const endIndex = startIndex + postsPerRespCount; // Следующие 10 документов
+    return documentIds.slice(startIndex, endIndex);
   }
 
   async function fetchData() {
@@ -84,8 +85,13 @@ export default function Rezult() {
       dataLoading = false
 
       if (response.data.items.length) {
-        documnetIds = response.data.items.map((item) => item.encodedId);
-        await fetchDocuments();
+        const ids = response.data.items.map((item) => item.encodedId); // Получаем идентификаторы
+        console.log("Полученные идентификаторы: ", ids);
+        
+        setDocumentIds(ids); // Обновляем состояние с идентификаторами
+  
+        // Загружаем первые 10 документов
+        await fetchDocuments(ids);
       }
     } catch (error) {
       console.error("Ошибка запроса:", error);
@@ -93,22 +99,24 @@ export default function Rezult() {
   }
 
   async function fetchDocuments() {
-    console.log('documents123123123213: ')
     try {
+      const idsToFetch = getIds(); // Получаем следующие 10 идентификаторов
+      if (idsToFetch.length === 0) return; // Если идентификаторов больше нет, не делаем запрос
+  
       const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/documents",
-        { ids: getIds() },
+        { ids: idsToFetch },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-
-      const documents = documentsData.length ? response.data.map(el => el.ok) : [...documentsData, ...response.data.map(el => el.ok)]
-      console.log('documents: ', documents)
-      console.log('documentsData 2: ', documentsData)
-      setDocumentsData(documents);
+  
+      const newDocuments = response.data.map(el => el.ok);
+      const updatedDocuments = [...documentsData, ...newDocuments];
+      console.log('documents: ', updatedDocuments);
+      setDocumentsData(updatedDocuments);
     } catch (error) {
       console.error("Ошибка получения документов:", error);
     }
@@ -127,61 +135,62 @@ export default function Rezult() {
   
   return (
     <>
-    <p>LIMIT: {previousRequest?.limit}</p>
-      <div className="table__container">
-        <div className="table__header">
-          <div className="table__title date">Период</div>
-          <div className="table__title total">Всего</div>
-          <div className="table__title risk">Риски</div>
+      <div className={styles.posts__container}>
+        <div className="table__container">
+          <div className="table__header">
+            <div className="table__title date">Период</div>
+            <div className="table__title total">Всего</div>
+            <div className="table__title risk">Риски</div>
+          </div>
+          <div className="table__slider">
+            <Carousel
+                value={data}
+                numVisible={8}
+                numScroll={1}
+                responsiveOptions={responsiveOptions}
+                itemTemplate={productTemplate}
+            />
+          </div>
         </div>
-        <div className="table__slider">
-          <Carousel
-            value={data}
-            numVisible={8}
-            numScroll={1}
-            responsiveOptions={responsiveOptions}
-            itemTemplate={productTemplate}
-          />
-        </div>
-      </div>
-      <div className={styles.posts}>
-        {documentsData?.map((post, index) => (
-          <div className={styles.documents__wrapper} key={index}>
-            <div className={styles.documents__card}>
-              <div className={styles.card__about}>
-                <div className={styles.about__date}>
-                  {formattedData(post.issueDate)}
-                </div>
-                <div className={styles.about__author}>
-                  <a href={post.url}>{post.source.name}</a>
-                </div>
-              </div>
-              <div className={styles.card__header}>
-                <h2 className={styles.header__title}>{post.title.text}</h2>
-                {hasAttributes(post.attributes) ? (
-                  <span className={styles.header__tag}>
+        <div className={styles.posts}>
+          {documentsData?.map((post, index) => (
+              <div className={styles.documents__wrapper} key={index}>
+                <div className={styles.documents__card}>
+                  <div className={styles.card__about}>
+                    <div className={styles.about__date}>
+                      {formattedData(post.issueDate)}
+                    </div>
+                    <div className={styles.about__author}>
+                      <a href={post.url}>{post.source.name}</a>
+                    </div>
+                  </div>
+                  <div className={styles.card__header}>
+                    <h2 className={styles.header__title}>{post.title.text}</h2>
+                    {hasAttributes(post.attributes) ? (
+                        <span className={styles.header__tag}>
                     {getAttributeLabel(post.attributes)}
                   </span>
-                ) : (
-                  <span className={styles.header__tag_non}></span>
-                )}
-              </div>
-              <div className={styles.card__main}>
-                <XmlParserComponent xmlData={post.content.markup} />
-              </div>
-            </div>
-            <button className={styles.card__button}>Читать в источнике</button>
-            <span className={styles.card__wordcount}>
+                    ) : (
+                        <span className={styles.header__tag_non}></span>
+                    )}
+                  </div>
+                  <div className={styles.card__main}>
+                    <XmlParserComponent xmlData={post.content.markup} />
+                  </div>
+                </div>
+                <button className={styles.card__button}>Читать в источнике</button>
+                <span className={styles.card__wordcount}>
               {post.attributes.wordCount} слов
             </span>
-          </div>
-        ))}
+              </div>
+          ))}
 
-        { dataLoading && <p>Loading...</p> }
+          { dataLoading && <p>Loading...</p> }
 
-        <Button 
-          onClick={fetchDocuments}
-        >Показать еще</Button>
+          <Button
+              onClick={fetchDocuments}
+          >Показать еще</Button>
+        </div>
       </div>
     </>
   );

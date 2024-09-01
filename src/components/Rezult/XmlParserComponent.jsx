@@ -57,17 +57,19 @@ const XmlParserComponent = ({ xmlData }) => {
     }, [xmlData]);
 
     return (
-            <div>
-                {imgUrl && (
+            <>
                 <div className={styles.main__img}>
-                    <img className={styles.img} src={imgUrl} alt="Картинка публикации" />
-                </div> )}
+                    {imgUrl ?
+                        <img className={styles.img} src={imgUrl} alt="Картинка публикации" /> 
+                        :
+                        <img className={styles.img} src='src\assets\imgHolder.png' alt="Картинка публикации" />} 
+                </div> 
                 <div className={styles.main__content}>
                     {sentences.map((sentence, index) => (
                         <p key={index}>{sentence}</p>
                     ))}
                 </div>
-            </div>
+            </>
     );
 };
 
