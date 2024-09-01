@@ -1,5 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Ferry&display=swap');
+
+.rezults__header{
+    display: flex;
+    gap: 215px;
+    margin-top: 70px;
+}
+
+.header__title .title{
+    font-family: 'Ferry', arial;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 48px;
+    text-transform: uppercase;
+}
+
+.header__title .p{
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 36px;
+}
+.posts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    flex-wrap: wrap;
+    gap: 20px;
+    place-items: center;
+    margin-top: 58px;
+}
+
+
+.posts__title{
+    font-family: 'Ferry', arial;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 36px;
+    text-transform: uppercase;
+    padding-bottom: 20px;
+}
+
 .documents__wrapper{
-    width: 641px;
+    width: 661px;
     height: 694px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
@@ -64,15 +104,6 @@
     border-radius: 10px;
 }
 
-.posts {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    flex-wrap: wrap;
-    gap: 20px;
-    place-items: center;
-    /* max-height: 400px;
-    overflow: scroll; */
-}
 
 .posts__controls {
     width: 100%;

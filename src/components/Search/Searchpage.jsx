@@ -258,12 +258,14 @@ export default function Searchpage() {
 
       if (response.data.data.length) {
         const formattedData = formatData(response.data.data);
+        const dataCount = response.data.data.length;
 
         // Сохраняем в store ответ запроса и сам запрос для повторной отправки
         dispatch(
           setStoreData({
             data: formattedData,
             previousRequest: requestData,
+            dataCount: dataCount,
           })
         );
       } else {

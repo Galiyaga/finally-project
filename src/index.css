@@ -70,3 +70,13 @@ a {
   font-weight: bold;
 }
 
+.slick-prev:before{
+  content: url('./assets/leftArrow.svg');
+  margin-right: 5px;
+}
+
+.slick-next:before{
+  content: url('./assets/rightArrow.svg');
+}
+
+

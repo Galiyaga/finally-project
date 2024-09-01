@@ -11,6 +11,8 @@ import styles2 from "../Loading.module.css";
 export default function Rezult() {
 
   const data = useSelector((state) => state.data.data);
+  const dataCount = useSelector((state) => state.data.dataCount);
+  console.log('dataCount', dataCount)
   const previousRequest = useSelector((state) => state.data.previousRequest);
   const token = useSelector(selectAccessToken);
   const [documentsData, setDocumentsData] = useState([])
@@ -55,6 +57,7 @@ export default function Rezult() {
 
 
   // Для отправки асинхронных запросов
+  // Сохраняем в LS выведенные посты
   useEffect(() => {
     if (documentsData.length > 0) {
       localStorage.setItem('documentsData', JSON.stringify(documentsData));
@@ -70,7 +73,7 @@ export default function Rezult() {
     }
   }, [previousRequest, token]);
 
-
+  // Выдача постов по 10 шт
   function getIds() {
     const start = documentsData?.length || 0
     const postsPerRespCount = 10
@@ -79,6 +82,7 @@ export default function Rezult() {
     return documentIds.slice(start, start + postsPerRespCount)
   }
 
+  // Отправка запроса для получения ID постов
   async function fetchData() {
     if (dataLoading) return
 
@@ -106,6 +110,7 @@ export default function Rezult() {
     }
   }
 
+  // Отправка запроса для получения самих постов
   async function fetchDocuments() {
     try {
       setDataLoading(true)
@@ -129,8 +134,9 @@ export default function Rezult() {
     }
   }
 
+  // Форматируем дату из постов
   const formattedData = (date) => new Date(date).toLocaleDateString("ru-RU")
-
+  // Расставляем теги, если они есть
   const hasAttributes = (attributes) =>  attributes.isTechNews || attributes.isAnnouncement || attributes.isDigest
 
   const getAttributeLabel = (attributes) => {
@@ -141,29 +147,41 @@ export default function Rezult() {
   }
 
   // Функция для склонения слов
-
-  function getWordDeclension(wordCount) {
+  function getWordDeclension(wordCount, nominativeSingular, genitiveSingular, genitivePlural) {
     const lastDigit = wordCount % 10;
     const lastTwoDigits = wordCount % 100;
-  
+
     if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
-      return 'слов';
+      return genitivePlural;
     }
-  
+
     switch (lastDigit) {
       case 1:
-        return 'слово';
+        return nominativeSingular;
       case 2:
       case 3:
       case 4:
-        return 'слова';
+        return genitiveSingular;
       default:
-        return 'слов';
+        return genitivePlural;
     }
   }
-  
+
   return (
     <>
+      <div className={styles.rezults__header}>
+        <div className={styles.header__title}>
+          <h1 className={styles.title}>Ищем. Скоро <br></br> будут результаты</h1>
+          <p className={styles.p}>Поиск может занять некоторое время, <br></br> просим сохранять терпение.</p>
+        </div>
+        <div className={styles.header__img}>
+          <img src="src\assets\summarySearch.svg" alt="Поиск результатов" />
+        </div>
+      </div>
+      <div className={styles.title__content}>
+        <h2 className={styles.posts__title}>Общая сводка</h2>
+        <p>Найдено {dataCount} {getWordDeclension(dataCount, 'вариант', 'варианта', 'вариантов')} </p>
+      </div>
       <div className="table__container">
         <div className="table__header">
           <div className="table__title date">Период</div>
@@ -179,6 +197,9 @@ export default function Rezult() {
             itemTemplate={productTemplate}
             />
         </div>
+      </div>
+      <div className={styles.title__content}>
+        <h2 className={styles.posts__title}>Список документов</h2>
       </div>
       <div className={styles.posts}>
         {documentsData?.map((post, index) => (
@@ -211,7 +232,7 @@ export default function Rezult() {
                 <button className={styles.footer__button}>Читать в источнике</button>
               </a>
               <span className={styles.footer__wordcount}>
-                {post.attributes.wordCount} {getWordDeclension(post.attributes.wordCount)}
+                {post.attributes.wordCount} {getWordDeclension(post.attributes.wordCount, 'слово', 'слова', 'слов')}
               </span>
             </div>
           </div>
