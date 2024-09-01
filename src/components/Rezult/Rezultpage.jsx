@@ -11,7 +11,7 @@ export default function Rezult() {
   const data = useSelector((state) => state.data.data);
   const previousRequest = useSelector((state) => state.data.previousRequest);
   const token = useSelector(selectAccessToken);
-  const [documentsData, setDocumentsData] = useState(null)
+  const [documentsData, setDocumentsData] = useState([])
 
   // Настройки для карусели
     const responsiveOptions = [
@@ -55,10 +55,22 @@ export default function Rezult() {
     if (previousRequest) {
       fetchData();
     }
-  }, [previousRequest, token]);
+  }, [previousRequest?.limit, token]);
+
+  const postsPerRespCount = 10
+  let dataLoading = false
+
+  let documnetIds
+
+  function getIds() {
+    return documnetIds.slice(documentsData?.length || 0, postsPerRespCount)
+  }
 
   async function fetchData() {
+    if (dataLoading) return
+
     try {
+      dataLoading = true
       const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/objectsearch",
         previousRequest,
@@ -68,10 +80,11 @@ export default function Rezult() {
           },
         }
       );
+      dataLoading = false
 
       if (response.data.items.length) {
-        const ids = response.data.items.map((item) => item.encodedId);
-        await fetchDocuments(ids);
+        documnetIds = response.data.items.map((item) => item.encodedId);
+        await fetchDocuments(getIds());
       }
     } catch (error) {
       console.error("Ошибка запроса:", error);
@@ -89,8 +102,11 @@ export default function Rezult() {
           },
         }
       );
-      const posts = response.data.map(el => el.ok)
-      setDocumentsData(posts);
+
+      const documents = documentsData.length ? response.data.map(el => el.ok) : [...documentsData, ...response.data.map(el => el.ok)]
+      console.log('documents: ', documents)
+      console.log('documentsData 2: ', documentsData)
+      setDocumentsData(documents);
     } catch (error) {
       console.error("Ошибка получения документов:", error);
     }
@@ -109,6 +125,7 @@ export default function Rezult() {
   
   return (
     <>
+    <p>LIMIT: {previousRequest?.limit}</p>
       <div className="table__container">
         <div className="table__header">
           <div className="table__title date">Период</div>
@@ -157,6 +174,8 @@ export default function Rezult() {
             </span>
           </div>
         ))}
+
+        { dataLoading && <p>Loading...</p> }
       </div>
     </>
   );
