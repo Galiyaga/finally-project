@@ -11,6 +11,7 @@ import { Button } from "../Button";
 import { selectAccessToken } from "../context/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setStoreData, clearStoreData } from "../context/dataSlice";
+import { classNames } from "primereact/utils";
 
 addLocale("es", {
   today: "Сегодня",
@@ -98,8 +99,8 @@ export default function Searchpage() {
   // Состояния полей и чекбоксов
   const [inn, setInn] = useState("7710137066");
   const [dateRange, setDateRange] = useState({
-    start: new Date(),
-    end: new Date(),
+    start: null,
+    end: null,
   });
   const [tonality, setTonality] = useState("Любая");
   const [documentsCount, setDocumentsCount] = useState("");
@@ -117,7 +118,6 @@ export default function Searchpage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // TODO ломается верстка при невалидных данных
   const handleInnChange = (e) => {
     setInn(e.target.value);
     const { result, error } = validateInn(e.target.value);
@@ -158,9 +158,8 @@ export default function Searchpage() {
     if (startDate > endDate) {
       newError.start = "Первая дата не должна быть больше второй.";
       newError.end = "";
-    } else {
-      newError.start = "";
-      newError.end = "";
+    } else if (newError.start !== "Первая дата не должна быть в будущем") {
+      newError.start = ""; 
     }
 
     setErrorDate(newError);
@@ -345,9 +344,21 @@ export default function Searchpage() {
         </p>
         <div className={styles.search__main}>
           <div className={styles.main__imgs}>
-            <img className={styles.imgs__document} src="src\assets\Document.svg" alt="Файл"></img>
-            <img className={styles.imgs__folders} src="src\assets\Folders.svg" alt="Папки"></img>
-            <img className={styles.imgs__rocket} src="src\assets\rocket.svg" alt="Ракета"></img>
+            <img
+              className={styles.imgs__document}
+              src="src\assets\Document.svg"
+              alt="Файл"
+            ></img>
+            <img
+              className={styles.imgs__folders}
+              src="src\assets\Folders.svg"
+              alt="Папки"
+            ></img>
+            <img
+              className={styles.imgs__rocket}
+              src="src\assets\rocket.svg"
+              alt="Ракета"
+            ></img>
           </div>
           <form onSubmit={handleFormSubmit} className={styles.search__form}>
             <div className={styles.form__main}>
@@ -365,7 +376,9 @@ export default function Searchpage() {
                       placeholder="10 цифр"
                       required
                     />
-                    {innError && <div className={styles.error__text}>{innError}</div>}
+                    {innError && (
+                      <div className={styles.error__text}>{innError}</div>
+                    )}
                   </label>
                 </div>
 
@@ -457,7 +470,9 @@ export default function Searchpage() {
                       type="checkbox"
                       className={styles.item__input}
                       checked={excludeAnnouncements}
-                      onChange={(e) => setExcludeAnnouncements(e.target.checked)}
+                      onChange={(e) =>
+                        setExcludeAnnouncements(e.target.checked)
+                      }
                     />
                     <div className={styles.cr_input}></div>
                     <span>Включать анонсы и календари</span>
@@ -486,13 +501,13 @@ export default function Searchpage() {
                         onChange={(e) =>
                           handleChangeDate("start", new Date(e.target.value))
                         }
-                        readOnlyInput
-                        hideOnRangeSelection
+                        readOnlyInput={false}
                         showButtonBar
                         required
                         locale="es"
-                        variant="filled"
-                        dateFormat="dd/mm/yy"
+                        placeholder="дд. мм. гг."
+                        dateFormat="dd.mm.yy"
+                        invalid={!!errorDate.start}
                       />
                       {errorDate.start && (
                         <div className={styles.error__text}>
@@ -506,16 +521,18 @@ export default function Searchpage() {
                         onChange={(e) =>
                           handleChangeDate("end", new Date(e.target.value))
                         }
-                        readOnlyInput
-                        hideOnRangeSelection
+                        readOnlyInput={false}
                         showButtonBar
                         required
                         locale="es"
-                        variant="filled"
-                        dateFormat="dd/mm/yy"
+                        placeholder="дд. мм. гг."
+                        dateFormat="dd.mm.yy"
+                        invalid={!!errorDate.end}
                       />
                       {errorDate.end && (
-                        <div className={styles.error__text}>{errorDate.end}</div>
+                        <div className={styles.error__text}>
+                          {errorDate.end}
+                        </div>
                       )}
                     </div>
                   </div>
