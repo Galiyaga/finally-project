@@ -1,47 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Ferry&display=swap');
-
-
-.slick-slider {
-  width: calc(100vw - 120px);
-  margin-top: 55px;
-}
-
-.slick-list{
-  margin: 0 5px
-}
-
-.slick-slide {
-  padding: 0 10px;
-}
-
-.slide__card{     
-  width: 400px;
-  height: 225px;
-  border-radius: 10px;
-  background-color: white;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
-  margin: 15px 0;
-  padding-left: 20px;
-  font-size: 18px;
-}
-
-.slide__card img {
-  margin: 30px 0 20px 0;
-}
-
-/* .slick-arrow{
-  width: 40px;
-  height: 40px;
-} */
-
-.slick-prev:before{
-  content: url('./assets/leftArrow.svg');
-  margin-right: 5px;
-}
-
-.slick-next:before{
-  content: url('./assets/rightArrow.svg');
-}
+/* Footer */
 
 .footer__container{
   display: flex;

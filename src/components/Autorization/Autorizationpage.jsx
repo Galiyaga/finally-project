@@ -4,8 +4,8 @@ import styles2 from "../Loading.module.css";
 import { Button } from "../Button";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setCredentials} from "../context/authSlice"
-import { fetchAuth} from "../context/actionCreators"
+import { setCredentials} from "../store/authSlice"
+import { fetchAuth} from "../store/actionCreators"
 
 export default function Autorizationpage() {
   const { isLoading } = useSelector((state) => state.auth);

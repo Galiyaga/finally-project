@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import styles from "./Header.module.css";
 import styles2 from "../Loading.module.css";
 import { useSelector, useDispatch} from "react-redux";
-import { logout } from "../context/authSlice";
-import { fetchLimit} from "../context/actionCreators"
+import { logout } from "../store/authSlice";
+import { fetchLimit } from "../store/actionCreators";
 import { useNavigate } from "react-router-dom";
 
 

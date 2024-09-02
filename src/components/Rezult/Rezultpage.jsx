@@ -2,70 +2,68 @@ import React, { useEffect, useState } from "react";
 import styles from "./Rezultpage.module.css";
 import { Carousel } from "primereact/carousel";
 import { useSelector } from "react-redux";
-import { selectAccessToken } from "../context/authSlice";
-import XmlParserComponent from './XmlParserComponent';
+import { selectAccessToken } from "../store/authSlice";
+import XmlParserComponent from "./XmlParserComponent";
 import axios from "axios";
 import { Button } from "../Button";
 import styles2 from "../Loading.module.css";
 
 export default function Rezult() {
-
   const data = useSelector((state) => state.data.data);
   const dataCount = useSelector((state) => state.data.dataCount);
-  console.log('dataCount', dataCount)
+  console.log("dataCount", dataCount);
   const previousRequest = useSelector((state) => state.data.previousRequest);
   const token = useSelector(selectAccessToken);
-  const [documentsData, setDocumentsData] = useState([])
-  const [documentIds, setDocumentIds] = useState([])
-  const [dataLoading, setDataLoading] = useState(false)
+  const [documentsData, setDocumentsData] = useState([]);
+  const [documentIds, setDocumentIds] = useState([]);
+  const [dataLoading, setDataLoading] = useState(false);
 
   // Настройки для карусели
-    const responsiveOptions = [
-      {
-        breakpoint: "1400px",
-        numVisible: 2,
-        numScroll: 1,
-      },
-      {
-        breakpoint: "1199px",
-        numVisible: 3,
-        numScroll: 1,
-      },
-      {
-        breakpoint: "767px",
-        numVisible: 2,
-        numScroll: 1,
-      },
-      {
-        breakpoint: "575px",
-        numVisible: 1,
-        numScroll: 1,
-      },
-    ];
+  const responsiveOptions = [
+    {
+      breakpoint: "1400px",
+      numVisible: 2,
+      numScroll: 1,
+    },
+    {
+      breakpoint: "1199px",
+      numVisible: 3,
+      numScroll: 1,
+    },
+    {
+      breakpoint: "767px",
+      numVisible: 2,
+      numScroll: 1,
+    },
+    {
+      breakpoint: "575px",
+      numVisible: 1,
+      numScroll: 1,
+    },
+  ];
 
-    const productTemplate = (column) => {
-      return (
-        <div className="table__column">
-          <div className="table__cell-container">
-            <div className="table__cell">{column.date}</div>
-            <div className="table__cell">{column.total}</div>
-            <div className="table__cell">{column.risk}</div>
-          </div>
+  const productTemplate = (column) => {
+    return (
+      <div className="table__column">
+        <div className="table__cell-container">
+          <div className="table__cell">{column.date}</div>
+          <div className="table__cell">{column.total}</div>
+          <div className="table__cell">{column.risk}</div>
         </div>
-      );
-    };
-
+      </div>
+    );
+  };
 
   // Для отправки асинхронных запросов
   // Сохраняем в LS выведенные посты
   useEffect(() => {
     if (documentsData.length > 0) {
-      localStorage.setItem('documentsData', JSON.stringify(documentsData));
+      localStorage.setItem("documentsData", JSON.stringify(documentsData));
     }
   }, [documentsData]);
 
   useEffect(() => {
-    const savedDocuments = localStorage.getItem('documentsData');
+    const savedDocuments = localStorage.getItem("documentsData");
     if (savedDocuments) {
       setDocumentsData(JSON.parse(savedDocuments));
     } else if (previousRequest) {
@@ -75,19 +73,19 @@ export default function Rezult() {
 
   // Выдача постов по 10 шт
   function getIds() {
-    const start = documentsData?.length || 0
-    const postsPerRespCount = 10
-    const documentIds = JSON.parse(localStorage.getItem('documentIds'))
+    const start = documentsData?.length || 0;
+    const postsPerRespCount = 10;
+    const documentIds = JSON.parse(localStorage.getItem("documentIds"));
 
-    return documentIds.slice(start, start + postsPerRespCount)
+    return documentIds.slice(start, start + postsPerRespCount);
   }
 
   // Отправка запроса для получения ID постов
   async function fetchData() {
-    if (dataLoading) return
+    if (dataLoading) return;
 
     try {
-      setDataLoading(true)
+      setDataLoading(true);
       const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/objectsearch",
         previousRequest,
@@ -97,12 +95,12 @@ export default function Rezult() {
           },
         }
       );
-      setDataLoading(false)
+      setDataLoading(false);
 
       if (response.data.items.length) {
         const documentIds = response.data.items.map((item) => item.encodedId);
-        localStorage.setItem('documentIds', JSON.stringify(documentIds))
-        setDocumentIds(documentIds)
+        localStorage.setItem("documentIds", JSON.stringify(documentIds));
+        setDocumentIds(documentIds);
         await fetchDocuments();
       }
     } catch (error) {
@@ -113,7 +111,7 @@ export default function Rezult() {
   // Отправка запроса для получения самих постов
   async function fetchDocuments() {
     try {
-      setDataLoading(true)
+      setDataLoading(true);
 
       const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/documents",
@@ -124,9 +122,9 @@ export default function Rezult() {
           },
         }
       );
-      setDataLoading(false)
+      setDataLoading(false);
 
-      const newDocuments = response.data.map(el => el.ok);
+      const newDocuments = response.data.map((el) => el.ok);
       const updatedDocuments = [...(documentsData || []), ...newDocuments];
       setDocumentsData(updatedDocuments);
     } catch (error) {
@@ -135,19 +133,25 @@ export default function Rezult() {
   }
 
   // Форматируем дату из постов
-  const formattedData = (date) => new Date(date).toLocaleDateString("ru-RU")
+  const formattedData = (date) => new Date(date).toLocaleDateString("ru-RU");
   // Расставляем теги, если они есть
-  const hasAttributes = (attributes) =>  attributes.isTechNews || attributes.isAnnouncement || attributes.isDigest
+  const hasAttributes = (attributes) =>
+    attributes.isTechNews || attributes.isAnnouncement || attributes.isDigest;
 
   const getAttributeLabel = (attributes) => {
-    if(attributes.isTechNews) return "Технические новости"
-    if(attributes.isAnnouncement) return "Анонсы и события"
-    if(attributes.isDigest) return "Сводки новостей"
-    else return null
-  }
+    if (attributes.isTechNews) return "Технические новости";
+    if (attributes.isAnnouncement) return "Анонсы и события";
+    if (attributes.isDigest) return "Сводки новостей";
+    else return null;
+  };
 
   // Функция для склонения слов
-  function getWordDeclension(wordCount, nominativeSingular, genitiveSingular, genitivePlural) {
+  function getWordDeclension(
+    wordCount,
+    nominativeSingular,
+    genitiveSingular,
+    genitivePlural
+  ) {
     const lastDigit = wordCount % 10;
     const lastTwoDigits = wordCount % 100;
 
@@ -171,8 +175,13 @@ export default function Rezult() {
     <>
       <div className={styles.rezults__header}>
         <div className={styles.header__title}>
-          <h1 className={styles.title}>Ищем. Скоро <br></br> будут результаты</h1>
-          <p className={styles.p}>Поиск может занять некоторое время, <br></br> просим сохранять терпение.</p>
+          <h1 className={styles.title}>
+            Ищем. Скоро <br></br> будут результаты
+          </h1>
+          <p className={styles.p}>
+            Поиск может занять некоторое время, <br></br> просим сохранять
+            терпение.
+          </p>
         </div>
         <div className={styles.header__img}>
           <img src="src\assets\summarySearch.svg" alt="Поиск результатов" />
@@ -180,7 +189,10 @@ export default function Rezult() {
       </div>
       <div className={styles.title__content}>
         <h2 className={styles.posts__title}>Общая сводка</h2>
-        <p>Найдено {dataCount} {getWordDeclension(dataCount, 'вариант', 'варианта', 'вариантов')} </p>
+        <p>
+          Найдено {dataCount}{" "}
+          {getWordDeclension(dataCount, "вариант", "варианта", "вариантов")}{" "}
+        </p>
       </div>
       <div className="table__container">
         <div className="table__header">
@@ -195,7 +207,7 @@ export default function Rezult() {
             numScroll={1}
             responsiveOptions={responsiveOptions}
             itemTemplate={productTemplate}
-            />
+          />
         </div>
       </div>
       <div className={styles.title__content}>
@@ -228,11 +240,19 @@ export default function Rezult() {
               </div>
             </div>
             <div className={styles.card__footer}>
-              <a  href={post.url}>
-                <button className={styles.footer__button}>Читать в источнике</button>
+              <a href={post.url}>
+                <button className={styles.footer__button}>
+                  Читать в источнике
+                </button>
               </a>
               <span className={styles.footer__wordcount}>
-                {post.attributes.wordCount} {getWordDeclension(post.attributes.wordCount, 'слово', 'слова', 'слов')}
+                {post.attributes.wordCount}{" "}
+                {getWordDeclension(
+                  post.attributes.wordCount,
+                  "слово",
+                  "слова",
+                  "слов"
+                )}
               </span>
             </div>
           </div>
@@ -245,17 +265,13 @@ export default function Rezult() {
             <div className={styles2.loading}>Loading&#8230;</div>
           </div>
         )}
-  
-  {!dataLoading && documentIds.length > documentsData.length && (
-  <Button
-    className={styles.posts__button}
-    onClick={fetchDocuments}
-  >
-    Показать еще
-  </Button>
-)}
+
+        {!dataLoading && documentIds.length > documentsData.length && (
+          <Button className={styles.posts__button} onClick={fetchDocuments}>
+            Показать еще
+          </Button>
+        )}
       </div>
     </>
   );
-
 }

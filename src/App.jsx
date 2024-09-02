@@ -8,7 +8,7 @@ import Notfondpage from './components/Notfound/Notfoundpage'
 import Layout from './components/Layout/Layout';
 import { useDispatch} from "react-redux";
 import { useEffect } from 'react';
-import {restoreAuth} from '../src/components/context/actionCreators'
+import {restoreAuth} from '../src/components/store/actionCreators'
 
 export default function App() {
   const dispatch = useDispatch()

@@ -1,35 +1,69 @@
 import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { Carousel } from "primereact/carousel";
+import styles from './Homepage.module.css'
 
-function CardCarousel() {
-  var settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1
-  };    
-  
+const CardCarousel = () => {
+  const responsiveOptions = [
+    {
+      breakpoint: "1400px",
+      numVisible: 2,
+      numScroll: 1,
+    },
+    {
+      breakpoint: "1199px",
+      numVisible: 3,
+      numScroll: 1,
+    },
+    {
+      breakpoint: "767px",
+      numVisible: 2,
+      numScroll: 1,
+    },
+    {
+      breakpoint: "575px",
+      numVisible: 1,
+      numScroll: 1,
+    },
+  ];
+
+  const productTemplate = (product) => {
+    return (
+      <div className={styles.slide__card}>
+        <img src={product.src} alt={product.alt} />
+        <h3>{product.h3}</h3>
+      </div>
+    );
+  };
+
+  const products =[
+    {
+      src: "src/assets/speed.svg",
+      alt: "Скорость",
+      h3: 'Высокая и оперативная скорость обработки заявки',
+    },
+    {
+      src: "src/assets/search.svg",
+      alt: "Скорость",
+      h3: 'Огромная комплексная база данных, обеспечивающая объективный ответ на запрос',
+    },
+    {
+      src: "src/assets/protection.svg",
+      alt: "Защита",
+      h3: 'Защита конфеденциальных сведений, не подлежащих разглашению по федеральному законодательству',
+    },
+  ]
+
   return (
-    <Slider {...settings}>
-      <div className="slide__card">
-        <img src="src\assets\speed.svg" alt="Скорость" />
-        <h3>Высокая и оперативная скорость обработки заявки</h3>
-      </div>
-      <div className="slide__card">
-       <img src="src\assets\search.svg" alt="Поиск" />
-        <h3>Огромная комплексная база
-           данных, обеспечивающая объективный
-          ответ на запрос</h3>
-      </div>
-      <div className="slide__card">
-        <img src="src\assets\protection.svg" alt="Защита" />
-        <h3>Защита конфеденциальных сведений, не подлежащих разглашению по
-        федеральному законодательству</h3>
-      </div>
-    </Slider>
+    <>
+      <Carousel
+        value={products}
+        numVisible={3}
+        numScroll={1}
+        responsiveOptions={responsiveOptions}
+        itemTemplate={productTemplate}
+        circular={true}
+      />
+    </>
   );
 }
 

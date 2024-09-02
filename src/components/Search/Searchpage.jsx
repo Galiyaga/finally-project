@@ -8,9 +8,9 @@ import { addLocale } from "primereact/api";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "../Button";
-import { selectAccessToken } from "../context/authSlice";
+import { selectAccessToken } from "../store/authSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { setStoreData, clearStoreData } from "../context/dataSlice";
+import { setStoreData, clearStoreData } from "../store/dataSlice";
 import { classNames } from "primereact/utils";
 
 addLocale("es", {
@@ -113,7 +113,7 @@ export default function Searchpage() {
   const [excludeDigests, setExcludeDigests] = useState(false);
   const [innError, setInnError] = useState("");
   const [errorDate, setErrorDate] = useState({ start: "", end: "" });
-  
+
   const token = useSelector(selectAccessToken);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -159,7 +159,7 @@ export default function Searchpage() {
       newError.start = "Первая дата не должна быть больше второй.";
       newError.end = "";
     } else if (newError.start !== "Первая дата не должна быть в будущем") {
-      newError.start = ""; 
+      newError.start = "";
     }
 
     setErrorDate(newError);
@@ -189,7 +189,7 @@ export default function Searchpage() {
         : `${year}-${month}-${day}T23:59:59+03:00`;
     };
 
-    // Интерпретируем данные с инпута тональности 
+    // Интерпретируем данные с инпута тональности
     const formattedTonality =
       tonality.toLowerCase() === "негативная"
         ? "negative"
@@ -241,10 +241,9 @@ export default function Searchpage() {
       histogramTypes: ["totalDocuments", "riskFactors"],
     };
 
-
     try {
       dispatch(clearStoreData());
-      
+
       const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/objectsearch/histograms",
         requestData,
@@ -268,9 +267,7 @@ export default function Searchpage() {
           })
         );
       } else {
-        console.log(
-          "Вернулся пустой массив"
-        );
+        console.log("Вернулся пустой массив");
         toast.warn(
           <div>
             Данные не найдены
@@ -434,7 +431,9 @@ export default function Searchpage() {
                         type="checkbox"
                         className={styles.item__input}
                         checked={onlyWithRiskFactors}
-                        onChange={(e) => setOnlyWithRiskFactors(e.target.checked)}
+                        onChange={(e) =>
+                          setOnlyWithRiskFactors(e.target.checked)
+                        }
                       />
                       <div className={styles.cr_input}></div>
                       <span>Публикации только с риск-факторами</span>
@@ -525,7 +524,10 @@ export default function Searchpage() {
                 <Button
                   className={styles.form_button}
                   disabled={
-                    !dateRange.start || !dateRange.end || !documentsCount || !inn
+                    !dateRange.start ||
+                    !dateRange.end ||
+                    !documentsCount ||
+                    !inn
                   }
                 >
                   Поиск
