@@ -14,6 +14,11 @@
   	margin-top: 25px;
 }
 
+.search__main{
+	display: flex;
+	justify-content: space-between;
+}
+
 .search__form {
   padding: 30px 40px 0;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
@@ -73,14 +78,14 @@
 .input__error {
 	border: 1px solid red;
 	font-size: 14px;
-    padding: 13px 0 13px 22px;
-    color: #000000;
-    border-radius: 5px;
-    transition: 0.3s ease;
-    width: 240px;
-    margin: 20px 0 30px;
-    display: flex;
-    flex-direction: column;
+	padding: 13px 0 13px 22px;
+	color: #000000;
+	border-radius: 5px;
+	transition: 0.3s ease;
+	width: 240px;
+	margin: 20px 0 30px;
+	display: flex;
+	flex-direction: column;
 }
 
 .form__checkbox {
@@ -228,52 +233,20 @@
 	border-color: #000000;
 }
 
-/* Страница результата */
+/* Контейнер с img */
 
-.table__summary {
-  width: 100%;
-  border-collapse: collapse;
-	border: 2px solid #029491;
-	border-radius: 10px;
-}
-
-.table__summary th, .table__summary td {
-  padding: 8px;
-  text-align: center;
-  font-weight: 500;
+.main__imgs{
 	position: relative;
 }
 
-.table__summary td::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 10%; 
-  bottom: 10%; 
-  width: 2px; 
-  background-color: #dcdcdc; 
+.imgs__document{
+	position: absolute;
+    left: -500px;
+    top: -100px;
 }
 
-.date{
-  border-top-left-radius: 10px;
+.imgs__rocket {
+	right: -50px;
+	position: absolute;
+	bottom: -0px;
 }
-
-.risk {
-  border-bottom-left-radius: 10px;
-}
-
-td:first-child {
-  border-bottom-left-radius: 10px;
-}
-
-td:last-child {
-  border-bottom-right-radius: 10px;
-}
-
-.table__title{
-	padding: 27px 18px;
-	background-color: #029491;
-	color: white;
-}
-
-
