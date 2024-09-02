@@ -129,17 +129,20 @@ export default function Searchpage() {
   };
 
   // Валидация даты
-  const resetTime = (date) => {
+  const setTime = (date) => {
     const newDate = new Date(date);
     newDate.setHours(0, 0, 0, 0);
     return newDate;
   };
 
   const checkDates = (start, end) => {
-    const now = resetTime(new Date());
-    const startDate = resetTime(start);
-    const endDate = resetTime(end);
+    const now = setTime(new Date());
+    const startDate = setTime(start);
+    const endDate = setTime(end);
     let newError = { ...errorDate };
+
+    console.log('start: ', start)
+    console.log('end: ', end)
 
     if (startDate > now) {
       newError.start = "Первая дата не должна быть в будущем";
@@ -155,7 +158,7 @@ export default function Searchpage() {
       newError.end = "";
     }
 
-    if (startDate > endDate) {
+    if (end && startDate > endDate) {
       newError.start = "Первая дата не должна быть больше второй.";
       newError.end = "";
     } else if (newError.start !== "Первая дата не должна быть в будущем") {
@@ -168,10 +171,14 @@ export default function Searchpage() {
 
   // Сохранение даты в состояние
   const handleChangeDate = (type, value) => {
+    console.log('type: ', type)
+    console.log('value: ', value)
     const updateDate = { ...dateRange, [type]: value };
     if (checkDates(updateDate.start, updateDate.end)) {
       setDateRange(updateDate);
     }
+
+    console.log('dateRange: ', dateRange)
   };
 
   // Функция отправки формы
