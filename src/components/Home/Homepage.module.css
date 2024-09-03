@@ -13,7 +13,7 @@
   width: 100%;
   height: 593px;
   background: url('../../assets/aboutImg.svg') center center;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
 }
 
@@ -78,8 +78,8 @@
 .tick__bg {
   width: 100%;
   height: 575px;
-  background: url('../../assets/groupWithTick.svg') center center;
-  background-size: cover;
+  background: url('../../assets/groupWithTick.svg') top center;
+  background-size: contain;
   background-repeat: no-repeat;
 }
 

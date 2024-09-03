@@ -4,7 +4,6 @@ import Homepage from "./components/Home/Homepage";
 import Autorizationpage from "./components/Autorization/Autorizationpage"
 import Searchpage from "./components/Search/Searchpage";
 import Rezultpage from "./components/Rezult/Rezultpage";
-import Notfondpage from './components/Notfound/Notfoundpage'
 import Layout from './components/Layout/Layout';
 import { useDispatch} from "react-redux";
 import { useEffect } from 'react';
@@ -24,7 +23,6 @@ export default function App() {
           <Route path="autorization" element={<Autorizationpage />} />
           <Route path="search" element={<Searchpage />} />
           <Route path="rezult" element={<Rezultpage />} />
-          <Route path="notfound" element={<Notfondpage />} />
         </Route>
       </Routes>
     </>
