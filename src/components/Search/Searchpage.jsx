@@ -249,8 +249,6 @@ export default function Searchpage() {
     };
 
     try {
-      dispatch(clearStoreData());
-
       const response = await axios.post(
         "https://gateway.scan-interfax.ru/api/v1/objectsearch/histograms",
         requestData,

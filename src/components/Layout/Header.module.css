@@ -93,7 +93,7 @@
     border-radius: 2px;
   }
   
-  .mobile_menu {
+  .mobile__menu {
     display: none;
     position: absolute;
     top: 60px; /* Высота хедера */
@@ -108,7 +108,7 @@
     z-index: 1000;
   }
   
-  .mobile_menu_item {
+  .mobile__menu_item {
     text-decoration: none;
     color: #000;
     font-size: 16px;
@@ -134,25 +134,22 @@
 			margin: 0 5px;
 		}
   }
-  
+
+
   @media (max-width: 600px) {
-    .nav__bar,
+  
+		.nav__bar,
     .nav__button,
     .profile {
       display: none;
     }
-  
+
     .burger_menu {
       display: flex;
     }
 		
-		.mobile_menu_header{
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-
-		.mobile_menu_logo{
+		
+		.mobile__menu_logo{
 			width: 110px;
 		}
 
@@ -160,31 +157,41 @@
 			background-color: transparent
 		}
 		
-    .mobile_menu {
-      display: flex;
-			width: 100%;
-			height: 500px;
-			flex-direction: column;
-			background-color: #029491;
-			color: white;
-			gap: 50px;
-    }
-
-		.mobile_menu a{
-			color: white;
-		}
-
-		.menu_nav{
+		.menu__nav{
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			gap: 26px;
 		}
 
-		.name{
+		.mobile__menu {
 			display: flex;
+			width: 90%;
+			height: 500px;
 			flex-direction: column;
-			gap: 20px;
+			background-color: #029491;
+			color: white;
+			gap: 50px;
+			position: fixed;
+		}
+
+		.mobile__menu_header{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 80px;
+		}
+
+		.button__exit{
+			background-color: #7CE3E1;
+			padding: 20px 40px;
+			border-radius: 5px;
+			font-size: 20px;
+		}
+
+		.mobile__menu a{
+			color: white;
+			font-size: 20px;
 		}
 
 		.avatar{
@@ -193,15 +200,52 @@
 			flex-direction: column;
 			gap: 20px;
 		}
-		
-		.button__exit{
-			background-color: #7CE3E1;
-			padding: 2px;
-			border-radius: 2px;
+
+		.mobile__menu_avatar img{
+			width: 50px;
 		}
 
-		.avatar img{
-			width: 35px;
-			
+		.mobile__menu_name{
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			font-size: 20px;
 		}
+
+		.mobile__button_login {
+			padding: 15px 117px;
+			font-size: 20px;
+			background-color: #7CE3E1;;
+			border-radius: 5px;
+		}
+
+
+		.mobile__button_registration{
+			color: #7CE3E1;
+			background: transparent;
+			margin-right: 0;
+			font-size: 15px
+		}
+
+		.mobile__nav_button{
+			display: flex;
+			flex-direction: column;
+			gap: 30px;
+		}
+
   }
+
+	@media (max-width: 376px) {
+	.limit{
+
+	}
+
+	.header {
+		justify-content: space-around;
+	}
+
+	.header {
+		padding: 0 14px;
+		justify-content: space-between;
+	}
+	}

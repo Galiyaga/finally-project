@@ -9,6 +9,14 @@
     flex-direction: column;
 }
 
+.about__img {
+  width: 100%;
+  height: 593px;
+  background: url('../../assets/aboutImg.svg') center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .about__title {
     font-family: 'Ferry Black';
     font-size: 60px;
@@ -18,7 +26,7 @@
     text-transform: uppercase;
 }
 
-.titte__why{
+.title__why{
     font-family: 'Ferry', arial;
     font-size: 45px;
     font-weight: 900;
@@ -67,7 +75,15 @@
     margin-top: 70px;
 }
 
-.titte__tariff{
+.tick__bg {
+  width: 100%;
+  height: 575px;
+  background: url('../../assets/groupWithTick.svg') center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.title__tariff{
     margin-top: 70px;
 }
 .card__group{
@@ -75,23 +91,49 @@
     justify-content: space-between;
 }
 
-@media (max-width: 1600px) {
-  .about__title{
-    font-size: 3rem;
-    line-height: 1;
+@media (max-width: 376px) {
+  .container {
+    flex-direction: column;
   }
 
-  .container{
-    justify-content: center;
+  .about__img {
+    height: 327px;
+    background-size: contain;
   }
 
-  .titte__why{
-    font-size: 3rem;
-    margin-top: 50px;
+  .about__title, .title__why {
+    font-size: 28px;
+    line-height: 33px;
+  }
+
+  .title__why{
+    margin-top: 40px;
   }
   
-  .about__img img{
-    width: 70%;
+  .carousel__container {
+    margin: 0 auto;
+  }
+
+  .slide__card{
+    font-size: 16px;
+  }
+
+  .slide__card img{
+    width: 50px;
+  }
+
+  .tick__bg {
+    height: 390px;
+    background-position: 1px 0;
+    background-size: cover;
+  }
+
+  .card__group {
+    flex-direction: column;
+  }
+
+  .card__group{
+    width: 335px;
   }
 }
 

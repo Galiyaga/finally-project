@@ -15,12 +15,12 @@ const CardCarousel = () => {
       numScroll: 1,
     },
     {
-      breakpoint: "767px",
+      breakpoint: "600px",
       numVisible: 2,
       numScroll: 1,
     },
     {
-      breakpoint: "575px",
+      breakpoint: "376px",
       numVisible: 1,
       numScroll: 1,
     },
@@ -57,7 +57,7 @@ const CardCarousel = () => {
 
   return (
     <>
-      <div className="corousel-container">
+      <div className={styles.carousel__container}>
         <Carousel
           value={products}
           numVisible={3}

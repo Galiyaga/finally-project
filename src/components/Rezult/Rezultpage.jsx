@@ -7,11 +7,12 @@ import XmlParserComponent from "./XmlParserComponent";
 import axios from "axios";
 import { Button } from "../Button";
 import styles2 from "../Loading.module.css";
+import { useDispatch} from "react-redux";
+
 
 export default function Rezult() {
   const data = useSelector((state) => state.data.data);
   const dataCount = useSelector((state) => state.data.dataCount);
-  console.log("dataCount", dataCount);
   const previousRequest = useSelector((state) => state.data.previousRequest);
   const token = useSelector(selectAccessToken);
   const [documentsData, setDocumentsData] = useState([]);
@@ -36,7 +37,7 @@ export default function Rezult() {
       numScroll: 1,
     },
     {
-      breakpoint: "575px",
+      breakpoint: "375px",
       numVisible: 1,
       numScroll: 1,
     },
@@ -71,6 +72,12 @@ export default function Rezult() {
     }
   }, [previousRequest, token]);
 
+  useEffect(()=>{
+    localStorage.removeItem("documentsData");
+    localStorage.removeItem("documentIds");
+
+  }, [])
+  
   // Выдача постов по 10 шт
   function getIds() {
     const start = documentsData?.length || 0;

@@ -213,3 +213,21 @@
 }
 
 
+@media (max-width: 376px) {
+  .footer__logo{
+    padding-left: 14px;
+  }
+  
+  .footer__logo img{
+    width: 111px;
+    margin-top: 10px;
+  }
+
+  .adress{
+    text-align: end;
+  }
+
+  .p-calendar .p-inputtext{
+    margin: 15px 0;
+  }
+}

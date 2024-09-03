@@ -157,3 +157,32 @@
 .button__hidden{
     display: none;
 }
+
+@media (max-width: 376px) {
+    .rezults__header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .title{
+        font-size: 28px;
+        line-height: 1
+    }
+
+    .posts{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .documents__wrapper{
+        width: 335px;
+    }
+
+    .main__img, .main__content {
+        width: 100%;
+    }
+
+    .card__footer{
+        margin-top: 15px;
+    }
+  }

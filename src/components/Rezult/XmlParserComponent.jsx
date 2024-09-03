@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from "./Rezultpage.module.css";
 
-const XmlParserComponent = ({ xmlData }) => {
+const XmlParserComponent = ({ xmlData, className }) => {
     const [sentences, setSentences] = useState([]);
     const [imgUrl, setImgUrl] = useState('')
 

@@ -74,19 +74,14 @@ export default function Homepage() {
                 children={"Запросить данные"}
               />
             </Link>
-            <h2 className={styles.titte__why}>почему именно мы</h2>
+            <h2 className={styles.title__why}>почему именно мы</h2>
           </div>
-          <div className={styles.about__img}>
-            <img src="src\assets\aboutImg.svg" alt="Иллюстрация публикаций" />
-          </div>
+          <div className={styles.about__img}/>
         </div>
         <CardCarousel />
         <div className={styles.img__tick}>
-          <img
-            src="src\assets\groupWithTick.svg"
-            alt="Рисунок человека в облаках"
-          />
-          <h2 className={`${styles.titte__why} ${styles.titte__tariff}`}>
+          <div className={styles.tick__bg}/>
+          <h2 className={`${styles.title__why} ${styles.title__tariff}`}>
             наши тарифы
           </h2>
         </div>

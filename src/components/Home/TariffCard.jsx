@@ -39,9 +39,10 @@ function TariffCard({
             ))}
           </ul>
         </div>
-        {title === 'Beginner' ? (<Button className={`${styles.button__tariff} ${styles.selected}`}>Перейти в личный кабинет</Button>) : 
-        (<Button className={styles.button__tariff}>Подробнее</Button>)}
       </div>
+
+      {title === 'Beginner' ? (<Button className={`${styles.button__tariff} ${styles.selected}`}>Перейти в личный кабинет</Button>) : 
+      (<Button className={styles.button__tariff}>Подробнее</Button>)}
     </div>
   );
 }
