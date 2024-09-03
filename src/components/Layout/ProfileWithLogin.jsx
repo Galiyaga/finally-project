@@ -12,10 +12,12 @@ export default function ProfileWithLogin() {
   const {usedCompanyCount, companyLimit, isLoading} = useSelector((state) => state.auth)
   const navigate = useNavigate()
 
+  // Отправка асинхронного запроса для информации по лимитам
   useEffect(() => {
     dispatch(fetchLimit());
   }, []);
 
+  // Выход из профиля
   function handleLogout() {
     dispatch(logout())
     navigate('/');

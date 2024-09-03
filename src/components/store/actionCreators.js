@@ -1,7 +1,7 @@
 import axios from "axios";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
-
+// Проверка логина и пароля
 export const fetchAuth = createAsyncThunk(
     'auth/fetchAll',
     async (_, { getState, rejectWithValue  }) => {
@@ -22,6 +22,7 @@ export const fetchAuth = createAsyncThunk(
         }
       )
 
+// Проверка лимита
 export const fetchLimit = createAsyncThunk(
   'limit/fetchAll',
   async (_, { getState, rejectWithValue }) => {
@@ -40,6 +41,7 @@ export const fetchLimit = createAsyncThunk(
   }
 )
 
+// авторизуемся автоматически при перезагрузке
 export const restoreAuth = createAsyncThunk(
   'auth/restoreAuth',
   async (_, { dispatch }) => {

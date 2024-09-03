@@ -95,9 +95,8 @@ function validateInn(inn) {
 }
 
 export default function Searchpage() {
-  // TODO: удалить дефолтное значение
   // Состояния полей и чекбоксов
-  const [inn, setInn] = useState("7710137066");
+  const [inn, setInn] = useState("");
   const [dateRange, setDateRange] = useState({
     start: null,
     end: null,
@@ -141,9 +140,6 @@ export default function Searchpage() {
     const endDate = setTime(end);
     let newError = { ...errorDate };
 
-    console.log('start: ', start)
-    console.log('end: ', end)
-
     if (startDate > now) {
       newError.start = "Первая дата не должна быть в будущем";
     } else if (
@@ -171,14 +167,10 @@ export default function Searchpage() {
 
   // Сохранение даты в состояние
   const handleChangeDate = (type, value) => {
-    console.log('type: ', type)
-    console.log('value: ', value)
     const updateDate = { ...dateRange, [type]: value };
     if (checkDates(updateDate.start, updateDate.end)) {
       setDateRange(updateDate);
     }
-
-    console.log('dateRange: ', dateRange)
   };
 
   // Функция отправки формы

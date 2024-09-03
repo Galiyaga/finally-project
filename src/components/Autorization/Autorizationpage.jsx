@@ -14,6 +14,7 @@ export default function Autorizationpage() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
 
+  // Валидация пароля и логина
   function checkValidation() {
     return localLogin.trim() !== "" && localPassword.trim() !== "";
   }

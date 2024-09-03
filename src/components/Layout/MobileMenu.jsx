@@ -16,6 +16,7 @@ export default function MobileMenu() {
     setMenuOpen(false);
   };
 
+  // Выход из профиля
   function handleLogout() {
     dispatch(logout())
     navigate('/');

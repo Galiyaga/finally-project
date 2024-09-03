@@ -48,7 +48,7 @@
 
 ### Начало работы с React-приложением
 
-Этот проект создан с использованием [Create React App](https://github.com/facebook/create-react-app).
+#### Этот проект создан с использованием [Create React App](https://github.com/facebook/create-react-app).
 -----
 **Для запуска проекта (на своем устройстве) выполнить действия в терминале:**
 
@@ -77,7 +77,7 @@ npm run build
 npm run preview
 ```
 
-**Ссылка для просмотра проекта:** ***https://project-scan-dip.vercel.app/***
+**Ссылка для просмотра проекта:** ***GitHubPages***
 
 #### Доступные команды
 
@@ -95,3 +95,4 @@ npm run preview
 
 - **Логин:** `sf_student1`
 - **Пароль:** `4i2385j`
+- **Пример ИНН:** `7710137066`
