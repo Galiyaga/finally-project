@@ -77,7 +77,7 @@ npm run build
 npm run preview
 ```
 
-**Ссылка для просмотра проекта:** ***GitHubPages***
+**Ссылка для просмотра проекта:** ***https://finally-project-three.vercel.app***
 
 #### Доступные команды
 
