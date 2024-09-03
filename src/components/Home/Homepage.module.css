@@ -44,9 +44,11 @@
     background-color: #5970FF;
     width: 335px;
 }
-
+.slide__wrapper {
+  padding: 0 10px;
+}
 .slide__card{     
-  max-width: 400px;
+  width: 100%;
   height: 225px;
   border-radius: 10px;
   background-color: white;

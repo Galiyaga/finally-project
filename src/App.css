@@ -31,6 +31,10 @@
   font-size: 12px;
 }
 
+.corousel-container {
+  width: calc(100vw - 120px);
+}
+
 .p-datepicker:not(.p-datepicker-inline) {
   background: #ffffff;
   border: 0 none;

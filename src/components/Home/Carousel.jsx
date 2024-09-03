@@ -28,9 +28,11 @@ const CardCarousel = () => {
 
   const productTemplate = (product) => {
     return (
-      <div className={styles.slide__card}>
-        <img src={product.src} alt={product.alt} />
-        <h3>{product.h3}</h3>
+      <div className={styles.slide__wrapper}>
+        <div className={styles.slide__card}>
+          <img src={product.src} alt={product.alt} />
+          <h3>{product.h3}</h3>
+        </div>
       </div>
     );
   };
@@ -55,14 +57,16 @@ const CardCarousel = () => {
 
   return (
     <>
-      <Carousel
-        value={products}
-        numVisible={3}
-        numScroll={1}
-        responsiveOptions={responsiveOptions}
-        itemTemplate={productTemplate}
-        circular={true}
-      />
+      <div className="corousel-container">
+        <Carousel
+          value={products}
+          numVisible={3}
+          numScroll={1}
+          responsiveOptions={responsiveOptions}
+          itemTemplate={productTemplate}
+          circular={true}
+        />
+      </div>
     </>
   );
 }
