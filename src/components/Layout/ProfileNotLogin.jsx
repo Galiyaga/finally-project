@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 
-export default function ProfileNotLogin() {
+function ProfileNotLogin() {
   return (
     <>
       <div className={styles.nav__button}>
@@ -28,3 +28,26 @@ export default function ProfileNotLogin() {
     </>
   );
 }
+
+
+function ProfileNotLoginMobile({ onLogin }) {
+  return (
+    <div className={styles.nav__button}>
+      <Link to="#">
+        <button
+          className={styles.button__registration}
+          onClick={onLogin}
+        >
+          Зарегистрироваться
+        </button>
+      </Link>
+      <Link to="/autorization">
+        <button className={styles.button__login} onClick={onLogin}>
+          Войти
+        </button>
+      </Link>
+    </div>
+  );
+}
+
+export {ProfileNotLogin, ProfileNotLoginMobile}

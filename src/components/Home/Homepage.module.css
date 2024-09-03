@@ -45,21 +45,6 @@
     width: 335px;
 }
 
-/* Стили для карусели */
-
-/* .slick-slider {
-  width: calc(100vw - 120px);
-  margin-top: 55px;
-} */
-/* 
-.slick-list{
-  margin: 0 5px
-} */
-/* 
-.slick-slide {
-  padding: 0 10px;
-} */
-
 .slide__card{     
   max-width: 400px;
   height: 225px;
@@ -86,6 +71,26 @@
 .card__group{
     display: flex;
     justify-content: space-between;
+}
+
+@media (max-width: 1600px) {
+  .about__title{
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .container{
+    justify-content: center;
+  }
+
+  .titte__why{
+    font-size: 3rem;
+    margin-top: 50px;
+  }
+  
+  .about__img img{
+    width: 70%;
+  }
 }
 
 
