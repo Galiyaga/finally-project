@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Ferry&display=swap');
-
 .rezults__header{
     display: flex;
     gap: 215px;
@@ -7,7 +5,7 @@
 }
 
 .header__title .title{
-    font-family: 'Ferry', arial;
+    font-family: "Ferry Black";
     font-size: 40px;
     font-weight: 900;
     line-height: 48px;
@@ -30,7 +28,7 @@
 
 
 .posts__title{
-    font-family: 'Ferry', arial;
+    font-family: "Ferry Black";
     font-size: 30px;
     font-weight: 900;
     line-height: 36px;

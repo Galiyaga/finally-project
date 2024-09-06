@@ -27,13 +27,15 @@
 }
 
 .title__why {
-  font-family: "Ferry", arial;
+  font-family: "Ferry Black";
   font-size: 45px;
   font-weight: 900;
   line-height: 54px;
   text-align: left;
   text-transform: uppercase;
-  margin-top: 200px;
+  margin: 180px 0 70px;
+  text-wrap: nowrap;
+  text-wrap: nowrap;
 }
 
 .about__text {
@@ -83,9 +85,10 @@
   background-repeat: no-repeat;
 }
 
-.title__tariff {
-  margin-top: 70px;
+.title__tarif {
+  margin: 100px 0 20px;
 }
+
 .card__group {
   display: flex;
   justify-content: space-between;
@@ -99,16 +102,6 @@
   .about__img {
     height: 327px;
     background-size: contain;
-  }
-
-  .about__title,
-  .title__why {
-    font-size: 28px;
-    line-height: 33px;
-  }
-
-  .title__why {
-    margin-top: 40px;
   }
 
   .carousel__container {

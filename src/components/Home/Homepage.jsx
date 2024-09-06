@@ -3,7 +3,7 @@ import styles from "./Homepage.module.css";
 import { Link } from "react-router-dom";
 import { Button } from "../Button";
 import CardCarousel from "./Carousel";
-import TariffCard from "./TariffCard";
+import TarifCard from "./TarifCard";
 import { useSelector } from "react-redux";
 
 const cards = [
@@ -81,13 +81,13 @@ export default function Homepage() {
       <CardCarousel />
       <div className={styles.img__tick}>
         <div className={styles.tick__bg} />
-        <h2 className={`${styles.title__why} ${styles.title__tariff}`}>
+        <h2 className={`${styles.title__why} ${styles.title__tarif}`}>
           наши тарифы
         </h2>
       </div>
       <div className={styles.card__group}>
         {cards.map((card) => (
-          <TariffCard
+          <TarifCard
             key={card.title}
             title={card.title}
             description={card.description}
