@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
 import styles from "./Header.module.css";
 import styles2 from "../Loading.module.css";
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
 import { fetchLimit } from "../store/actionCreators";
 import { useNavigate } from "react-router-dom";
 
-
 export default function ProfileWithLogin() {
-  const dispatch = useDispatch()
-  const {usedCompanyCount, companyLimit, isLoading} = useSelector((state) => state.auth)
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const { usedCompanyCount, companyLimit, isLoading } = useSelector(
+    (state) => state.auth
+  );
+  const navigate = useNavigate();
 
   // Отправка асинхронного запроса для информации по лимитам
   useEffect(() => {
@@ -19,25 +20,23 @@ export default function ProfileWithLogin() {
 
   // Выход из профиля
   function handleLogout() {
-    dispatch(logout())
-    navigate('/');
+    dispatch(logout());
+    navigate("/");
   }
   return (
     <>
       <div className={styles.profile}>
         <div className={styles.limit}>
-          {isLoading ? (<div className={styles2.loading}>Loading&#8230;</div>) : (
-          <p>
-            Использовано компаний{" "}
-            <span className={styles.limit__use}>
-              {usedCompanyCount}
-            </span>{" "}
-            <br />
-            Лимит компаний{" "}
-            <span className={styles.limit__company}>
-              {companyLimit}
-            </span>
-          </p>
+          {isLoading ? (
+            <div className={styles2.loading}>Loading&#8230;</div>
+          ) : (
+            <p>
+              Использовано компаний{" "}
+              <span className={styles.limit__use}>{usedCompanyCount}</span>{" "}
+              <br />
+              Лимит компаний{" "}
+              <span className={styles.limit__company}>{companyLimit}</span>
+            </p>
           )}
         </div>
         <div className={styles.avatar}>
@@ -48,7 +47,7 @@ export default function ProfileWithLogin() {
             </button>
           </div>
           <img
-            src="src\assets\avatar.svg.svg"
+            src="src/assets/avatar.svg.svg"
             alt="Аватар"
             width={"40px"}
             height={"50px"}

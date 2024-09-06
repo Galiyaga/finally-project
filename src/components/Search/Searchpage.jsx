@@ -538,17 +538,17 @@ export default function Searchpage() {
           <div className={styles.main__imgs}>
             <img
               className={styles.imgs__document}
-              src="src\assets\Document.svg"
+              src="src/assets/Document.svg"
               alt="Файл"
             ></img>
             <img
               className={styles.imgs__folders}
-              src="src\assets\Folders.svg"
+              src="src/assets/Folders.svg"
               alt="Папки"
             ></img>
             <img
               className={styles.imgs__rocket}
-              src="src\assets\rocket.svg"
+              src="src/assets/rocket.svg"
               alt="Ракета"
             ></img>
           </div>

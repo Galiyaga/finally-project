@@ -4,28 +4,28 @@ import styles2 from "../Loading.module.css";
 import { Button } from "../Button";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setCredentials} from "../store/authSlice"
-import { fetchAuth} from "../store/actionCreators"
+import { setCredentials } from "../store/authSlice";
+import { fetchAuth } from "../store/actionCreators";
 
 export default function Autorizationpage() {
   const { isLoading } = useSelector((state) => state.auth);
-  const [localLogin, setLocalLogin] = useState('');
-  const [localPassword, setLocalPassword] = useState('');
+  const [localLogin, setLocalLogin] = useState("");
+  const [localPassword, setLocalPassword] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // Валидация пароля и логина
   function checkValidation() {
     return localLogin.trim() !== "" && localPassword.trim() !== "";
   }
-  
+
   async function handleSubmit(e) {
     e.preventDefault();
-    dispatch(setCredentials({ login: localLogin, password: localPassword }))
-    const resultAction = await dispatch(fetchAuth())
+    dispatch(setCredentials({ login: localLogin, password: localPassword }));
+    const resultAction = await dispatch(fetchAuth());
 
-    if(fetchAuth.fulfilled.match(resultAction)) {
-      navigate('/')
+    if (fetchAuth.fulfilled.match(resultAction)) {
+      navigate("/");
     }
   }
 
@@ -40,13 +40,13 @@ export default function Autorizationpage() {
           </h1>
           <img
             className={styles.aut__img}
-            src="src\assets\autKey.svg"
+            src="src/assets/autKey.svg"
             alt="Двое несут ключ"
           />
         </div>
         <img
           className={styles.form__lock}
-          src="src\assets\autLock.svg"
+          src="src/assets/autLock.svg"
           alt="Замок"
         />
         <div className={styles.form__container}>
@@ -88,9 +88,9 @@ export default function Autorizationpage() {
             <div className={styles.login__methods}>
               <label>Войти через:</label>
               <div className={styles.methods__group}>
-                <img src="src\assets\google.svg" alt="Google" />
-                <img src="src\assets\facebook.svg" alt="Facebook" />
-                <img src="src\assets\yandex.svg" alt="yandex" />
+                <img src="src/assets/google.svg" alt="Google" />
+                <img src="src/assets/facebook.svg" alt="Facebook" />
+                <img src="src/assets/yandex.svg" alt="yandex" />
               </div>
             </div>
           </form>
@@ -99,4 +99,3 @@ export default function Autorizationpage() {
     </>
   );
 }
-

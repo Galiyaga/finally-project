@@ -7,8 +7,7 @@ import XmlParserComponent from "./XmlParserComponent";
 import axios from "axios";
 import { Button } from "../Button";
 import styles2 from "../Loading.module.css";
-import { useDispatch} from "react-redux";
-
+import { useDispatch } from "react-redux";
 
 export default function Rezult() {
   const data = useSelector((state) => state.data.data);
@@ -72,12 +71,11 @@ export default function Rezult() {
     }
   }, [previousRequest, token]);
 
-  useEffect(()=>{
+  useEffect(() => {
     localStorage.removeItem("documentsData");
     localStorage.removeItem("documentIds");
+  }, []);
 
-  }, [])
-  
   // Выдача постов по 10 шт
   function getIds() {
     const start = documentsData?.length || 0;
@@ -191,7 +189,7 @@ export default function Rezult() {
           </p>
         </div>
         <div className={styles.header__img}>
-          <img src="src\assets\summarySearch.svg" alt="Поиск результатов" />
+          <img src="src/assets/summarySearch.svg" alt="Поиск результатов" />
         </div>
       </div>
       <div className={styles.title__content}>
