@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./TarifCard.module.css"; // Предполагается использование CSS Modules
 import { Button } from "../Button";
+import { useSelector } from "react-redux";
 
 function TarifCard({
   title,
@@ -13,6 +14,8 @@ function TarifCard({
   period,
   featuresList,
 }) {
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   return (
     <div className={styles.card}>
       <div className={styles.header} style={{ backgroundColor: color }}>
@@ -47,7 +50,7 @@ function TarifCard({
         </div>
       </div>
 
-      {title === "Beginner" ? (
+      {title === "Beginner" && isAuthenticated ? (
         <Button className={`${styles.button__tarif} ${styles.selected}`}>
           Перейти в личный кабинет
         </Button>
