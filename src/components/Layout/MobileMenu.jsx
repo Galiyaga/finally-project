@@ -37,11 +37,11 @@ export default function MobileMenu() {
           <div className={styles.mobile__menu_header}>
             <img
               className={styles.mobile__menu_logo}
-              src="src/assets/footerLogo.svg"
+              src="/footerLogo.svg"
               alt="Логотип"
             />
             <button className={styles.cross_btn} onClick={handleLinkClick}>
-              <img src="src/assets/cross.svg" alt="Логотип" />
+              <img src="/cross.svg" alt="Логотип" />
             </button>
           </div>
           <div className={styles.menu__nav}>
@@ -70,7 +70,7 @@ export default function MobileMenu() {
           {isAuthenticated ? (
             <div className={styles.mobile__menu_avatar}>
               <img
-                src="src/assets/avatar.svg.svg"
+                src="/avatar.svg.svg"
                 alt="Аватар"
                 width={"40px"}
                 height={"50px"}

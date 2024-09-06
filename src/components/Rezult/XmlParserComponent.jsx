@@ -61,7 +61,7 @@ const XmlParserComponent = ({ xmlData, className }) => {
         ) : (
           <img
             className={styles.img}
-            src="src/assets/imgHolder.png"
+            src="/imgHolder.png"
             alt="Картинка публикации"
           />
         )}

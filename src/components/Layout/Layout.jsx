@@ -12,7 +12,7 @@ export default function Layout() {
       <footer>
         <div className="footer__container">
           <div className="footer__logo">
-            <img src="src/assets/footerLogo.svg" alt="Логотип" />
+            <img src="/footerLogo.svg" alt="Логотип" />
           </div>
           <div className="footer__info">
             <div className="adress">

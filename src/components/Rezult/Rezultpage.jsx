@@ -189,7 +189,7 @@ export default function Rezult() {
           </p>
         </div>
         <div className={styles.header__img}>
-          <img src="src/assets/summarySearch.svg" alt="Поиск результатов" />
+          <img src="/summarySearch.svg" alt="Поиск результатов" />
         </div>
       </div>
       <div className={styles.title__content}>

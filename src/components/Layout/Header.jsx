@@ -6,7 +6,6 @@ import ProfileNotLogin from "./ProfileNotLogin";
 import MobileMenu from "./MobileMenu";
 import { useSelector } from "react-redux";
 
-
 export default function Header() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
@@ -14,7 +13,7 @@ export default function Header() {
     <>
       <header className={styles.header}>
         <div className={styles.header__logo}>
-          <img src="src/assets/logoSCAN.svg" alt="Логотип" />
+          <img src="/logoSCAN.svg" alt="Логотип" />
         </div>
         <nav className={styles.nav__bar}>
           <NavLink className={styles.nav__bar_item} to="/">

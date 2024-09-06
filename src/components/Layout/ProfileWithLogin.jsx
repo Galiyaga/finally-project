@@ -47,7 +47,7 @@ export default function ProfileWithLogin() {
             </button>
           </div>
           <img
-            src="src/assets/avatar.svg.svg"
+            src="/avatar.svg.svg"
             alt="Аватар"
             width={"40px"}
             height={"50px"}

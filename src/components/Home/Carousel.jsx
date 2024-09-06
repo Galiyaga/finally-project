@@ -1,6 +1,6 @@
 import React from "react";
 import { Carousel } from "primereact/carousel";
-import styles from './Homepage.module.css'
+import styles from "./Homepage.module.css";
 
 const CardCarousel = () => {
   const responsiveOptions = [
@@ -37,23 +37,23 @@ const CardCarousel = () => {
     );
   };
 
-  const products =[
+  const products = [
     {
-      src: "src/assets/speed.svg",
+      src: "/speed.svg",
       alt: "Скорость",
-      h3: 'Высокая и оперативная скорость обработки заявки',
+      h3: "Высокая и оперативная скорость обработки заявки",
     },
     {
-      src: "src/assets/search.svg",
+      src: "/search.svg",
       alt: "Поиск",
-      h3: 'Огромная комплексная база данных, обеспечивающая объективный ответ на запрос',
+      h3: "Огромная комплексная база данных, обеспечивающая объективный ответ на запрос",
     },
     {
-      src: "src/assets/protection.svg",
+      src: "/protection.svg",
       alt: "Защита",
-      h3: 'Защита конфеденциальных сведений, не подлежащих разглашению по федеральному законодательству',
+      h3: "Защита конфеденциальных сведений, не подлежащих разглашению по федеральному законодательству",
     },
-  ]
+  ];
 
   return (
     <>
@@ -69,7 +69,6 @@ const CardCarousel = () => {
       </div>
     </>
   );
-}
-
+};
 
 export default CardCarousel;

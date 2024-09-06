@@ -1,61 +1,61 @@
-.container{
-    display: flex;
-    justify-content: space-around;
-    margin-top: 65px;
+.container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 65px;
 }
 
 .about {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .about__img {
   width: 100%;
   height: 593px;
-  background: url('../../assets/aboutImg.svg') center center;
+  background: url("/aboutImg.svg") center center;
   background-size: contain;
   background-repeat: no-repeat;
 }
 
 .about__title {
-    font-family: 'Ferry Black';
-    font-size: 60px;
-    font-weight: 900;
-    line-height: 72px;
-    text-align: left;
-    text-transform: uppercase;
+  font-family: "Ferry Black";
+  font-size: 60px;
+  font-weight: 900;
+  line-height: 72px;
+  text-align: left;
+  text-transform: uppercase;
 }
 
-.title__why{
-    font-family: 'Ferry', arial;
-    font-size: 45px;
-    font-weight: 900;
-    line-height: 54px;
-    text-align: left;
-    text-transform: uppercase;
-    margin-top: 200px;
+.title__why {
+  font-family: "Ferry", arial;
+  font-size: 45px;
+  font-weight: 900;
+  line-height: 54px;
+  text-align: left;
+  text-transform: uppercase;
+  margin-top: 200px;
 }
 
-.about__text{ 
-    font-family: inherit;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 24.2px;
-    letter-spacing: 0.01em;
-    text-align: left;
-    margin-top: 20px;
-    max-width: 530px;
+.about__text {
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24.2px;
+  letter-spacing: 0.01em;
+  text-align: left;
+  margin-top: 20px;
+  max-width: 530px;
 }
 
-.button__request{
-    margin-top: 70px;
-    background-color: #5970FF;
-    width: 335px;
+.button__request {
+  margin-top: 70px;
+  background-color: #5970ff;
+  width: 335px;
 }
 .slide__wrapper {
   padding: 0 10px;
 }
-.slide__card{     
+.slide__card {
   width: 100%;
   height: 225px;
   border-radius: 10px;
@@ -71,24 +71,24 @@
 }
 /* ----------- */
 
-.img__tick{
-    margin-top: 70px;
+.img__tick {
+  margin-top: 70px;
 }
 
 .tick__bg {
   width: 100%;
   height: 575px;
-  background: url('../../assets/groupWithTick.svg') top center;
+  background: url("/groupWithTick.svg") top center;
   background-size: contain;
   background-repeat: no-repeat;
 }
 
-.title__tariff{
-    margin-top: 70px;
+.title__tariff {
+  margin-top: 70px;
 }
-.card__group{
-    display: flex;
-    justify-content: space-between;
+.card__group {
+  display: flex;
+  justify-content: space-between;
 }
 
 @media (max-width: 376px) {
@@ -101,24 +101,25 @@
     background-size: contain;
   }
 
-  .about__title, .title__why {
+  .about__title,
+  .title__why {
     font-size: 28px;
     line-height: 33px;
   }
 
-  .title__why{
+  .title__why {
     margin-top: 40px;
   }
-  
+
   .carousel__container {
     margin: 0 auto;
   }
 
-  .slide__card{
+  .slide__card {
     font-size: 16px;
   }
 
-  .slide__card img{
+  .slide__card img {
     width: 50px;
   }
 
@@ -132,9 +133,7 @@
     flex-direction: column;
   }
 
-  .card__group{
+  .card__group {
     width: 335px;
   }
 }
-
-

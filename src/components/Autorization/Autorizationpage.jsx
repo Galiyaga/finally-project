@@ -40,13 +40,13 @@ export default function Autorizationpage() {
           </h1>
           <img
             className={styles.aut__img}
-            src="src/assets/autKey.svg"
+            src="/autKey.svg"
             alt="Двое несут ключ"
           />
         </div>
         <img
           className={styles.form__lock}
-          src="src/assets/autLock.svg"
+          src="/autLock.svg"
           alt="Замок"
         />
         <div className={styles.form__container}>
@@ -88,9 +88,9 @@ export default function Autorizationpage() {
             <div className={styles.login__methods}>
               <label>Войти через:</label>
               <div className={styles.methods__group}>
-                <img src="src/assets/google.svg" alt="Google" />
-                <img src="src/assets/facebook.svg" alt="Facebook" />
-                <img src="src/assets/yandex.svg" alt="yandex" />
+                <img src="/google.svg" alt="Google" />
+                <img src="/facebook.svg" alt="Facebook" />
+                <img src="/yandex.svg" alt="yandex" />
               </div>
             </div>
           </form>
