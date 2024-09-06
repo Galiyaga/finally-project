@@ -203,12 +203,12 @@
 
 .p-carousel-prev {
   color:rgba(120, 109, 109, 0.15);
-  content: url('./assets/leftArrow.svg');
+  content: url('/leftArrow.svg');
 }
 
 .p-carousel-next{
   color:rgba(120, 109, 109, 0.15);
-  content: url('./assets/rightArrow.svg');
+  content: url('/rightArrow.svg');
 
 }
 
