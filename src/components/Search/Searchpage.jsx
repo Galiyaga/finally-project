@@ -103,12 +103,12 @@ export default function Searchpage() {
   });
   const [tonality, setTonality] = useState("Любая");
   const [documentsCount, setDocumentsCount] = useState("");
-  const [maxFullness, setMaxFullness] = useState(true);
-  const [inBusinessNews, setInBusinessNews] = useState(true);
-  const [onlyMainRole, setOnlyMainRole] = useState(true);
+  const [maxFullness, setMaxFullness] = useState(false);
+  const [inBusinessNews, setInBusinessNews] = useState(false);
+  const [onlyMainRole, setOnlyMainRole] = useState(false);
   const [onlyWithRiskFactors, setOnlyWithRiskFactors] = useState(false);
   const [excludeTechNews, setExcludeTechNews] = useState(false);
-  const [excludeAnnouncements, setExcludeAnnouncements] = useState(true);
+  const [excludeAnnouncements, setExcludeAnnouncements] = useState(false);
   const [excludeDigests, setExcludeDigests] = useState(false);
   const [innError, setInnError] = useState("");
   const [errorDate, setErrorDate] = useState({ start: "", end: "" });
